@@ -1,64 +1,132 @@
-import 'babel-polyfill';
-const StarNotary = artifacts.require('./starNotary.sol')
 
-let instance;
-let accounts;
+require('babel-register')();
+require('babel-polyfill');
 
-contract('StarNotary', async (accs) => {
-    accounts = accs;
-    instance = await StarNotary.deployed();
-  });
+const StarNotary = artifacts.require('starNotary')
 
-  it('can Create a Star', async() => {
-    let tokenId = 1;
-    await instance.createStar('Awesome Star!', tokenId, {from: accounts[0]})
-    assert.equal(await instance.tokenIdToStarInfo.call(tokenId), 'Awesome Star!')
-  });
+contract('StarNotary', accounts => {
+    const name = 'Star power 103!'
+    const story = 'I love my wonderful star'
+    const ra = 'ra_032.155'
+    const dec = 'dec_121.874'
+    const mag = 'mag_245.978'
+    const tokenId = 1
 
-  it('lets user1 put up their star for sale', async() => {
-    let user1 = accounts[1]
-    let starId = 2;
-    let starPrice = web3.toWei(.01, "ether")
-    await instance.createStar('awesome star', starId, {from: user1})
-    await instance.putStarUpForSale(starId, starPrice, {from: user1})
-    assert.equal(await instance.starsForSale.call(starId), starPrice)
-  });
+    let defaultAccount = accounts[0];
+    let account1 = accounts[1];
+    let account2 = accounts[2]
+    let starPrice = web3.utils.toWei('.01', "ether")
 
-  it('lets user1 get the funds after the sale', async() => {
-    let user1 = accounts[1]
-    let user2 = accounts[2]
-    let starId = 3
-    let starPrice = web3.toWei(.01, "ether")
-    await instance.createStar('awesome star', starId, {from: user1})
-    await instance.putStarUpForSale(starId, starPrice, {from: user1})
-    let balanceOfUser1BeforeTransaction = web3.eth.getBalance(user1)
-    await instance.buyStar(starId, {from: user2, value: starPrice})
-    let balanceOfUser1AfterTransaction = web3.eth.getBalance(user1)
-    assert.equal(balanceOfUser1BeforeTransaction.add(starPrice).toNumber(), balanceOfUser1AfterTransaction.toNumber());
-  });
+    beforeEach(async function() {
+        this.contract = await StarNotary.new({from: defaultAccount})
+    })
 
-  it('lets user2 buy a star, if it is put up for sale', async() => {
-    let user1 = accounts[1]
-    let user2 = accounts[2]
-    let starId = 4
-    let starPrice = web3.toWei(.01, "ether")
-    await instance.createStar('awesome star', starId, {from: user1})
-    await instance.putStarUpForSale(starId, starPrice, {from: user1})
-    let balanceOfUser1BeforeTransaction = web3.eth.getBalance(user2)
-    await instance.buyStar(starId, {from: user2, value: starPrice});
-    assert.equal(await instance.ownerOf.call(starId), user2);
-  });
+    // createStar test
+    describe('createStar test', () => {
+        it('can create a star', async function () {
+            await this.contract.createStar(name, story, ra, dec, mag, {from: account1});
 
-  it('lets user2 buy a star and decreases its balance in ether', async() => {
-    let user1 = accounts[1]
-    let user2 = accounts[2]
-    let starId = 5
-    let starPrice = web3.toWei(.01, "ether")
-    await instance.createStar('awesome star', starId, {from: user1})
-    await instance.putStarUpForSale(starId, starPrice, {from: user1})
-    let balanceOfUser1BeforeTransaction = web3.eth.getBalance(user2)
-    const balanceOfUser2BeforeTransaction = web3.eth.getBalance(user2)
-    await instance.buyStar(starId, {from: user2, value: starPrice, gasPrice:0})
-    const balanceAfterUser2BuysStar = web3.eth.getBalance(user2)
-    assert.equal(balanceOfUser2BeforeTransaction.sub(balanceAfterUser2BuysStar), starPrice);
-  });
+            // test tokenIdToStarInfo() method
+            it('can create a star and get its data', async function() {
+                assert.deepEqual(await this.contract.tokenIdToStarInfo(tokenId), [name, story, ra, dec, mag]);
+            });
+        })
+    })
+
+    // putStarUpForSale test
+    // buyStar test
+    // starsForSale test
+    // ownerOf test
+    describe('buyStar test', () => {
+        it('account2 is the owner of the star after they buy it', async function() {
+            await this.contract.createStar(name, story, ra, dec, mag, {from: account1})
+            await this.contract.putStarUpForSale(tokenId, starPrice, {from: account1})
+
+            assert.equal(await this.contract.starsForSale(tokenId), starPrice)
+
+            await this.contract.buyStar(tokenId, {from: account2, value: starPrice, gasPrice: 0})
+            assert.equal(await this.contract.ownerOf(tokenId), account2)
+        })
+    })
+
+    // checkIfStarExist test
+    describe('check if star exists', () => {
+        it('star already exists', async function () {
+            await this.contract.createStar(name, story, ra, dec, mag, {from: defaultAccount})
+
+            assert.equal(await this.contract.checkIfStarExist(ra, dec, mag), true)
+        })
+    })
+
+    // ownerOf test
+    describe('test ownerOf', () => {
+        it('star has the rightful owner', async function () {
+            await this.contract.createStar(name, story, ra, dec, mag, {from: defaultAccount})
+            const owner = await this.contract.ownerOf(1, {from: defaultAccount})
+
+            assert.equal(owner, defaultAccount)
+        })
+    })
+
+    // test mint() method
+    describe('mint test', () => {
+        let tx
+
+        beforeEach(async function() {
+            tx = await this.contract.mint(tokenId, {from: defaultAccount})
+        })
+
+        it('minted token belong to the right owner', async function () {
+            var owner = await this.contract.ownerOf(tokenId, {from: defaultAccount})
+            assert.equal(owner, defaultAccount)
+        })
+    })
+
+    // approve test
+    // getApproved test
+    describe('approve test', () =>{
+        let to = accounts[1]
+        let tokenId = 1
+
+        it('getApproved test', async function() {
+            await this.contract.createStar(name, story, ra, dec, mag, {from: defaultAccount})
+            tx = await this.contract.approve(to, tokenId, {from: defaultAccount})
+
+            assert.equal(await this.contract.getApproved(tokenId, {from: defaultAccount}), to)
+        })
+    })
+
+    // setApprovalForAll test
+    // isApprovedForAll test
+    describe('setApprovalForAll test', () => {
+        let approved = true
+        let to = accounts[1]
+
+        it('isApprovedForAll test', async function() {
+            await this.contract.createStar(name, story, ra, dec, mag, {from: defaultAccount})
+            await this.contract.setApprovalForAll(to, tokenId)
+
+            assert.equal(await this.contract.isApprovedForAll(defaultAccount, to, {from: defaultAccount}), approved)
+        })
+    })
+
+    // safeTransferFrom test
+    describe('safeTransferFrom test', () => {
+        let to = accounts[1]
+
+        beforeEach(async function() {
+            await this.contract.createStar(name, story, ra, dec, mag, {from: defaultAccount})
+            await this.contract.safeTransferFrom(defaultAccount, to, tokenId)
+        })
+
+        // ownerOf test
+        it('is the owner of the token', async function() {
+            assert.equal(await this.contract.ownerOf(tokenId, {from: defaultAccount}), to)
+        })
+
+        // ownerOf test
+        it('is not the owner of the token', async function() {
+            assert.notEqual(await this.contract.ownerOf(tokenId, {from: defaultAccount}), defaultAccount)
+        })
+    })
+})

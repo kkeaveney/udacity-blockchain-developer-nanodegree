@@ -11,6 +11,9 @@ import StarNotaryArtifact from '../../build/contracts/StarNotary.json'
 // StarNotary is our usable abstraction, which we'll use through the code below.
 const StarNotary = contract(StarNotaryArtifact)
 
+// The following code is simple to show off interacting with your contracts.
+// As your needs grow you will likely need to change its form and structure.
+// For application bootstrapping, check out window.addEventListener below.
 let accounts
 let account
 
@@ -22,6 +25,9 @@ const createStar = async () => {
   App.setStatus("New Star Owner is " + account + ".");
 }
 
+// Add a function lookUp to Lookup a star by ID using tokenIdToStarInfo()
+
+//
 
 const App = {
   start: function () {
