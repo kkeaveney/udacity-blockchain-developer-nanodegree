@@ -8,12 +8,12 @@ contract('SupplyChain', function(accounts) {
     var upc = 1
     const ownerID = accounts[0]
     const originFarmerID = accounts[1]
-    const originFarmName = "John Doe"
-    const originFarmInformation = "Yarray Valley"
-    const originFarmLatitude = "-38.239770"
-    const originFarmLongitude = "144.341490"
+    const originFarmName = "Kevin Keaveney Farmer"
+    const originFarmInformation = "London Farms"
+    const originFarmLatitude = "-28.239770"
+    const originFarmLongitude = "44.341490"
     var productID = sku + upc
-    const productNotes = "Best beans for Espresso"
+    const productNotes = "Best beans for London"
     const productPrice = web3.utils.toWei('1', "ether")
     var itemState = 0
     const distributorID = accounts[2]
@@ -21,18 +21,19 @@ contract('SupplyChain', function(accounts) {
     const consumerID = accounts[4]
     const emptyAddress = '0x00000000000000000000000000000000000000'
 
+
     ///Available Accounts
     ///==================
-    ///(0) 0x27d8d15cbc94527cadf5ec14b69519ae23288b95
-    ///(1) 0x018c2dabef4904ecbd7118350a0c54dbeae3549a
-    ///(2) 0xce5144391b4ab80668965f2cc4f2cc102380ef0a
-    ///(3) 0x460c31107dd048e34971e57da2f99f659add4f02
-    ///(4) 0xd37b7b8c62be2fdde8daa9816483aebdbd356088
-    ///(5) 0x27f184bdc0e7a931b507ddd689d76dba10514bcb
-    ///(6) 0xfe0df793060c49edca5ac9c104dd8e3375349978
-    ///(7) 0xbd58a85c96cc6727859d853086fe8560bc137632
-    ///(8) 0xe07b5ee5f738b2f87f88b99aac9c64ff1e0c7917
-    ///(9) 0xbd3ff2e3aded055244d66544c9c059fa0851da44
+    ///(0) 0xAbb2EAD44cD53f357d7398061e3008307F4FB4cA
+    ///(1) 0x6E9a1cb2054E46E0D2503d684D38702dE52f10d4
+    ///(2) 0x878DBdc8DbB6d9cB194813116c666E6a6Ca5006a
+    ///(3) 0x29B0c2C79312c0c0935096123D7fDd135D7eBD07
+    ///(4) 0x92b46d2E987e2173C4DCd2Bb7a2D58F27f14089e
+    ///(5) 0x95b35dBA659cC04E465f87d069ebAbd7F169b72A
+    ///(6) 0x670DB02B3A677bD876Caeb9783D96Cc971458d20
+    ///(7) 0xd6c0348D3777C73f28F3CFcfc4028Aa1f5BbE243
+    ///(8) 0x9ca866167133EA76503267D73203c540419Da7e1
+    ///(9) 0xb32c9f121A90d4349DBE86b18eD02875Ca1337b0
 
     console.log("ganache-cli accounts used here...")
     console.log("Contract Owner: accounts[0] ", accounts[0])

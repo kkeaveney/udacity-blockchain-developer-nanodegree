@@ -1,5 +1,13 @@
 pragma solidity ^0.4.24;
-contract SupplyChain {
+
+  import "../coffeeaccesscontrol/DistributorRole.sol";
+  import "../coffeeaccesscontrol/FarmerRole.sol";
+  import "../coffeeaccesscontrol/RetailerRole.sol";
+  import "../coffeeaccesscontrol/ConsumerRole.sol";
+
+  import "../coffeecore/Ownable.sol";
+
+  contract SupplyChain {
 
   // Define 'owner'
   address owner;

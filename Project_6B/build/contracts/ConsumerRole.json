@@ -5,8 +5,7 @@
       "inputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
-      "type": "constructor",
-      "signature": "constructor"
+      "type": "constructor"
     },
     {
       "constant": true,
@@ -25,8 +24,7 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function",
-      "signature": "0x834ff739"
+      "type": "function"
     },
     {
       "constant": false,
@@ -40,8 +38,7 @@
       "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
-      "type": "function",
-      "signature": "0x112940f9"
+      "type": "function"
     },
     {
       "constant": false,
@@ -50,18 +47,17 @@
       "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
-      "type": "function",
-      "signature": "0x61e6982d"
+      "type": "function"
     }
   ],
-  "bytecode": "0x608060405234801561001057600080fd5b50610149806100206000396000f300608060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063112940f91461005c57806361e6982d1461009f578063834ff739146100b6575b600080fd5b34801561006857600080fd5b5061009d600480360381019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190505050610111565b005b3480156100ab57600080fd5b506100b4610114565b005b3480156100c257600080fd5b506100f7600480360381019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190505050610116565b604051808215151515815260200191505060405180910390f35b50565b565b60009190505600a165627a7a72305820ac813e9a7e598dd7d6c46ffbd09671dcf2679b88dbde71385c7907cd390a662c0029",
-  "deployedBytecode": "0x608060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063112940f91461005c57806361e6982d1461009f578063834ff739146100b6575b600080fd5b34801561006857600080fd5b5061009d600480360381019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190505050610111565b005b3480156100ab57600080fd5b506100b4610114565b005b3480156100c257600080fd5b506100f7600480360381019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190505050610116565b604051808215151515815260200191505060405180910390f35b50565b565b60009190505600a165627a7a72305820ac813e9a7e598dd7d6c46ffbd09671dcf2679b88dbde71385c7907cd390a662c0029",
+  "bytecode": "0x608060405234801561001057600080fd5b50610149806100206000396000f300608060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063112940f91461005c57806361e6982d1461009f578063834ff739146100b6575b600080fd5b34801561006857600080fd5b5061009d600480360381019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190505050610111565b005b3480156100ab57600080fd5b506100b4610114565b005b3480156100c257600080fd5b506100f7600480360381019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190505050610116565b604051808215151515815260200191505060405180910390f35b50565b565b60009190505600a165627a7a723058209475d81c92d58d13e3b934c9ad3c62f20bf6514d404bcffcd9fc53a5be8ebe4f0029",
+  "deployedBytecode": "0x608060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063112940f91461005c57806361e6982d1461009f578063834ff739146100b6575b600080fd5b34801561006857600080fd5b5061009d600480360381019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190505050610111565b005b3480156100ab57600080fd5b506100b4610114565b005b3480156100c257600080fd5b506100f7600480360381019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190505050610116565b604051808215151515815260200191505060405180910390f35b50565b565b60009190505600a165627a7a723058209475d81c92d58d13e3b934c9ad3c62f20bf6514d404bcffcd9fc53a5be8ebe4f0029",
   "sourceMap": "155:1078:1:-;;;411:27;8:9:-1;5:2;;;30:1;27;20:12;5:2;411:27:1;155:1078;;;;;;",
   "deployedSourceMap": "155:1078:1:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;750:64;;8:9:-1;5:2;;;30:1;27;20:12;5:2;750:64:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;882:41;;8:9:-1;5:2;;;30:1;27;20:12;5:2;882:41:1;;;;;;619:70;;8:9:-1;5:2;;;30:1;27;20:12;5:2;619:70:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;750:64;;:::o;882:41::-;:::o;619:70::-;677:4;619:70;;;:::o",
   "source": "pragma solidity ^0.4.24;\n// Import the library 'Roles'\nimport \"./Roles.sol\";\n\n// Define a contract 'ConsumerRole' to manage this role - add, remove, check\ncontract ConsumerRole {\n\n  // Define 2 events, one for Adding, and other for Removing\n\n  // Define a struct 'consumers' by inheriting from 'Roles' library, struct Role\n\n  // In the constructor make the address that deploys this contract the 1st consumer\n  constructor() public {\n\n  }\n\n  // Define a modifier that checks to see if msg.sender has the appropriate role\n  modifier onlyConsumer() {\n\n    _;\n  }\n\n  // Define a function 'isConsumer' to check this role\n  function isConsumer(address account) public view returns (bool) {\n\n  }\n\n  // Define a function 'addConsumer' that adds this role\n  function addConsumer(address account) public onlyConsumer {\n\n  }\n\n  // Define a function 'renounceConsumer' to renounce this role\n  function renounceConsumer() public {\n\n  }\n\n  // Define an internal function '_addConsumer' to add this role, called by 'addConsumer'\n  function _addConsumer(address account) internal {\n\n  }\n\n  // Define an internal function '_removeConsumer' to remove this role, called by 'removeConsumer'\n  function _removeConsumer(address account) internal {\n\n  }\n}\n",
-  "sourcePath": "/Users/kevinkeaveney/github/udacity-blockchain-developer-nanodegree/Project_6B/contracts/coffeeaccesscontrol/ConsumerRole.sol",
+  "sourcePath": "/Users/admin/github/udacity-blockchain-developer-nanodegree/Project_6B/contracts/coffeeaccesscontrol/ConsumerRole.sol",
   "ast": {
-    "absolutePath": "/Users/kevinkeaveney/github/udacity-blockchain-developer-nanodegree/Project_6B/contracts/coffeeaccesscontrol/ConsumerRole.sol",
+    "absolutePath": "/Users/admin/github/udacity-blockchain-developer-nanodegree/Project_6B/contracts/coffeeaccesscontrol/ConsumerRole.sol",
     "exportedSymbols": {
       "ConsumerRole": [
         100
@@ -82,12 +78,12 @@
         "src": "0:24:1"
       },
       {
-        "absolutePath": "/Users/kevinkeaveney/github/udacity-blockchain-developer-nanodegree/Project_6B/contracts/coffeeaccesscontrol/Roles.sol",
+        "absolutePath": "/Users/admin/github/udacity-blockchain-developer-nanodegree/Project_6B/contracts/coffeeaccesscontrol/Roles.sol",
         "file": "./Roles.sol",
         "id": 59,
         "nodeType": "ImportDirective",
         "scope": 101,
-        "sourceUnit": 386,
+        "sourceUnit": 504,
         "src": "55:21:1",
         "symbolAliases": [],
         "unitAlias": ""
@@ -498,7 +494,7 @@
     "src": "0:1234:1"
   },
   "legacyAST": {
-    "absolutePath": "/Users/kevinkeaveney/github/udacity-blockchain-developer-nanodegree/Project_6B/contracts/coffeeaccesscontrol/ConsumerRole.sol",
+    "absolutePath": "/Users/admin/github/udacity-blockchain-developer-nanodegree/Project_6B/contracts/coffeeaccesscontrol/ConsumerRole.sol",
     "exportedSymbols": {
       "ConsumerRole": [
         100
@@ -519,12 +515,12 @@
         "src": "0:24:1"
       },
       {
-        "absolutePath": "/Users/kevinkeaveney/github/udacity-blockchain-developer-nanodegree/Project_6B/contracts/coffeeaccesscontrol/Roles.sol",
+        "absolutePath": "/Users/admin/github/udacity-blockchain-developer-nanodegree/Project_6B/contracts/coffeeaccesscontrol/Roles.sol",
         "file": "./Roles.sol",
         "id": 59,
         "nodeType": "ImportDirective",
         "scope": 101,
-        "sourceUnit": 386,
+        "sourceUnit": 504,
         "src": "55:21:1",
         "symbolAliases": [],
         "unitAlias": ""
@@ -952,8 +948,8 @@
       "transactionHash": "0x8bf61f05a06c72119f6fda98a43b01057239493af18b865674a6a702660e7871"
     }
   },
-  "schemaVersion": "3.0.2",
-  "updatedAt": "2019-03-09T10:26:08.647Z",
+  "schemaVersion": "3.0.0",
+  "updatedAt": "2019-03-13T11:09:29.147Z",
   "devdoc": {
     "methods": {}
   },
