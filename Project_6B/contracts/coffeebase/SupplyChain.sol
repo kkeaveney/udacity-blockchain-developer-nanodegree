@@ -197,14 +197,14 @@ contract SupplyChain {
   }
 
   // Define a function 'packItem' that allows a farmer to mark an item 'Packed'
-  function packItem(uint _upc) processed (_upc) public
+  function packItem(uint _upc) processed (_upc) verifyCaller(msg.sender) public
   // Call modifier to check if upc has passed previous supply chain stage
 
   // Call modifier to verify caller of this function
 
   {
     // Update the appropriate fields
-    items[_upc].itemState == State.Processed;
+    items[_upc].itemState == State.Packed;
     // Emit the appropriate event
     emit Packed(_upc);
   }
@@ -346,15 +346,15 @@ contract SupplyChain {
     // Assign values to the 9 parameters
     Item storage _item = items[_upc];
 
-      itemSKU = _item.sku;
-      itemUPC = _item.upc;
-      productID = _item.productID;
-      productNotes = _item.productNotes;
-      productPrice = _item.productPrice;
-      itemState = uint(_item.itemState);
-    //  distributorID = _item.distributorID;
-      retailerID = _item.retailerID;
-      consumerID = _item.consumerID;
+    itemSKU = _item.sku;
+    itemUPC = _item.upc;
+    productID = _item.productID;
+    productNotes = _item.productNotes;
+    productPrice = _item.productPrice;
+    itemState = uint(_item.itemState);
+  //  distributorID = _item.distributorID;
+    retailerID = _item.retailerID;
+    consumerID = _item.consumerID;
 
 
      return
@@ -369,5 +369,5 @@ contract SupplyChain {
       retailerID,
       consumerID
       );
-    }
+      }
 }
