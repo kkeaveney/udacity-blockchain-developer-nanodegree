@@ -74,7 +74,8 @@ contract('SupplyChain', function(accounts) {
         assert.equal(resultBufferTwo[5], 0, 'Error: Invalid item State')
         assert.equal(eventEmitted, true, 'Invalid event emitted')
 
-
+        console.log(resultBufferTwo[0].toNumber());
+        console.log(resultBufferTwo[1].toNumber());
         console.log(resultBufferTwo[5].toNumber());
 
     })
