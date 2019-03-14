@@ -5,8 +5,7 @@
       "inputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
-      "type": "constructor",
-      "signature": "constructor"
+      "type": "constructor"
     },
     {
       "constant": true,
@@ -25,8 +24,7 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function",
-      "signature": "0x834ff739"
+      "type": "function"
     },
     {
       "constant": false,
@@ -40,8 +38,7 @@
       "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
-      "type": "function",
-      "signature": "0x112940f9"
+      "type": "function"
     },
     {
       "constant": false,
@@ -50,8 +47,7 @@
       "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
-      "type": "function",
-      "signature": "0x61e6982d"
+      "type": "function"
     }
   ],
   "bytecode": "0x608060405234801561001057600080fd5b50610149806100206000396000f300608060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063112940f91461005c57806361e6982d1461009f578063834ff739146100b6575b600080fd5b34801561006857600080fd5b5061009d600480360381019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190505050610111565b005b3480156100ab57600080fd5b506100b4610114565b005b3480156100c257600080fd5b506100f7600480360381019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190505050610116565b604051808215151515815260200191505060405180910390f35b50565b565b60009190505600a165627a7a72305820ac813e9a7e598dd7d6c46ffbd09671dcf2679b88dbde71385c7907cd390a662c0029",
@@ -87,7 +83,7 @@
         "id": 59,
         "nodeType": "ImportDirective",
         "scope": 101,
-        "sourceUnit": 386,
+        "sourceUnit": 504,
         "src": "55:21:1",
         "symbolAliases": [],
         "unitAlias": ""
@@ -524,7 +520,7 @@
         "id": 59,
         "nodeType": "ImportDirective",
         "scope": 101,
-        "sourceUnit": 386,
+        "sourceUnit": 504,
         "src": "55:21:1",
         "symbolAliases": [],
         "unitAlias": ""
@@ -948,12 +944,12 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0x440530894772cA49151A1bf9AA23F6d7215140da",
-      "transactionHash": "0x8bf61f05a06c72119f6fda98a43b01057239493af18b865674a6a702660e7871"
+      "address": "0x756298cFC893daBf81E39fAf9457fE0F991268EC",
+      "transactionHash": "0x7798d96451df04ef4d648b2f9d02f0d2afd4cc10a49eb613a1979b814e5e9c7f"
     }
   },
   "schemaVersion": "3.0.2",
-  "updatedAt": "2019-03-09T10:26:08.647Z",
+  "updatedAt": "2019-03-14T06:42:29.988Z",
   "devdoc": {
     "methods": {}
   },
