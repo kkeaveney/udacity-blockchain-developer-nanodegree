@@ -8,7 +8,7 @@ contract('SupplyChain', function(accounts) {
     var upc = 1
     const ownerID = accounts[0]
     const originFarmerID = accounts[1]
-    const originFarmName = "Kevin Keaveney Farmer"
+    const originFarmName = "Kevin Keaveney Farmers"
     const originFarmInformation = "London Farms"
     const originFarmLatitude = "-28.239770"
     const originFarmLongitude = "44.341490"
