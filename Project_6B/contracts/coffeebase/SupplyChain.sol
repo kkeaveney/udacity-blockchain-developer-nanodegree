@@ -1,9 +1,9 @@
 pragma solidity ^0.4.24;
 
-  import "../coffeeaccesscontrol/DistributorRole.sol";
-  import "../coffeeaccesscontrol/FarmerRole.sol";
-  import "../coffeeaccesscontrol/RetailerRole.sol";
-  import "../coffeeaccesscontrol/ConsumerRole.sol";
+  //import "../coffeeaccesscontrol/DistributorRole.sol";
+  //import "../coffeeaccesscontrol/FarmerRole.sol";
+  //import "../coffeeaccesscontrol/RetailerRole.sol";
+  //import "../coffeeaccesscontrol/ConsumerRole.sol";
 
   import "../coffeecore/Ownable.sol";
 
@@ -200,6 +200,7 @@ pragma solidity ^0.4.24;
   {
     // Update the appropriate fields
     items[_upc].itemState == State.Processed;
+
     // Emit the appropriate event
      emit Processed(_upc);
   }
@@ -213,6 +214,7 @@ pragma solidity ^0.4.24;
   {
     // Update the appropriate fields
     items[_upc].itemState == State.Packed;
+
     // Emit the appropriate event
     emit Packed(_upc);
   }
