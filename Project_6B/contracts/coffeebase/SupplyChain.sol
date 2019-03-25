@@ -209,7 +209,7 @@ function sellItem(uint _upc, uint _price) packed(_upc) verifyCaller(msg.sender) 
 // Define a function 'buyItem' that allows the processor to mark an item 'Sold'
 // Use the above defined modifiers to check if the item is available for sale, if the buyer has paid enough,
 // and any excess ether sent is refunded back to the buyer
-function buyItem(uint _upc)  public payable
+function buyItem(uint _upc) forSale(_upc) paidEnough(items[_upc].productPrice) checkValue(_upc) public payable
   // Call modifier to check if upc has passed previous supply chain stage
 
   // Call modifer to check if buyer has paid enough
@@ -261,7 +261,7 @@ function packItem(uint _upc) processed(_upc) verifyCaller(msg.sender) public
 
 // Define a function 'shipItem' that allows the processor to mark an item 'Shipped'
 // Use the above modifers to check if the item is sold
-function shipItem(uint _upc) packed(_upc) verifyCaller(msg.sender) public
+function shipItem(uint _upc) sold(_upc) verifyCaller(msg.sender) public
   // Call modifier to check if upc has passed previous supply chain stage
 
   // Call modifier to verify caller of this function
