@@ -141,18 +141,27 @@ contract('SupplyChain', function(accounts) {
         const supplyChain = await SupplyChain.deployed()
 
         // Declare and Initialize a variable for event
-
+        var eventEmitted = false;
 
         // Watch the emitted event ForSale()
-
+        var event = supplyChain.ForSale()
+        await event.watch((err,res) => {
+          eventEmitted = true;
+        })
 
         // Mark an item as ForSale by calling function sellItem()
-
+        await supplyChain.sellItem(upc, productPrice, {from :originFarmerID});
 
         // Retrieve the just now saved item from blockchain by calling function fetchItem()
+        const resultBufferOne = await supplyChain.fetchItemBufferOne.call(upc)
+        const resultBufferTwo = await supplyChain.fetchItemBufferTwo.call(upc)
 
+        // Verify the result set\
 
-        // Verify the result set
+        console.log('For Sale', resultBufferTwo[5].toNumber());
+
+        assert.equal(eventEmitted, true,'Invalid event emitted');
+        assert.equal(resultBufferTwo[5], 3, 'Error: Invalid item State');
 
     })
 
@@ -161,20 +170,25 @@ contract('SupplyChain', function(accounts) {
         const supplyChain = await SupplyChain.deployed()
 
         // Declare and Initialize a variable for event
-
+        var eventEmmited = false;
 
         // Watch the emitted event Sold()
         var event = supplyChain.Sold()
-
+        await event.watch((err,res) => {
+          eventEmitted = true;
+        })
 
         // Mark an item as Sold by calling function buyItem()
-
+        await supplyChain.buyItem(upc, {from: distributorID , value: web3.toWei(2, "ether")});
 
         // Retrieve the just now saved item from blockchain by calling function fetchItem()
-
+        const resultBufferOne = await supplyChain.fetchItemBufferOne.call(upc)
+        const resultBufferTwo = await supplyChain.fetchItemBufferTwo.call(upc)
 
         // Verify the result set
-
+        console.log('Buy Item', resultBufferTwo[5].toNumber());
+        assert.equal(eventEmitted, true,'Invalid event emitted');
+        assert.equal(resultBufferTwo[5], 4, 'Error: Invalid item State');
     })
 
     // 6th Test
