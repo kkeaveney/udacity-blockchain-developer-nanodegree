@@ -14,9 +14,11 @@
     "lite-server": "2.4.0"
   },
   "dependencies": {
+    "mocha": "^6.0.2",
     "solc": "^0.4.24",
-    "truffle": "^5.0.7",
+    "truffle": "4.1.14",
     "truffle-hdwallet-provider": "^1.0.5",
-    "web3": "^1.0.0-beta.48"
+    "web3": "^1.0.0-beta.48",
+
   }
 }
