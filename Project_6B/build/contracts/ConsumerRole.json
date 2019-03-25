@@ -5,7 +5,8 @@
       "inputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
-      "type": "constructor"
+      "type": "constructor",
+      "signature": "constructor"
     },
     {
       "constant": true,
@@ -24,7 +25,8 @@
       ],
       "payable": false,
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "signature": "0x834ff739"
     },
     {
       "constant": false,
@@ -38,7 +40,8 @@
       "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
-      "type": "function"
+      "type": "function",
+      "signature": "0x112940f9"
     },
     {
       "constant": false,
@@ -47,7 +50,8 @@
       "outputs": [],
       "payable": false,
       "stateMutability": "nonpayable",
-      "type": "function"
+      "type": "function",
+      "signature": "0x61e6982d"
     }
   ],
   "bytecode": "0x608060405234801561001057600080fd5b50610149806100206000396000f300608060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063112940f91461005c57806361e6982d1461009f578063834ff739146100b6575b600080fd5b34801561006857600080fd5b5061009d600480360381019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190505050610111565b005b3480156100ab57600080fd5b506100b4610114565b005b3480156100c257600080fd5b506100f7600480360381019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190505050610116565b604051808215151515815260200191505060405180910390f35b50565b565b60009190505600a165627a7a72305820ac813e9a7e598dd7d6c46ffbd09671dcf2679b88dbde71385c7907cd390a662c0029",
@@ -944,12 +948,12 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0x756298cFC893daBf81E39fAf9457fE0F991268EC",
-      "transactionHash": "0x7798d96451df04ef4d648b2f9d02f0d2afd4cc10a49eb613a1979b814e5e9c7f"
+      "address": "0x03DBDD2769Ae38538f088449fD7ABba11CfE64a1",
+      "transactionHash": "0xbc5ebae9bdb71f76a7b96f77d5eb552499176f9d5c3775253fed62b69f33602d"
     }
   },
   "schemaVersion": "3.0.2",
-  "updatedAt": "2019-03-14T06:42:29.988Z",
+  "updatedAt": "2019-03-14T20:00:18.193Z",
   "devdoc": {
     "methods": {}
   },
