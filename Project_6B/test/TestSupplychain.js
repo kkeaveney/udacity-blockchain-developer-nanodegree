@@ -41,6 +41,19 @@ contract('SupplyChain', function(accounts) {
     console.log("Retailer: accounts[3] ", accounts[3])
     console.log("Consumer: accounts[4] ", accounts[4])
 
+
+    var _assertBufferOne = function(_resultBuffer, _ownerID) {
+      var defaultOwnerID = _ownerID ? _ownerID : originFarmerID;
+      assert.equal(_resultBuffer[0], sku, 'Error: Invalid item SKU')
+      assert.equal(_resultBuffer[1], upc, 'Error: Invalid item UPC')
+      assert.equal(_resultBuffer[2], defaultOwnerID, 'Error: Invalid owner defaultOwnerID');
+      assert.equal(_resultBuffer[3], originFarmerID, 'Error: Invalid originFarmerID');
+      assert.equal(_resultBuffer[4], originFarmName, 'Error: Invalid originFarmName');
+      assert.equal(_resultBuffer[5], originFarmInformation, 'Error Invalid originFarmInformation');
+      assert.equal(_resultBuffer[6], originFarmLatitude, 'Error Invalid originFarmLatitude');
+      assert.equal(_resultBuffer[7], originFarmLongitude, 'Error Invalid originFarmLongitude');
+    }
+
     // 1st Test
     it("Testing smart contract function harvestItem() that allows a farmer to harvest coffee", async() => {
         const supplyChain = await SupplyChain.deployed()
@@ -275,10 +288,10 @@ contract('SupplyChain', function(accounts) {
         const supplyChain = await SupplyChain.deployed()
 
         // Retrieve the just now saved item from blockchain by calling function fetchItem()
-
+        const resultBufferOne = await supplyChain.fetchItemBufferOne.call(upc);
 
         // Verify the result set:
-
+        _assertBufferOne(resultBufferOne, distributorID /*ownerID*/);
     })
 
     // 10th Test
