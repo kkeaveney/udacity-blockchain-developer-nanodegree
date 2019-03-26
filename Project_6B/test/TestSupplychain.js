@@ -291,7 +291,7 @@ contract('SupplyChain', function(accounts) {
         const resultBufferOne = await supplyChain.fetchItemBufferOne.call(upc);
 
         // Verify the result set:
-        _assertBufferOne(resultBufferOne, distributorID /*ownerID*/);
+        _assertBufferOne(resultBufferOne, consumerID/*ownerID*/);
     })
 
     // 10th Test
