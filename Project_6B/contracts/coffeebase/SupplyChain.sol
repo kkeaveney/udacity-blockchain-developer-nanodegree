@@ -54,7 +54,7 @@ pragma solidity ^0.4.24;
     string  productNotes; // Product Notes
     uint    productPrice; // Product Price
     State   itemState;  // Product State as represented in the enum above
-    address processorID;  // Metamask-Ethereum address of the Processor
+    address distributorID;  // Metamask-Ethereum address of the Processor
     address retailerID; // Metamask-Ethereum address of the Retailer
     address consumerID; // Metamask-Ethereum address of the Consumer
   }
@@ -177,7 +177,7 @@ function harvestItem(uint _upc, address _originFarmerID, string _originFarmName,
       productNotes: _productNotes,
       productPrice: 0,
       itemState: defaultState,
-      processorID: address(0),
+      distributorID: address(0),
       retailerID: address(0),
       consumerID: address(0)
   });
@@ -217,9 +217,9 @@ function buyItem(uint _upc) forSale(_upc) paidEnough(items[_upc].productPrice) c
   // Call modifer to send any excess ether back to buyer
 
 {
-  // Update the appropriate fields - ownerID, processorID, itemState
+  // Update the appropriate fields - ownerID,  itemState
   items[_upc].ownerID = msg.sender;
-  items[_upc].processorID = msg.sender;
+  items[_upc].distributorID = msg.sender;
   items[_upc].itemState = State.Sold;
 
   // Transfer money to farmer
@@ -356,7 +356,7 @@ uint    productID,
 string  productNotes,
 uint    productPrice,
 uint    itemState,
-address processorID,
+address distributorID,
 address retailerID,
 address consumerID
 )
@@ -370,7 +370,7 @@ address consumerID
   productNotes = _item.productNotes;
   productPrice = _item.productPrice;
   itemState = uint(_item.itemState);
-  processorID = _item.processorID;
+  distributorID = _item.distributorID;
   retailerID = _item.retailerID;
   consumerID = _item.consumerID;
 
@@ -382,7 +382,7 @@ productID,
 productNotes,
 productPrice,
 itemState,
-processorID,
+distributorID,
 retailerID,
 consumerID
 );

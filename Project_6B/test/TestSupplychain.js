@@ -40,6 +40,7 @@ contract('SupplyChain', function(accounts) {
     console.log("Processor: accounts[2] ", accounts[2])
     console.log("Retailer: accounts[3] ", accounts[3])
     console.log("Consumer: accounts[4] ", accounts[4])
+    console.log("distributor: accounts[5]",account[5])
 
 
     var _assertBufferOne = function(_resultBuffer, _ownerID) {
@@ -52,6 +53,20 @@ contract('SupplyChain', function(accounts) {
       assert.equal(_resultBuffer[5], originFarmInformation, 'Error Invalid originFarmInformation');
       assert.equal(_resultBuffer[6], originFarmLatitude, 'Error Invalid originFarmLatitude');
       assert.equal(_resultBuffer[7], originFarmLongitude, 'Error Invalid originFarmLongitude');
+
+    }
+
+    var _assertBufferTwo =  function(_resultBuffer, _ownerID) {
+      var anyOwnerID = _ownerID ? _ownerID : originFarmerID;
+      assert.equal(_resultBuffer[0], sku, 'Error Invalid item SKU');
+      assert.equal(_resultBuffer[1], upc, 'Error: Invalid item UPC');
+      assert.equal(_resultBuffer[2], productID, 'Error: Invalid productID');
+      assert.equal(_resultBuffer[3], productNotes, 'Error: Invalid productNotes');
+      assert.equal(_resultBuffer[4], productPrice, 'Error: Invalid productPrice');
+    //  assert.equal(_resultBuffer[5], itemState, 'Error: Invalid itemState');
+      assert.equal(_resultBuffer[6], distributorID, 'Error: Invalid distributorID ');
+      assert.equal(_resultBuffer[7], retailerID, 'Error: Invalid retailerID,');
+      assert.equal(_resultBuffer[8], consumerID, 'Error: Invalid consumerID');
     }
 
     // 1st Test
@@ -291,7 +306,7 @@ contract('SupplyChain', function(accounts) {
         const resultBufferOne = await supplyChain.fetchItemBufferOne.call(upc);
 
         // Verify the result set:
-        _assertBufferOne(resultBufferOne, consumerID/*ownerID*/);
+        _assertBufferOne(resultBufferOne, consumerID);
     })
 
     // 10th Test
@@ -299,9 +314,10 @@ contract('SupplyChain', function(accounts) {
         const supplyChain = await SupplyChain.deployed()
 
         // Retrieve the just now saved item from blockchain by calling function fetchItem()
-
+        const resultBufferTwo = await supplyChain.fetchItemBufferTwo.call(upc);
 
         // Verify the result set:
+        _assertBufferTwo(resultBufferTwo,consumerID);
 
     })
 
