@@ -43,10 +43,10 @@ contract('SupplyChain', function(accounts) {
 
 
     var _assertBufferOne = function(_resultBuffer, _ownerID) {
-      var defaultOwnerID = _ownerID ? _ownerID : originFarmerID;
+      var anyOwnerID = _ownerID ? _ownerID : originFarmerID;
       assert.equal(_resultBuffer[0], sku, 'Error: Invalid item SKU')
       assert.equal(_resultBuffer[1], upc, 'Error: Invalid item UPC')
-      assert.equal(_resultBuffer[2], defaultOwnerID, 'Error: Invalid owner defaultOwnerID');
+      assert.equal(_resultBuffer[2], anyOwnerID, 'Error: Invalid owner defaultOwnerID');
       assert.equal(_resultBuffer[3], originFarmerID, 'Error: Invalid originFarmerID');
       assert.equal(_resultBuffer[4], originFarmName, 'Error: Invalid originFarmName');
       assert.equal(_resultBuffer[5], originFarmInformation, 'Error Invalid originFarmInformation');
