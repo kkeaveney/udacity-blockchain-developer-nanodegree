@@ -40,7 +40,7 @@ contract('SupplyChain', function(accounts) {
     console.log("Processor: accounts[2] ", accounts[2])
     console.log("Retailer: accounts[3] ", accounts[3])
     console.log("Consumer: accounts[4] ", accounts[4])
-    console.log("distributor: accounts[5]",account[5])
+    console.log("distributor: accounts[5]",accounts[5])
 
 
     var _assertBufferOne = function(_resultBuffer, _ownerID) {
