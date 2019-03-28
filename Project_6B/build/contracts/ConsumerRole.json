@@ -50,24 +50,24 @@
       "type": "function"
     }
   ],
-  "bytecode": "0x608060405234801561001057600080fd5b50610149806100206000396000f300608060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063112940f91461005c57806361e6982d1461009f578063834ff739146100b6575b600080fd5b34801561006857600080fd5b5061009d600480360381019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190505050610111565b005b3480156100ab57600080fd5b506100b4610114565b005b3480156100c257600080fd5b506100f7600480360381019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190505050610116565b604051808215151515815260200191505060405180910390f35b50565b565b60009190505600a165627a7a72305820fc3577a3019feb2374eca8840ad9d09ee783a33d41d376e3738c8a2613f5d4cb0029",
-  "deployedBytecode": "0x608060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063112940f91461005c57806361e6982d1461009f578063834ff739146100b6575b600080fd5b34801561006857600080fd5b5061009d600480360381019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190505050610111565b005b3480156100ab57600080fd5b506100b4610114565b005b3480156100c257600080fd5b506100f7600480360381019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190505050610116565b604051808215151515815260200191505060405180910390f35b50565b565b60009190505600a165627a7a72305820fc3577a3019feb2374eca8840ad9d09ee783a33d41d376e3738c8a2613f5d4cb0029",
-  "sourceMap": "155:1078:0:-;;;411:27;8:9:-1;5:2;;;30:1;27;20:12;5:2;411:27:0;155:1078;;;;;;",
-  "deployedSourceMap": "155:1078:0:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;750:64;;8:9:-1;5:2;;;30:1;27;20:12;5:2;750:64:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;882:41;;8:9:-1;5:2;;;30:1;27;20:12;5:2;882:41:0;;;;;;619:70;;8:9:-1;5:2;;;30:1;27;20:12;5:2;619:70:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;750:64;;:::o;882:41::-;:::o;619:70::-;677:4;619:70;;;:::o",
+  "bytecode": "0x608060405234801561001057600080fd5b50610149806100206000396000f300608060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063112940f91461005c57806361e6982d1461009f578063834ff739146100b6575b600080fd5b34801561006857600080fd5b5061009d600480360381019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190505050610111565b005b3480156100ab57600080fd5b506100b4610114565b005b3480156100c257600080fd5b506100f7600480360381019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190505050610116565b604051808215151515815260200191505060405180910390f35b50565b565b60009190505600a165627a7a723058209475d81c92d58d13e3b934c9ad3c62f20bf6514d404bcffcd9fc53a5be8ebe4f0029",
+  "deployedBytecode": "0x608060405260043610610057576000357c0100000000000000000000000000000000000000000000000000000000900463ffffffff168063112940f91461005c57806361e6982d1461009f578063834ff739146100b6575b600080fd5b34801561006857600080fd5b5061009d600480360381019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190505050610111565b005b3480156100ab57600080fd5b506100b4610114565b005b3480156100c257600080fd5b506100f7600480360381019080803573ffffffffffffffffffffffffffffffffffffffff169060200190929190505050610116565b604051808215151515815260200191505060405180910390f35b50565b565b60009190505600a165627a7a723058209475d81c92d58d13e3b934c9ad3c62f20bf6514d404bcffcd9fc53a5be8ebe4f0029",
+  "sourceMap": "155:1078:1:-;;;411:27;8:9:-1;5:2;;;30:1;27;20:12;5:2;411:27:1;155:1078;;;;;;",
+  "deployedSourceMap": "155:1078:1:-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;750:64;;8:9:-1;5:2;;;30:1;27;20:12;5:2;750:64:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;882:41;;8:9:-1;5:2;;;30:1;27;20:12;5:2;882:41:1;;;;;;619:70;;8:9:-1;5:2;;;30:1;27;20:12;5:2;619:70:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;750:64;;:::o;882:41::-;:::o;619:70::-;677:4;619:70;;;:::o",
   "source": "pragma solidity ^0.4.24;\n// Import the library 'Roles'\nimport \"./Roles.sol\";\n\n// Define a contract 'ConsumerRole' to manage this role - add, remove, check\ncontract ConsumerRole {\n\n  // Define 2 events, one for Adding, and other for Removing\n\n  // Define a struct 'consumers' by inheriting from 'Roles' library, struct Role\n\n  // In the constructor make the address that deploys this contract the 1st consumer\n  constructor() public {\n\n  }\n\n  // Define a modifier that checks to see if msg.sender has the appropriate role\n  modifier onlyConsumer() {\n\n    _;\n  }\n\n  // Define a function 'isConsumer' to check this role\n  function isConsumer(address account) public view returns (bool) {\n\n  }\n\n  // Define a function 'addConsumer' that adds this role\n  function addConsumer(address account) public onlyConsumer {\n\n  }\n\n  // Define a function 'renounceConsumer' to renounce this role\n  function renounceConsumer() public {\n\n  }\n\n  // Define an internal function '_addConsumer' to add this role, called by 'addConsumer'\n  function _addConsumer(address account) internal {\n\n  }\n\n  // Define an internal function '_removeConsumer' to remove this role, called by 'removeConsumer'\n  function _removeConsumer(address account) internal {\n\n  }\n}\n",
-  "sourcePath": "/Users/kevinkeaveney/github/udacity-blockchain-developer-nanodegree/Project_6B/contracts/coffeeaccesscontrol/ConsumerRole.sol",
+  "sourcePath": "/Users/admin/github/udacity-blockchain-developer-nanodegree/Project_6B/contracts/coffeeaccesscontrol/ConsumerRole.sol",
   "ast": {
-    "absolutePath": "/Users/kevinkeaveney/github/udacity-blockchain-developer-nanodegree/Project_6B/contracts/coffeeaccesscontrol/ConsumerRole.sol",
+    "absolutePath": "/Users/admin/github/udacity-blockchain-developer-nanodegree/Project_6B/contracts/coffeeaccesscontrol/ConsumerRole.sol",
     "exportedSymbols": {
       "ConsumerRole": [
-        43
+        100
       ]
     },
-    "id": 44,
+    "id": 101,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1,
+        "id": 58,
         "literals": [
           "solidity",
           "^",
@@ -75,16 +75,16 @@
           ".24"
         ],
         "nodeType": "PragmaDirective",
-        "src": "0:24:0"
+        "src": "0:24:1"
       },
       {
-        "absolutePath": "/Users/kevinkeaveney/github/udacity-blockchain-developer-nanodegree/Project_6B/contracts/coffeeaccesscontrol/Roles.sol",
+        "absolutePath": "/Users/admin/github/udacity-blockchain-developer-nanodegree/Project_6B/contracts/coffeeaccesscontrol/Roles.sol",
         "file": "./Roles.sol",
-        "id": 2,
+        "id": 59,
         "nodeType": "ImportDirective",
-        "scope": 44,
-        "sourceUnit": 447,
-        "src": "55:21:0",
+        "scope": 101,
+        "sourceUnit": 504,
+        "src": "55:21:1",
         "symbolAliases": [],
         "unitAlias": ""
       },
@@ -94,22 +94,22 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 43,
+        "id": 100,
         "linearizedBaseContracts": [
-          43
+          100
         ],
         "name": "ConsumerRole",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "body": {
-              "id": 5,
+              "id": 62,
               "nodeType": "Block",
-              "src": "432:6:0",
+              "src": "432:6:1",
               "statements": []
             },
             "documentation": null,
-            "id": 6,
+            "id": 63,
             "implemented": true,
             "isConstructor": true,
             "isDeclaredConst": false,
@@ -117,59 +117,59 @@
             "name": "",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 3,
+              "id": 60,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "422:2:0"
+              "src": "422:2:1"
             },
             "payable": false,
             "returnParameters": {
-              "id": 4,
+              "id": 61,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "432:0:0"
+              "src": "432:0:1"
             },
-            "scope": 43,
-            "src": "411:27:0",
+            "scope": 100,
+            "src": "411:27:1",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           },
           {
             "body": {
-              "id": 9,
+              "id": 66,
               "nodeType": "Block",
-              "src": "547:13:0",
+              "src": "547:13:1",
               "statements": [
                 {
-                  "id": 8,
+                  "id": 65,
                   "nodeType": "PlaceholderStatement",
-                  "src": "554:1:0"
+                  "src": "554:1:1"
                 }
               ]
             },
             "documentation": null,
-            "id": 10,
+            "id": 67,
             "name": "onlyConsumer",
             "nodeType": "ModifierDefinition",
             "parameters": {
-              "id": 7,
+              "id": 64,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "544:2:0"
+              "src": "544:2:1"
             },
-            "src": "523:37:0",
+            "src": "523:37:1",
             "visibility": "internal"
           },
           {
             "body": {
-              "id": 17,
+              "id": 74,
               "nodeType": "Block",
-              "src": "683:6:0",
+              "src": "683:6:1",
               "statements": []
             },
             "documentation": null,
-            "id": 18,
+            "id": 75,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": true,
@@ -177,16 +177,16 @@
             "name": "isConsumer",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 13,
+              "id": 70,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 12,
+                  "id": 69,
                   "name": "account",
                   "nodeType": "VariableDeclaration",
-                  "scope": 18,
-                  "src": "639:15:0",
+                  "scope": 75,
+                  "src": "639:15:1",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -194,10 +194,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 11,
+                    "id": 68,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "639:7:0",
+                    "src": "639:7:1",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
                       "typeString": "address"
@@ -207,20 +207,20 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "638:17:0"
+              "src": "638:17:1"
             },
             "payable": false,
             "returnParameters": {
-              "id": 16,
+              "id": 73,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 15,
+                  "id": 72,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 18,
-                  "src": "677:4:0",
+                  "scope": 75,
+                  "src": "677:4:1",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -228,10 +228,10 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 14,
+                    "id": 71,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
-                    "src": "677:4:0",
+                    "src": "677:4:1",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bool",
                       "typeString": "bool"
@@ -241,60 +241,60 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "676:6:0"
+              "src": "676:6:1"
             },
-            "scope": 43,
-            "src": "619:70:0",
+            "scope": 100,
+            "src": "619:70:1",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "public"
           },
           {
             "body": {
-              "id": 25,
+              "id": 82,
               "nodeType": "Block",
-              "src": "808:6:0",
+              "src": "808:6:1",
               "statements": []
             },
             "documentation": null,
-            "id": 26,
+            "id": 83,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
             "modifiers": [
               {
                 "arguments": null,
-                "id": 23,
+                "id": 80,
                 "modifierName": {
                   "argumentTypes": null,
-                  "id": 22,
+                  "id": 79,
                   "name": "onlyConsumer",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 10,
-                  "src": "795:12:0",
+                  "referencedDeclaration": 67,
+                  "src": "795:12:1",
                   "typeDescriptions": {
                     "typeIdentifier": "t_modifier$__$",
                     "typeString": "modifier ()"
                   }
                 },
                 "nodeType": "ModifierInvocation",
-                "src": "795:12:0"
+                "src": "795:12:1"
               }
             ],
             "name": "addConsumer",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 21,
+              "id": 78,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 20,
+                  "id": 77,
                   "name": "account",
                   "nodeType": "VariableDeclaration",
-                  "scope": 26,
-                  "src": "771:15:0",
+                  "scope": 83,
+                  "src": "771:15:1",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -302,10 +302,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 19,
+                    "id": 76,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "771:7:0",
+                    "src": "771:7:1",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
                       "typeString": "address"
@@ -315,30 +315,30 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "770:17:0"
+              "src": "770:17:1"
             },
             "payable": false,
             "returnParameters": {
-              "id": 24,
+              "id": 81,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "808:0:0"
+              "src": "808:0:1"
             },
-            "scope": 43,
-            "src": "750:64:0",
+            "scope": 100,
+            "src": "750:64:1",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           },
           {
             "body": {
-              "id": 29,
+              "id": 86,
               "nodeType": "Block",
-              "src": "917:6:0",
+              "src": "917:6:1",
               "statements": []
             },
             "documentation": null,
-            "id": 30,
+            "id": 87,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
@@ -346,33 +346,33 @@
             "name": "renounceConsumer",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 27,
+              "id": 84,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "907:2:0"
+              "src": "907:2:1"
             },
             "payable": false,
             "returnParameters": {
-              "id": 28,
+              "id": 85,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "917:0:0"
+              "src": "917:0:1"
             },
-            "scope": 43,
-            "src": "882:41:0",
+            "scope": 100,
+            "src": "882:41:1",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           },
           {
             "body": {
-              "id": 35,
+              "id": 92,
               "nodeType": "Block",
-              "src": "1065:6:0",
+              "src": "1065:6:1",
               "statements": []
             },
             "documentation": null,
-            "id": 36,
+            "id": 93,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
@@ -380,16 +380,16 @@
             "name": "_addConsumer",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 33,
+              "id": 90,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 32,
+                  "id": 89,
                   "name": "account",
                   "nodeType": "VariableDeclaration",
-                  "scope": 36,
-                  "src": "1039:15:0",
+                  "scope": 93,
+                  "src": "1039:15:1",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -397,10 +397,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 31,
+                    "id": 88,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "1039:7:0",
+                    "src": "1039:7:1",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
                       "typeString": "address"
@@ -410,30 +410,30 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "1038:17:0"
+              "src": "1038:17:1"
             },
             "payable": false,
             "returnParameters": {
-              "id": 34,
+              "id": 91,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "1065:0:0"
+              "src": "1065:0:1"
             },
-            "scope": 43,
-            "src": "1017:54:0",
+            "scope": 100,
+            "src": "1017:54:1",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "internal"
           },
           {
             "body": {
-              "id": 41,
+              "id": 98,
               "nodeType": "Block",
-              "src": "1225:6:0",
+              "src": "1225:6:1",
               "statements": []
             },
             "documentation": null,
-            "id": 42,
+            "id": 99,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
@@ -441,16 +441,16 @@
             "name": "_removeConsumer",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 39,
+              "id": 96,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 38,
+                  "id": 95,
                   "name": "account",
                   "nodeType": "VariableDeclaration",
-                  "scope": 42,
-                  "src": "1199:15:0",
+                  "scope": 99,
+                  "src": "1199:15:1",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -458,10 +458,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 37,
+                    "id": 94,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "1199:7:0",
+                    "src": "1199:7:1",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
                       "typeString": "address"
@@ -471,40 +471,40 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "1198:17:0"
+              "src": "1198:17:1"
             },
             "payable": false,
             "returnParameters": {
-              "id": 40,
+              "id": 97,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "1225:0:0"
+              "src": "1225:0:1"
             },
-            "scope": 43,
-            "src": "1174:57:0",
+            "scope": 100,
+            "src": "1174:57:1",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "internal"
           }
         ],
-        "scope": 44,
-        "src": "155:1078:0"
+        "scope": 101,
+        "src": "155:1078:1"
       }
     ],
-    "src": "0:1234:0"
+    "src": "0:1234:1"
   },
   "legacyAST": {
-    "absolutePath": "/Users/kevinkeaveney/github/udacity-blockchain-developer-nanodegree/Project_6B/contracts/coffeeaccesscontrol/ConsumerRole.sol",
+    "absolutePath": "/Users/admin/github/udacity-blockchain-developer-nanodegree/Project_6B/contracts/coffeeaccesscontrol/ConsumerRole.sol",
     "exportedSymbols": {
       "ConsumerRole": [
-        43
+        100
       ]
     },
-    "id": 44,
+    "id": 101,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 1,
+        "id": 58,
         "literals": [
           "solidity",
           "^",
@@ -512,16 +512,16 @@
           ".24"
         ],
         "nodeType": "PragmaDirective",
-        "src": "0:24:0"
+        "src": "0:24:1"
       },
       {
-        "absolutePath": "/Users/kevinkeaveney/github/udacity-blockchain-developer-nanodegree/Project_6B/contracts/coffeeaccesscontrol/Roles.sol",
+        "absolutePath": "/Users/admin/github/udacity-blockchain-developer-nanodegree/Project_6B/contracts/coffeeaccesscontrol/Roles.sol",
         "file": "./Roles.sol",
-        "id": 2,
+        "id": 59,
         "nodeType": "ImportDirective",
-        "scope": 44,
-        "sourceUnit": 447,
-        "src": "55:21:0",
+        "scope": 101,
+        "sourceUnit": 504,
+        "src": "55:21:1",
         "symbolAliases": [],
         "unitAlias": ""
       },
@@ -531,22 +531,22 @@
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 43,
+        "id": 100,
         "linearizedBaseContracts": [
-          43
+          100
         ],
         "name": "ConsumerRole",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "body": {
-              "id": 5,
+              "id": 62,
               "nodeType": "Block",
-              "src": "432:6:0",
+              "src": "432:6:1",
               "statements": []
             },
             "documentation": null,
-            "id": 6,
+            "id": 63,
             "implemented": true,
             "isConstructor": true,
             "isDeclaredConst": false,
@@ -554,59 +554,59 @@
             "name": "",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 3,
+              "id": 60,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "422:2:0"
+              "src": "422:2:1"
             },
             "payable": false,
             "returnParameters": {
-              "id": 4,
+              "id": 61,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "432:0:0"
+              "src": "432:0:1"
             },
-            "scope": 43,
-            "src": "411:27:0",
+            "scope": 100,
+            "src": "411:27:1",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           },
           {
             "body": {
-              "id": 9,
+              "id": 66,
               "nodeType": "Block",
-              "src": "547:13:0",
+              "src": "547:13:1",
               "statements": [
                 {
-                  "id": 8,
+                  "id": 65,
                   "nodeType": "PlaceholderStatement",
-                  "src": "554:1:0"
+                  "src": "554:1:1"
                 }
               ]
             },
             "documentation": null,
-            "id": 10,
+            "id": 67,
             "name": "onlyConsumer",
             "nodeType": "ModifierDefinition",
             "parameters": {
-              "id": 7,
+              "id": 64,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "544:2:0"
+              "src": "544:2:1"
             },
-            "src": "523:37:0",
+            "src": "523:37:1",
             "visibility": "internal"
           },
           {
             "body": {
-              "id": 17,
+              "id": 74,
               "nodeType": "Block",
-              "src": "683:6:0",
+              "src": "683:6:1",
               "statements": []
             },
             "documentation": null,
-            "id": 18,
+            "id": 75,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": true,
@@ -614,16 +614,16 @@
             "name": "isConsumer",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 13,
+              "id": 70,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 12,
+                  "id": 69,
                   "name": "account",
                   "nodeType": "VariableDeclaration",
-                  "scope": 18,
-                  "src": "639:15:0",
+                  "scope": 75,
+                  "src": "639:15:1",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -631,10 +631,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 11,
+                    "id": 68,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "639:7:0",
+                    "src": "639:7:1",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
                       "typeString": "address"
@@ -644,20 +644,20 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "638:17:0"
+              "src": "638:17:1"
             },
             "payable": false,
             "returnParameters": {
-              "id": 16,
+              "id": 73,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 15,
+                  "id": 72,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 18,
-                  "src": "677:4:0",
+                  "scope": 75,
+                  "src": "677:4:1",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -665,10 +665,10 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 14,
+                    "id": 71,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
-                    "src": "677:4:0",
+                    "src": "677:4:1",
                     "typeDescriptions": {
                       "typeIdentifier": "t_bool",
                       "typeString": "bool"
@@ -678,60 +678,60 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "676:6:0"
+              "src": "676:6:1"
             },
-            "scope": 43,
-            "src": "619:70:0",
+            "scope": 100,
+            "src": "619:70:1",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "public"
           },
           {
             "body": {
-              "id": 25,
+              "id": 82,
               "nodeType": "Block",
-              "src": "808:6:0",
+              "src": "808:6:1",
               "statements": []
             },
             "documentation": null,
-            "id": 26,
+            "id": 83,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
             "modifiers": [
               {
                 "arguments": null,
-                "id": 23,
+                "id": 80,
                 "modifierName": {
                   "argumentTypes": null,
-                  "id": 22,
+                  "id": 79,
                   "name": "onlyConsumer",
                   "nodeType": "Identifier",
                   "overloadedDeclarations": [],
-                  "referencedDeclaration": 10,
-                  "src": "795:12:0",
+                  "referencedDeclaration": 67,
+                  "src": "795:12:1",
                   "typeDescriptions": {
                     "typeIdentifier": "t_modifier$__$",
                     "typeString": "modifier ()"
                   }
                 },
                 "nodeType": "ModifierInvocation",
-                "src": "795:12:0"
+                "src": "795:12:1"
               }
             ],
             "name": "addConsumer",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 21,
+              "id": 78,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 20,
+                  "id": 77,
                   "name": "account",
                   "nodeType": "VariableDeclaration",
-                  "scope": 26,
-                  "src": "771:15:0",
+                  "scope": 83,
+                  "src": "771:15:1",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -739,10 +739,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 19,
+                    "id": 76,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "771:7:0",
+                    "src": "771:7:1",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
                       "typeString": "address"
@@ -752,30 +752,30 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "770:17:0"
+              "src": "770:17:1"
             },
             "payable": false,
             "returnParameters": {
-              "id": 24,
+              "id": 81,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "808:0:0"
+              "src": "808:0:1"
             },
-            "scope": 43,
-            "src": "750:64:0",
+            "scope": 100,
+            "src": "750:64:1",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           },
           {
             "body": {
-              "id": 29,
+              "id": 86,
               "nodeType": "Block",
-              "src": "917:6:0",
+              "src": "917:6:1",
               "statements": []
             },
             "documentation": null,
-            "id": 30,
+            "id": 87,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
@@ -783,33 +783,33 @@
             "name": "renounceConsumer",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 27,
+              "id": 84,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "907:2:0"
+              "src": "907:2:1"
             },
             "payable": false,
             "returnParameters": {
-              "id": 28,
+              "id": 85,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "917:0:0"
+              "src": "917:0:1"
             },
-            "scope": 43,
-            "src": "882:41:0",
+            "scope": 100,
+            "src": "882:41:1",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           },
           {
             "body": {
-              "id": 35,
+              "id": 92,
               "nodeType": "Block",
-              "src": "1065:6:0",
+              "src": "1065:6:1",
               "statements": []
             },
             "documentation": null,
-            "id": 36,
+            "id": 93,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
@@ -817,16 +817,16 @@
             "name": "_addConsumer",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 33,
+              "id": 90,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 32,
+                  "id": 89,
                   "name": "account",
                   "nodeType": "VariableDeclaration",
-                  "scope": 36,
-                  "src": "1039:15:0",
+                  "scope": 93,
+                  "src": "1039:15:1",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -834,10 +834,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 31,
+                    "id": 88,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "1039:7:0",
+                    "src": "1039:7:1",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
                       "typeString": "address"
@@ -847,30 +847,30 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "1038:17:0"
+              "src": "1038:17:1"
             },
             "payable": false,
             "returnParameters": {
-              "id": 34,
+              "id": 91,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "1065:0:0"
+              "src": "1065:0:1"
             },
-            "scope": 43,
-            "src": "1017:54:0",
+            "scope": 100,
+            "src": "1017:54:1",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "internal"
           },
           {
             "body": {
-              "id": 41,
+              "id": 98,
               "nodeType": "Block",
-              "src": "1225:6:0",
+              "src": "1225:6:1",
               "statements": []
             },
             "documentation": null,
-            "id": 42,
+            "id": 99,
             "implemented": true,
             "isConstructor": false,
             "isDeclaredConst": false,
@@ -878,16 +878,16 @@
             "name": "_removeConsumer",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 39,
+              "id": 96,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 38,
+                  "id": 95,
                   "name": "account",
                   "nodeType": "VariableDeclaration",
-                  "scope": 42,
-                  "src": "1199:15:0",
+                  "scope": 99,
+                  "src": "1199:15:1",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -895,10 +895,10 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 37,
+                    "id": 94,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
-                    "src": "1199:7:0",
+                    "src": "1199:7:1",
                     "typeDescriptions": {
                       "typeIdentifier": "t_address",
                       "typeString": "address"
@@ -908,46 +908,46 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "1198:17:0"
+              "src": "1198:17:1"
             },
             "payable": false,
             "returnParameters": {
-              "id": 40,
+              "id": 97,
               "nodeType": "ParameterList",
               "parameters": [],
-              "src": "1225:0:0"
+              "src": "1225:0:1"
             },
-            "scope": 43,
-            "src": "1174:57:0",
+            "scope": 100,
+            "src": "1174:57:1",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "internal"
           }
         ],
-        "scope": 44,
-        "src": "155:1078:0"
+        "scope": 101,
+        "src": "155:1078:1"
       }
     ],
-    "src": "0:1234:0"
+    "src": "0:1234:1"
   },
   "compiler": {
     "name": "solc",
-    "version": "0.4.24+commit.e67f0147.Emscripten.clang"
+    "version": "0.4.25+commit.59dbf8f1.Emscripten.clang"
   },
   "networks": {
     "4": {
       "events": {},
       "links": {},
-      "address": "0x49a797D4e60eBd0598517cFC1dB3882fDDF98100",
-      "transactionHash": "0x6b55a957f1cc4af9cf5815159f0b2efc77f15832a01f85e45398ac26ab36980c"
+      "address": "0x7728b54f8a9265a7a93ee33154a711959b20c284",
+      "transactionHash": "0x9955ea74fc84c2841bc198c71904b118a6ba1720d2fa654be8bf796157cb0204"
     },
     "5777": {
       "events": {},
       "links": {},
-      "address": "0x7b8305d955fa25ce7d8484b93b7cebee38e92049",
-      "transactionHash": "0x60f038953377a4d1ccc810992e1dd0913a4cc1b4df6c42ff8b50e4060cd2b08a"
+      "address": "0xa6b612f61ec6c76b239ef3d0a2867b9755ba081e",
+      "transactionHash": "0xbe53531489dce3c69621a45e61efe6bb2508c2c466d3d5ee6e90ee08d8c525d6"
     }
   },
-  "schemaVersion": "2.0.1",
-  "updatedAt": "2019-03-26T22:30:48.604Z"
+  "schemaVersion": "2.0.2",
+  "updatedAt": "2019-03-28T13:08:11.039Z"
 }
