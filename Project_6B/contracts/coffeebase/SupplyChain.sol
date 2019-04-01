@@ -1,9 +1,8 @@
 pragma solidity ^0.4.24;
 
-  import "../coffeeaccesscontrol/DistributorRole.sol";
   import "../coffeeaccesscontrol/FarmerRole.sol";
-  import "../coffeeaccesscontrol/RetailerRole.sol";
-  import "../coffeeaccesscontrol/ConsumerRole.sol";
+  import "../coffeeaccesscontrol/ImporterRole.sol";
+  import "../coffeeaccesscontrol/ProcessorRole.sol";
 
   import "../coffeecore/Ownable.sol";
 
@@ -54,7 +53,7 @@ pragma solidity ^0.4.24;
     string  productNotes; // Product Notes
     uint    productPrice; // Product Price
     State   itemState;  // Product State as represented in the enum above
-    address distributorID;  // Metamask-Ethereum address of the Processor
+    address importerID;  // Metamask-Ethereum address of the Processor
     address retailerID; // Metamask-Ethereum address of the Retailer
     address consumerID; // Metamask-Ethereum address of the Consumer
   }
@@ -177,7 +176,7 @@ function harvestItem(uint _upc, address _originFarmerID, string _originFarmName,
       productNotes: _productNotes,
       productPrice: 0,
       itemState: defaultState,
-      distributorID: address(0),
+      importerID: address(0),
       retailerID: address(0),
       consumerID: address(0)
   });
@@ -219,7 +218,7 @@ function buyItem(uint _upc) forSale(_upc) paidEnough(items[_upc].productPrice) c
 {
   // Update the appropriate fields - ownerID,  itemState
   items[_upc].ownerID = msg.sender;
-  items[_upc].distributorID = msg.sender;
+  items[_upc].importerID= msg.sender;
   items[_upc].itemState = State.Sold;
 
   // Transfer money to farmer
@@ -356,7 +355,7 @@ uint    productID,
 string  productNotes,
 uint    productPrice,
 uint    itemState,
-address distributorID,
+address importerID,
 address retailerID,
 address consumerID
 )
@@ -370,7 +369,7 @@ address consumerID
   productNotes = _item.productNotes;
   productPrice = _item.productPrice;
   itemState = uint(_item.itemState);
-  distributorID = _item.distributorID;
+  importerID= _item.importerID;
   retailerID = _item.retailerID;
   consumerID = _item.consumerID;
 
@@ -382,7 +381,7 @@ productID,
 productNotes,
 productPrice,
 itemState,
-distributorID,
+importerID,
 retailerID,
 consumerID
 );
