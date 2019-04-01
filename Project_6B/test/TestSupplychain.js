@@ -56,18 +56,7 @@ contract('SupplyChain', function(accounts) {
 
     }
 
-    var _assertBufferTwo =  function(_resultBuffer, _ownerID) {
-      var anyOwnerID = _ownerID ? _ownerID : originFarmerID;
-      assert.equal(_resultBuffer[0], sku, 'Error Invalid item SKU');
-      assert.equal(_resultBuffer[1], upc, 'Error: Invalid item UPC');
-      assert.equal(_resultBuffer[2], productID, 'Error: Invalid productID');
-      assert.equal(_resultBuffer[3], productNotes, 'Error: Invalid productNotes');
-      assert.equal(_resultBuffer[4], productPrice, 'Error: Invalid productPrice');
-      assert.equal(_resultBuffer[5].toNumber(),itemState, 'Error: Invalid itemState');
-      assert.equal(_resultBuffer[6], importerID, 'Error: Invalid importerID ');
-      assert.equal(_resultBuffer[7], processorID, 'Error: Invalid retailerID,');
-      assert.equal(_resultBuffer[8], consumerID, 'Error: Invalid consumerID');
-    }
+  
 
     // 1st Test
     it("Testing smart contract function harvestItem() that allows a farmer to harvest coffee", async() => {
@@ -317,7 +306,7 @@ contract('SupplyChain', function(accounts) {
         const resultBufferTwo = await supplyChain.fetchItemBufferTwo.call(upc);
 
         // Verify the result set:
-      
+
 
         assert.equal(resultBufferTwo [0], sku, 'Error Invalid item SKU');
         assert.equal(resultBufferTwo [1], upc, 'Error: Invalid item UPC');
