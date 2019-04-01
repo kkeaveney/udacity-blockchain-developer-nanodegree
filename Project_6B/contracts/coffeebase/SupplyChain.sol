@@ -54,7 +54,7 @@ pragma solidity ^0.4.24;
     uint    productPrice; // Product Price
     State   itemState;  // Product State as represented in the enum above
     address importerID;  // Metamask-Ethereum address of the Processor
-    address retailerID; // Metamask-Ethereum address of the Retailer
+    address processorID; // Metamask-Ethereum address of the Retailer
     address consumerID; // Metamask-Ethereum address of the Consumer
   }
 
@@ -177,7 +177,7 @@ function harvestItem(uint _upc, address _originFarmerID, string _originFarmName,
       productPrice: 0,
       itemState: defaultState,
       importerID: address(0),
-      retailerID: address(0),
+      processorID: address(0),
       consumerID: address(0)
   });
 
@@ -283,7 +283,7 @@ function receiveItem(uint _upc) shipped(_upc) public
 {
   // Update the appropriate fields - ownerID, retailerID, itemState
   items[_upc].ownerID = msg.sender;
-  items[_upc].retailerID = msg.sender;
+  items[_upc].processorID= msg.sender;
   items[_upc].itemState = State.Received;
 
   // Emit the appropriate event
@@ -354,9 +354,9 @@ uint    itemUPC,
 uint    productID,
 string  productNotes,
 uint    productPrice,
-uint    itemState,
+State   itemState,
 address importerID,
-address retailerID,
+address processorID,
 address consumerID
 )
 {
@@ -368,9 +368,9 @@ address consumerID
   productID = _item.productID;
   productNotes = _item.productNotes;
   productPrice = _item.productPrice;
-  itemState = uint(_item.itemState);
+  itemState = _item.itemState;
   importerID= _item.importerID;
-  retailerID = _item.retailerID;
+  processorID= _item.processorID;
   consumerID = _item.consumerID;
 
 return
@@ -382,7 +382,7 @@ productNotes,
 productPrice,
 itemState,
 importerID,
-retailerID,
+processorID,
 consumerID
 );
 }
