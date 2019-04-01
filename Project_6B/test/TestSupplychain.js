@@ -16,7 +16,7 @@ contract('SupplyChain', function(accounts) {
     const productNotes = "Best beans for Espresso"
     const productPrice = web3.toWei('1', "ether")
     var itemState = 0
-    const distributorID = accounts[2]
+    const importerID = accounts[2]
     const retailerID = accounts[3]
     const consumerID = accounts[4]
     const emptyAddress = '0x00000000000000000000000000000000000000'
@@ -37,10 +37,10 @@ contract('SupplyChain', function(accounts) {
     console.log("ganache-cli accounts used here...")
     console.log("Contract Owner: accounts[0] ", accounts[0])
     console.log("Farmer: accounts[1] ", accounts[1])
-    console.log("Processor: accounts[2] ", accounts[2])
-    console.log("Retailer: accounts[3] ", accounts[3])
-    console.log("Consumer: accounts[4] ", accounts[4])
-    console.log("distributor: accounts[5]",accounts[5])
+    console.log("Importer: accounts[2] ", accounts[2])
+    console.log("Processor: accounts[3] ", accounts[3])
+  //  console.log("Consumer: accounts[4] ", accounts[4])
+//    console.log("distributor: accounts[5]",accounts[5])
 
 
     var _assertBufferOne = function(_resultBuffer, _ownerID) {
@@ -64,7 +64,7 @@ contract('SupplyChain', function(accounts) {
       assert.equal(_resultBuffer[3], productNotes, 'Error: Invalid productNotes');
       assert.equal(_resultBuffer[4], productPrice, 'Error: Invalid productPrice');
     //  assert.equal(_resultBuffer[5], itemState, 'Error: Invalid itemState');
-      assert.equal(_resultBuffer[6], distributorID, 'Error: Invalid distributorID ');
+      assert.equal(_resultBuffer[6], importerID, 'Error: Invalid importerID ');
       assert.equal(_resultBuffer[7], retailerID, 'Error: Invalid retailerID,');
       assert.equal(_resultBuffer[8], consumerID, 'Error: Invalid consumerID');
     }
@@ -207,7 +207,7 @@ contract('SupplyChain', function(accounts) {
         })
 
         // Mark an item as Sold by calling function buyItem()
-        await supplyChain.buyItem(upc, {from: distributorID , value: web3.toWei(2, "ether")});
+        await supplyChain.buyItem(upc, {from: importerID, value: web3.toWei(2, "ether")});
 
         // Retrieve the just now saved item from blockchain by calling function fetchItem()
         const resultBufferOne = await supplyChain.fetchItemBufferOne.call(upc)
@@ -233,7 +233,7 @@ contract('SupplyChain', function(accounts) {
         })
 
         // Mark an item as Sold by calling function shipItem()
-        await supplyChain.shipItem(upc, {from: distributorID});
+        await supplyChain.shipItem(upc, {from: importerID});
 
         // Retrieve the just now saved item from blockchain by calling function fetchItem()
         const resultBufferOne = await supplyChain.fetchItemBufferOne.call(upc)
