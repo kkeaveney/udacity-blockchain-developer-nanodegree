@@ -16,8 +16,8 @@ contract('SupplyChain', function(accounts) {
     const productNotes = "Best beans for Espresso"
     const productPrice = web3.toWei('1', "ether")
     var itemState = 0
-    const importerID = accounts[2]
-    const retailerID = accounts[3]
+    const importerID = accounts[6]
+    const processorID= accounts[3]
     const consumerID = accounts[4]
     const emptyAddress = '0x00000000000000000000000000000000000000'
 
@@ -39,7 +39,7 @@ contract('SupplyChain', function(accounts) {
     console.log("Farmer: accounts[1] ", accounts[1])
     console.log("Importer: accounts[2] ", accounts[2])
     console.log("Processor: accounts[3] ", accounts[3])
-  //  console.log("Consumer: accounts[4] ", accounts[4])
+    console.log("Consumer: accounts[4] ", accounts[4])
 //    console.log("distributor: accounts[5]",accounts[5])
 
 
@@ -63,9 +63,9 @@ contract('SupplyChain', function(accounts) {
       assert.equal(_resultBuffer[2], productID, 'Error: Invalid productID');
       assert.equal(_resultBuffer[3], productNotes, 'Error: Invalid productNotes');
       assert.equal(_resultBuffer[4], productPrice, 'Error: Invalid productPrice');
-    //  assert.equal(_resultBuffer[5], itemState, 'Error: Invalid itemState');
+      assert.equal(_resultBuffer[5].toNumber(),itemState, 'Error: Invalid itemState');
       assert.equal(_resultBuffer[6], importerID, 'Error: Invalid importerID ');
-      assert.equal(_resultBuffer[7], retailerID, 'Error: Invalid retailerID,');
+      assert.equal(_resultBuffer[7], processorID, 'Error: Invalid retailerID,');
       assert.equal(_resultBuffer[8], consumerID, 'Error: Invalid consumerID');
     }
 
@@ -259,7 +259,7 @@ contract('SupplyChain', function(accounts) {
         })
 
         // Mark an item as Sold by calling function receiveItem()
-        await supplyChain.receiveItem(upc,{from: retailerID });
+        await supplyChain.receiveItem(upc,{from: processorID});
 
         // Retrieve the just now saved item from blockchain by calling function fetchItem()
         const resultBufferOne = await supplyChain.fetchItemBufferOne.call(upc)
@@ -317,8 +317,17 @@ contract('SupplyChain', function(accounts) {
         const resultBufferTwo = await supplyChain.fetchItemBufferTwo.call(upc);
 
         // Verify the result set:
-        _assertBufferTwo(resultBufferTwo,consumerID);
+      
 
+        assert.equal(resultBufferTwo [0], sku, 'Error Invalid item SKU');
+        assert.equal(resultBufferTwo [1], upc, 'Error: Invalid item UPC');
+        assert.equal(resultBufferTwo [2], productID, 'Error: Invalid productID');
+        assert.equal(resultBufferTwo [3], productNotes, 'Error: Invalid productNotes');
+        assert.equal(resultBufferTwo [4], productPrice, 'Error: Invalid productPrice');
+        assert.equal(resultBufferTwo [5].toNumber(),7, 'Error: Invalid itemState');
+        assert.equal(resultBufferTwo [6], importerID, 'Error: Invalid importerID ');
+        assert.equal(resultBufferTwo [7], processorID, 'Error: Invalid retailerID,');
+        assert.equal(resultBufferTwo [8], consumerID, 'Error: Invalid consumerID');
     })
 
 });
