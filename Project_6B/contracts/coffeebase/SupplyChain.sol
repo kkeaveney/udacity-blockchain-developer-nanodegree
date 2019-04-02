@@ -27,8 +27,8 @@ pragma solidity ^0.4.24;
   // Define enum 'State' with the following values:
   enum State
   {
-    Harvested,  // 0
-    Processed,  // 1
+    Planted,  // 0
+    Harvested,  // 1
     Packed,     // 2
     ForSale,    // 3
     Sold,       // 4
@@ -37,7 +37,7 @@ pragma solidity ^0.4.24;
     Purchased   // 7
     }
 
-  State constant defaultState = State.Harvested;
+  State constant defaultState = State.Planted;
 
   // Define a struct 'Item' with the following fields:
     struct Item {
@@ -59,8 +59,8 @@ pragma solidity ^0.4.24;
   }
 
   // Define 8 events with the same 8 state values and accept 'upc' as input argument
+  event Planted(uint upc);
   event Harvested(uint upc);
-  event Processed(uint upc);
   event Packed(uint upc);
   event ForSale(uint upc);
   event Sold(uint upc);
@@ -95,9 +95,9 @@ modifier checkValue(uint _upc) {
   _;
 }
 
-// Define a modifier that checks if an item.state of a upc is Harvested
-modifier harvested(uint _upc) {
-  require(items[_upc].itemState == State.Harvested);
+// Define a modifier that checks if an item.state of a upc is Planted
+modifier planted(uint _upc) {
+  require(items[_upc].itemState == State.Planted);
   _;
 }
 
@@ -113,9 +113,9 @@ modifier sold(uint _upc) {
   _;
 }
 
-// Define a modifier that checks if an item.state of a upc is Processed
-modifier processed(uint _upc) {
-  require(items[_upc].itemState == State.Processed);
+// Define a modifier that checks if an item.state of a upc is Harvested
+modifier harvested(uint _upc) {
+  require(items[_upc].itemState == State.Harvested);
   _;
 }
 
@@ -159,8 +159,8 @@ function kill() public {
   }
 }
 
-// Define a function 'harvestItem' that allows a farmer to mark an item 'Harvested'
-function harvestItem(uint _upc, address _originFarmerID, string _originFarmName, string _originFarmInformation, string  _originFarmLatitude, string  _originFarmLongitude, string  _productNotes) public
+// Define a function 'harvestItem' that allows a farmer to mark an item 'Planted'
+function plantItem(uint _upc, address _originFarmerID, string _originFarmName, string _originFarmInformation, string  _originFarmLatitude, string  _originFarmLongitude, string  _productNotes) public
 {
   // Add the new item as part of Harvest
   items[_upc] = Item({
@@ -185,7 +185,7 @@ function harvestItem(uint _upc, address _originFarmerID, string _originFarmName,
   sku = sku + 1;
 
   // Emit the appropriate event
-  emit Harvested(_upc);
+  emit Planted(_upc);
 
 }
 
@@ -228,23 +228,23 @@ function buyItem(uint _upc) forSale(_upc) paidEnough(items[_upc].productPrice) c
   emit Sold(_upc);
 }
 
-// Define a function 'processItem' that allows a processor to mark an item 'Processed'
-function processItem(uint _upc) harvested(_upc) verifyCaller(msg.sender) public
+// Define a function 'processItem' that allows a processor to mark an item 'Harvested'
+function harvestItem(uint _upc) planted(_upc) verifyCaller(msg.sender) public
 // Call modifier to check if upc has passed previous supply chain stage
 
 // Call modifier to verify caller of this function
 
 {
   // Update the appropriate fields
-  items[_upc].itemState = State.Processed;
+  items[_upc].itemState = State.Harvested;
 
   // Emit the appropriate event
-  emit Processed(_upc);
+  emit Harvested(_upc);
 
 }
 
 // Define a function 'packItem' that allows a farmer to mark an item 'Packed'
-function packItem(uint _upc) processed(_upc) verifyCaller(msg.sender) public
+function packItem(uint _upc) harvested(_upc) verifyCaller(msg.sender) public
 // Call modifier to check if upc has passed previous supply chain stage
 
 // Call modifier to verify caller of this function
