@@ -53,26 +53,39 @@ contract('SupplyChain', function(accounts) {
       assert.equal(_resultBuffer[5], originFarmInformation, 'Error Invalid originFarmInformation');
       assert.equal(_resultBuffer[6], originFarmLatitude, 'Error Invalid originFarmLatitude');
       assert.equal(_resultBuffer[7], originFarmLongitude, 'Error Invalid originFarmLongitude');
+      }
+
+    var _assertBufferTwo = function(_resultBufferTwo, _ownerID) {
+      var anyOwnerID = _ownerID ? _ownerID : originFarmerID;
+      assert.equal(_resultBufferTwo [0], sku, 'Error Invalid item SKU');
+      assert.equal(_resultBufferTwo [1], upc, 'Error: Invalid item UPC');
+      assert.equal(_resultBufferTwo [2], productID, 'Error: Invalid productID');
+      assert.equal(_resultBufferTwo [3], productNotes, 'Error: Invalid productNotes');
+      assert.equal(_resultBufferTwo [4], productPrice, 'Error: Invalid productPrice');
+      assert.equal(_resultBufferTwo [5].toNumber(),7, 'Error: Invalid itemState');
+      assert.equal(_resultBufferTwo [6], importerID, 'Error: Invalid importerID ');
+      assert.equal(_resultBufferTwo [7], processorID, 'Error: Invalid retailerID,');
+      assert.equal(_resultBufferTwo [8], consumerID, 'Error: Invalid consumerID');
 
     }
 
-  
+
 
     // 1st Test
-    it("Testing smart contract function harvestItem() that allows a farmer to harvest coffee", async() => {
+    it("Testing smart contract function PlantItem() that allows a farmer to harvest coffee", async() => {
         const supplyChain = await SupplyChain.deployed()
 
         // Declare and Initialize a variable for event
         var eventEmitted = false
 
-        // Watch the emitted event Harvested()
-        var event = supplyChain.Harvested()
+        // Watch the emitted event Planted()
+        var event = supplyChain.Planted()
         await event.watch((err, res) => {
             eventEmitted = true
         })
 
         // Mark an item as Harvested by calling function harvestItem()
-        await supplyChain.harvestItem(upc, originFarmerID, originFarmName, originFarmInformation, originFarmLatitude, originFarmLongitude, productNotes)
+        await supplyChain.plantItem(upc, originFarmerID, originFarmName, originFarmInformation, originFarmLatitude, originFarmLongitude, productNotes)
 
         // Retrieve the just now saved item from blockchain by calling function fetchItem()
         const resultBufferOne = await supplyChain.fetchItemBufferOne.call(upc)
@@ -90,25 +103,25 @@ contract('SupplyChain', function(accounts) {
         assert.equal(resultBufferTwo[5], 0, 'Error: Invalid item State')
         assert.equal(eventEmitted, true, 'Invalid event emitted')
 
-        console.log('Harvested', resultBufferTwo[5].toNumber());
+        console.log('Planted', resultBufferTwo[5].toNumber());
     })
 
     // 2nd Test
-    it("Testing smart contract function processItem() that allows a farmer to process coffee", async() => {
+    it("Testing smart contract function harvestItem() that allows a farmer to process coffee", async() => {
       const supplyChain = await SupplyChain.deployed()
 
      // Declare and Initialize a variable for event
        var eventEmitted = false;
 
-     // Watch the emitted event Processed()
-       var event = supplyChain.Processed()
+     // Watch the emitted event Harvested()
+       var event = supplyChain.Harvested()
        await event.watch((err,res) => {
          eventEmitted = true;
        })
 
-     // Mark an item as Processed by calling function processtItem()
+     // Mark an item as Harvested by calling function processtItem()
 
-      await supplyChain.processItem(upc, {from: originFarmerID});
+      await supplyChain.harvestItem(upc, {from: originFarmerID});
 
      // Retrieve the just now saved item from blockchain by calling function fetchItem()
      const resultBufferOne = await supplyChain.fetchItemBufferOne.call(upc)
@@ -118,7 +131,7 @@ contract('SupplyChain', function(accounts) {
      assert.equal(eventEmitted, true,'Invalid event emitted');
      assert.equal(resultBufferTwo[5], 1, 'Error: Invalid item State');
 
-     console.log('Process',resultBufferTwo[5].toNumber());
+     console.log('Harvested',resultBufferTwo[5].toNumber());
 
     })
 
@@ -129,13 +142,13 @@ contract('SupplyChain', function(accounts) {
    // Declare and Initialize a variable for event
      var eventEmitted = false;
 
-   // Watch the emitted event Processed()
+   // Watch the emitted event Harvested()
      var event = supplyChain.Packed()
      await event.watch((err,res) => {
        eventEmitted = true;
      })
 
-   // Mark an item as Processed by calling function processtItem()
+   // Mark an item as Harvested by calling function processtItem()
 
     await supplyChain.packItem(upc, {from: originFarmerID});
 
@@ -144,7 +157,7 @@ contract('SupplyChain', function(accounts) {
    const resultBufferTwo = await supplyChain.fetchItemBufferTwo.call(upc)
    // Verify the result set
 
-   console.log('packed', resultBufferTwo[5].toNumber());
+   console.log('Packed', resultBufferTwo[5].toNumber());
 
    assert.equal(eventEmitted, true,'Invalid event emitted');
    assert.equal(resultBufferTwo[5], 2, 'Error: Invalid item State');
@@ -306,15 +319,8 @@ contract('SupplyChain', function(accounts) {
         const resultBufferTwo = await supplyChain.fetchItemBufferTwo.call(upc);
 
         // Verify the result set:
-        assert.equal(resultBufferTwo [0], sku, 'Error Invalid item SKU');
-        assert.equal(resultBufferTwo [1], upc, 'Error: Invalid item UPC');
-        assert.equal(resultBufferTwo [2], productID, 'Error: Invalid productID');
-        assert.equal(resultBufferTwo [3], productNotes, 'Error: Invalid productNotes');
-        assert.equal(resultBufferTwo [4], productPrice, 'Error: Invalid productPrice');
-        assert.equal(resultBufferTwo [5].toNumber(),7, 'Error: Invalid itemState');
-        assert.equal(resultBufferTwo [6], importerID, 'Error: Invalid importerID ');
-        assert.equal(resultBufferTwo [7], processorID, 'Error: Invalid retailerID,');
-        assert.equal(resultBufferTwo [8], consumerID, 'Error: Invalid consumerID');
+        _assertBufferTwo(resultBufferTwo, consumerID);
+    
     })
 
 });
