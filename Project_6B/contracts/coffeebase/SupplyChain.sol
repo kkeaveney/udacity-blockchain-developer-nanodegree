@@ -1,7 +1,7 @@
 pragma solidity ^0.4.24;
 
   import "../coffeeaccesscontrol/FarmerRole.sol";
-  import "../coffeeaccesscontrol/ImporterRole.sol";
+  import "../coffeeaccesscontrol/DistributorRole.sol";
   import "../coffeeaccesscontrol/ProcessorRole.sol";
 
   import "../coffeecore/Ownable.sol";
