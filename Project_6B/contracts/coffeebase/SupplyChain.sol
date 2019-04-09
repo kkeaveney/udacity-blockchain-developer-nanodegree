@@ -2,7 +2,7 @@ pragma solidity ^0.4.24;
 
   import "../coffeeaccesscontrol/FarmerRole.sol";
   import "../coffeeaccesscontrol/DistributorRole.sol";
-  import "../coffeeaccesscontrol/ProcessorRole.sol";
+  import "../coffeeaccesscontrol/RetailerRole.sol";
 
   import "../coffeecore/Ownable.sol";
 
@@ -53,7 +53,7 @@ pragma solidity ^0.4.24;
     string  productNotes; // Product Notes
     uint    productPrice; // Product Price
     State   itemState;  // Product State as represented in the enum above
-    address importerID;  // Metamask-Ethereum address of the Processor
+    address importerID;  // Metamask-Ethereum address of the Retailer
     address processorID; // Metamask-Ethereum address of the Retailer
     address consumerID; // Metamask-Ethereum address of the Consumer
   }

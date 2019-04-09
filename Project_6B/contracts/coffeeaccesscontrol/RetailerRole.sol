@@ -3,52 +3,52 @@ pragma solidity ^0.4.24;
 // Import the library 'Roles'
 import "./Roles.sol";
 
-// Define a contract 'ProcessorRole' to manage this role - add, remove, check
-contract ProcessorRole {
+// Define a contract 'RetailerRole' to manage this role - add, remove, check
+contract RetailerRole {
   using Roles for Roles.Role;
 
   // Define 2 events, one for Adding, and other for Removing
-  event ProcessorAdded(address indexed account);
-  event ProcessorRemoved(address indexed account);
+  event RetailerAdded(address indexed account);
+  event RetailerRemoved(address indexed account);
 
   // Define a struct 'retailers' by inheriting from 'Roles' library, struct Role
   Roles.Role private retailers;
 
   // In the constructor make the address that deploys this contract the 1st retailer
   constructor() public {
-    _addProcessor(msg.sender);
+    _addRetailer(msg.sender);
   }
 
   // Define a modifier that checks to see if msg.sender has the appropriate role
-  modifier onlyProcessor() {
-      require(isProcessor(msg.sender));
+  modifier onlyRetailer() {
+      require(isRetailer(msg.sender));
     _;
   }
 
-  // Define a function 'isProcessor' to check this role
-  function isProcessor(address account) public view returns (bool) {
+  // Define a function 'isRetailer' to check this role
+  function isRetailer(address account) public view returns (bool) {
       return retailers.has(account);
   }
 
-  // Define a function 'addProcessor' that adds this role
-  function addProcessor(address account) public onlyProcessor {
-      _addProcessor(account);
+  // Define a function 'addRetailer' that adds this role
+  function addRetailer(address account) public onlyRetailer {
+      _addRetailer(account);
   }
 
-  // Define a function 'renounceProcessor' to renounce this role
-  function renounceProcessor() public {
-      _removeProcessor(msg.sender);
+  // Define a function 'renounceRetailer' to renounce this role
+  function renounceRetailer() public {
+      _removeRetailer(msg.sender);
   }
 
-  // Define an internal function '_addProcessor' to add this role, called by 'addProcessor'
-  function _addProcessor(address account) internal {
+  // Define an internal function '_addRetailer' to add this role, called by 'addRetailer'
+  function _addRetailer(address account) internal {
         retailers.add(account);
-        emit ProcessorAdded(account);
+        emit RetailerAdded(account);
   }
 
-  // Define an internal function '_removeProcessor' to remove this role, called by 'removeProcessor'
-  function _removeProcessor(address account) internal {
+  // Define an internal function '_removeRetailer' to remove this role, called by 'removeRetailer'
+  function _removeRetailer(address account) internal {
       retailers.remove(account);
-      emit ProcessorRemoved(account);
+      emit RetailerRemoved(account);
   }
 }
