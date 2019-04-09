@@ -3,7 +3,7 @@ pragma solidity ^0.4.24;
   import "../coffeeaccesscontrol/FarmerRole.sol";
   import "../coffeeaccesscontrol/DistributorRole.sol";
   import "../coffeeaccesscontrol/RetailerRole.sol";
-
+  import "../coffeeaccesscontrol/ConsumerRole.sol";
   import "../coffeecore/Ownable.sol";
 
   contract SupplyChain {
@@ -53,8 +53,8 @@ pragma solidity ^0.4.24;
     string  productNotes; // Product Notes
     uint    productPrice; // Product Price
     State   itemState;  // Product State as represented in the enum above
-    address importerID;  // Metamask-Ethereum address of the Retailer
-    address processorID; // Metamask-Ethereum address of the Retailer
+    address distributorID;  // Metamask-Ethereum address of the Retailer
+    address retailerID; // Metamask-Ethereum address of the Retailer
     address consumerID; // Metamask-Ethereum address of the Consumer
   }
 
@@ -176,8 +176,8 @@ function plantItem(uint _upc, address _originFarmerID, string _originFarmName, s
       productNotes: _productNotes,
       productPrice: 0,
       itemState: defaultState,
-      importerID: address(0),
-      processorID: address(0),
+      distributorID: address(0),
+      retailerID: address(0),
       consumerID: address(0)
   });
 
@@ -205,7 +205,7 @@ function sellItem(uint _upc, uint _price) packed(_upc) verifyCaller(msg.sender) 
 
 }
 
-// Define a function 'buyItem' that allows the processor to mark an item 'Sold'
+// Define a function 'buyItem' that allows the retailer to mark an item 'Sold'
 // Use the above defined modifiers to check if the item is available for sale, if the buyer has paid enough,
 // and any excess ether sent is refunded back to the buyer
 function buyItem(uint _upc) forSale(_upc) paidEnough(items[_upc].productPrice) checkValue(_upc) public payable
@@ -218,7 +218,7 @@ function buyItem(uint _upc) forSale(_upc) paidEnough(items[_upc].productPrice) c
 {
   // Update the appropriate fields - ownerID,  itemState
   items[_upc].ownerID = msg.sender;
-  items[_upc].importerID= msg.sender;
+  items[_upc].distributorID= msg.sender;
   items[_upc].itemState = State.Sold;
 
   // Transfer money to farmer
@@ -228,7 +228,7 @@ function buyItem(uint _upc) forSale(_upc) paidEnough(items[_upc].productPrice) c
   emit Sold(_upc);
 }
 
-// Define a function 'processItem' that allows a processor to mark an item 'Harvested'
+// Define a function 'processItem' that allows a retailer to mark an item 'Harvested'
 function harvestItem(uint _upc) planted(_upc) verifyCaller(msg.sender) public
 // Call modifier to check if upc has passed previous supply chain stage
 
@@ -258,7 +258,7 @@ function packItem(uint _upc) harvested(_upc) verifyCaller(msg.sender) public
 
 }
 
-// Define a function 'shipItem' that allows the processor to mark an item 'Shipped'
+// Define a function 'shipItem' that allows the retailer to mark an item 'Shipped'
 // Use the above modifers to check if the item is sold
 function shipItem(uint _upc) sold(_upc) verifyCaller(msg.sender) public
   // Call modifier to check if upc has passed previous supply chain stage
@@ -283,7 +283,7 @@ function receiveItem(uint _upc) shipped(_upc) public
 {
   // Update the appropriate fields - ownerID, retailerID, itemState
   items[_upc].ownerID = msg.sender;
-  items[_upc].processorID= msg.sender;
+  items[_upc].retailerID= msg.sender;
   items[_upc].itemState = State.Received;
 
   // Emit the appropriate event
@@ -355,8 +355,8 @@ uint    productID,
 string  productNotes,
 uint    productPrice,
 State   itemState,
-address importerID,
-address processorID,
+address distributorID,
+address retailerID,
 address consumerID
 )
 {
@@ -369,8 +369,8 @@ address consumerID
   productNotes = _item.productNotes;
   productPrice = _item.productPrice;
   itemState = _item.itemState;
-  importerID= _item.importerID;
-  processorID= _item.processorID;
+  distributorID= _item.distributorID;
+  retailerID= _item.retailerID;
   consumerID = _item.consumerID;
 
 return
@@ -381,8 +381,8 @@ productID,
 productNotes,
 productPrice,
 itemState,
-importerID,
-processorID,
+distributorID,
+retailerID,
 consumerID
 );
 }
