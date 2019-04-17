@@ -234,7 +234,7 @@ pragma solidity ^0.4.24;
 
   }
 
-  // Define a function 'buyItem' that allows the retailer to mark an item 'Sold'
+  // Define a function 'buyItem' that allows the distributor to mark an item 'Sold'
   // Use the above defined modifiers to check if the item is available for sale, if the buyer has paid enough,
   // and any excess ether sent is refunded back to the buyer
   function buyItem(uint _upc) forSale(_upc) paidEnough(items[_upc].productPrice) checkValue(_upc) public payable
@@ -257,7 +257,7 @@ pragma solidity ^0.4.24;
     emit Sold(_upc);
   }
 
-  // Define a function 'shipItem' that allows the retailer to mark an item 'Shipped'
+  // Define a function 'shipItem' that allows the distributor to mark an item 'Shipped'
   // Use the above modifers to check if the item is sold
   function shipItem(uint _upc) sold(_upc) verifyCaller(msg.sender) public
     // Call modifier to check if upc has passed previous supply chain stage
@@ -308,18 +308,18 @@ pragma solidity ^0.4.24;
   }
 
   // Define a function 'fetchItemBufferOne' that fetches the data
-  function fetchItemBufferOne(uint _upc) public view returns
-  (
-  uint    itemSKU,
-  uint    itemUPC,
-  address ownerID,
-  address originFarmerID,
-  string  originFarmName,
-  string  originFarmInformation,
-  string  originFarmLatitude,
-  string  originFarmLongitude
-  )
-  {
+    function fetchItemBufferOne(uint _upc) public view returns
+    (
+    uint    itemSKU,
+    uint    itemUPC,
+    address ownerID,
+    address originFarmerID,
+    string  originFarmName,
+    string  originFarmInformation,
+    string  originFarmLatitude,
+    string  originFarmLongitude
+    )
+    {
     // Assign values to the 8 parameters
     Item storage _item = items[_upc];
 
@@ -332,33 +332,33 @@ pragma solidity ^0.4.24;
     originFarmLatitude = _item.originFarmLatitude;
     originFarmLongitude = _item.originFarmLongitude;
 
-  return
-  (
-  itemSKU,
-  itemUPC,
-  ownerID,
-  originFarmerID,
-  originFarmName,
-  originFarmInformation,
-  originFarmLatitude,
-  originFarmLongitude
-  );
-  }
+    return
+    (
+    itemSKU,
+    itemUPC,
+    ownerID,
+    originFarmerID,
+    originFarmName,
+    originFarmInformation,
+    originFarmLatitude,
+    originFarmLongitude
+    );
+    }
 
-  // Define a function 'fetchItemBufferTwo' that fetches the data
-  function fetchItemBufferTwo(uint _upc) public view returns
-  (
-  uint    itemSKU,
-  uint    itemUPC,
-  uint    productID,
-  string  productNotes,
-  uint    productPrice,
-  State   itemState,
-  address distributorID,
-  address retailerID,
-  address consumerID
-  )
-  {
+    // Define a function 'fetchItemBufferTwo' that fetches the data
+    function fetchItemBufferTwo(uint _upc) public view returns
+    (
+    uint    itemSKU,
+    uint    itemUPC,
+    uint    productID,
+    string  productNotes,
+    uint    productPrice,
+    State   itemState,
+    address distributorID,
+    address retailerID,
+    address consumerID
+    )
+    {
     // Assign values to the 9 parameters
     Item storage _item = items[_upc];
 
@@ -372,17 +372,17 @@ pragma solidity ^0.4.24;
     retailerID= _item.retailerID;
     consumerID = _item.consumerID;
 
-  return
-  (
-  itemSKU,
-  itemUPC,
-  productID,
-  productNotes,
-  productPrice,
-  itemState,
-  distributorID,
-  retailerID,
-  consumerID
-  );
-  }
-  }
+    return
+    (
+    itemSKU,
+    itemUPC,
+    productID,
+    productNotes,
+    productPrice,
+    itemState,
+    distributorID,
+    retailerID,
+    consumerID
+    );
+    }
+    }
