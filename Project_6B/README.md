@@ -54,3 +54,8 @@ Purchase Item 7
   10 passing (3s)
 
 ```
+- Install Metamask plugin for chrome
+
+- Ensure that your wallet contains enough Ether for transactions
+
+- To start the application issue the command  ```npm run dev```.
