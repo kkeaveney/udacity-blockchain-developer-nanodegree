@@ -105,3 +105,70 @@ Saving successful migration to network...
 Saving artifacts...
 
 ```
+## View details on Etherscan
+### Contract address
+https://rinkeby.etherscan.io/address/0x069cab043eb796967ec732f44f7cd7c44178ceaa
+
+### Transaction information
+```
+TxHash:0xac23c67388acb18eea4ba109ba8f88cec8f0b4543f9f0a6533be748fb66819e2
+TxReceipt Status:Success
+```
+https://rinkeby.etherscan.io/tx/0xac23c67388acb18eea4ba109ba8f88cec8f0b4543f9f0a6533be748fb66819e2
+
+
+#### Plant transaction
+```
+TxHash:0xabc9a9e27eb76c521e737d7143b4d4b973ff90316c7f848cd252e790b2872b29
+TxReceipt Status:Success
+```
+https://rinkeby.etherscan.io/tx/0xabc9a9e27eb76c521e737d7143b4d4b973ff90316c7f848cd252e790b2872b29
+
+#### Harvest transaction
+```
+TxHash:0x911dfb32f9a8431bb168e0a6764ad76f1d18b17c4527d9bae332af11ae8746ca
+TxReceipt Status:Success
+```
+https://rinkeby.etherscan.io/tx/0x911dfb32f9a8431bb168e0a6764ad76f1d18b17c4527d9bae332af11ae8746ca
+
+#### Pack transaction
+```
+TxHash:0x9c2715835dfb5c2fd42869ac7bbba7b5d182e0b9a8c0c56c4d4635f61bf4c169
+TxReceipt Status:Success
+```
+https://rinkeby.etherscan.io/tx/0x9c2715835dfb5c2fd42869ac7bbba7b5d182e0b9a8c0c56c4d4635f61bf4c169
+
+#### ForSale transaction
+```
+TxHash:0x982b92dc2fa9d9c21f1efe4c0a1ef4fb4ce1609eead46e2b4e69c8ab882fa816
+TxReceipt Status:Success
+```
+https://rinkeby.etherscan.io/tx/0x982b92dc2fa9d9c21f1efe4c0a1ef4fb4ce1609eead46e2b4e69c8ab882fa816
+
+#### Buy transaction
+```
+TxHash:0x18362d381b873210fe3517cccd1b2d4dac3dfa38cf7a2a333c5091b7d720eb79
+TxReceipt Status:Success
+```
+https://rinkeby.etherscan.io/tx/0x18362d381b873210fe3517cccd1b2d4dac3dfa38cf7a2a333c5091b7d720eb79
+
+#### Ship transaction
+```
+TxHash:0x5057e43d46f4d40f3326401108282b7401794f7dcbfee316ab0e633997eaa049
+TxReceipt Status:Success
+```
+https://rinkeby.etherscan.io/tx/0x5057e43d46f4d40f3326401108282b7401794f7dcbfee316ab0e633997eaa049
+
+#### Received transaction
+```
+TxHash:0xb92a108c9790f591e1598be8a18133505ca7b620a6e639048a82d8f7bfdd9fdd
+TxReceipt Status:Success
+```
+https://rinkeby.etherscan.io/tx/0xb92a108c9790f591e1598be8a18133505ca7b620a6e639048a82d8f7bfdd9fdd
+
+#### Purchased transaction
+```
+TxHash:0x6108d9ae81d4235d35115318b3f13bacbfdf490774897daa04db1fdae32a56d4
+TxReceipt Status:Success
+```
+https://rinkeby.etherscan.io/tx/0x6108d9ae81d4235d35115318b3f13bacbfdf490774897daa04db1fdae32a56d4
