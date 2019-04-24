@@ -5,6 +5,7 @@ Using:
 - Truffle v4.1.15
 - node v10.7.0
 - Solidity v0.4.25
+- Web3:1.0.0-beta.48
 
 ### Prerequisites
 
