@@ -172,3 +172,18 @@ TxHash:0x6108d9ae81d4235d35115318b3f13bacbfdf490774897daa04db1fdae32a56d4
 TxReceipt Status:Success
 ```
 https://rinkeby.etherscan.io/tx/0x6108d9ae81d4235d35115318b3f13bacbfdf490774897daa04db1fdae32a56d4
+
+
+## UML Diagrams
+
+### Activity Diagram
+![image1](./images/Activity.png)
+
+### Sequence Diagram
+![image1](./images/Sequence.png)
+
+### State Diagram
+![image1](./images/State.png)
+
+### Data Diagram (Data model)
+![image1](./images/Data.png)
