@@ -6,7 +6,7 @@ pragma solidity ^0.4.24;
   import "../coffeeaccesscontrol/ConsumerRole.sol";
   import "../coffeecore/Ownable.sol";
 
-  contract SupplyChain {
+  contract SupplyChain is FarmerRole, DistributorRole, RetailerRole, ConsumerRole{
 
   // Define 'owner'
   address owner;
@@ -188,7 +188,7 @@ pragma solidity ^0.4.24;
     emit Planted(_upc);
 
   }
-  // Define a function 'processItem' that allows a retailer to mark an item 'Harvested'
+  // Define a function 'processItem' that allows a farmer to mark an item 'Harvested'
   function harvestItem(uint _upc) planted(_upc) verifyCaller(msg.sender) public
   // Call modifier to check if upc has passed previous supply chain stage
 
@@ -246,8 +246,10 @@ pragma solidity ^0.4.24;
 
   {
     // Update the appropriate fields - ownerID,  itemState
-    items[_upc].ownerID = msg.sender;
-    items[_upc].distributorID= msg.sender;
+
+    address distributor = msg.sender;
+    items[_upc].ownerID = distributor;
+    items[_upc].distributorID = distributor;
     items[_upc].itemState = State.Sold;
 
     // Transfer money to farmer
@@ -281,8 +283,9 @@ pragma solidity ^0.4.24;
     // Access Control List enforced by calling Smart Contract / DApp
   {
     // Update the appropriate fields - ownerID, retailerID, itemState
-    items[_upc].ownerID = msg.sender;
-    items[_upc].retailerID= msg.sender;
+    address retailer = msg.sender;
+    items[_upc].ownerID = retailer;
+    items[_upc].retailerID = retailer;
     items[_upc].itemState = State.Received;
 
     // Emit the appropriate event
@@ -298,8 +301,9 @@ pragma solidity ^0.4.24;
     // Access Control List enforced by calling Smart Contract / DApp
   {
     // Update the appropriate fields - ownerID, consumerID, itemState
-    items[_upc].ownerID = msg.sender;
-    items[_upc].consumerID = msg.sender;
+    address consumer = msg.sender;
+    items[_upc].ownerID = consumer;
+    items[_upc].consumerID = consumer;
     items[_upc].itemState = State.Purchased;
 
     // Emit the appropriate event
