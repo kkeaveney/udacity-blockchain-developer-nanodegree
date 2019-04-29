@@ -233,7 +233,7 @@ pragma solidity ^0.4.24;
   // Call modifier to verify caller of this function
    onlyFarmer()
   {
-    addDistributor(_distributorID);
+  //  addDistributor(_distributorID);
   //  transferOwnership(distributorID);
     // Update the appropriate fields
     items[_upc].itemState = State.ForSale;
