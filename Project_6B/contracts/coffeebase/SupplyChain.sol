@@ -6,10 +6,10 @@ pragma solidity ^0.4.24;
   import "../coffeeaccesscontrol/ConsumerRole.sol";
   import "../coffeecore/Ownable.sol";
 
-  contract SupplyChain is FarmerRole, DistributorRole, RetailerRole, ConsumerRole{
+  contract SupplyChain is Ownable, FarmerRole, DistributorRole, RetailerRole, ConsumerRole{
 
   // Define 'owner'
-  address owner;
+  address contractOwner;
 
   // Define a variable called 'upc' for Universal Product Code (UPC)
   uint  upc;
@@ -70,7 +70,7 @@ pragma solidity ^0.4.24;
 
   // Define a modifer that checks to see if msg.sender == owner of the contract
   modifier onlyOwner() {
-  require(msg.sender == owner);
+  require(msg.sender == contractOwner);
   _;
 }
 
@@ -147,21 +147,27 @@ pragma solidity ^0.4.24;
   // and set 'sku' to 1
   // and set 'upc' to 1
   constructor() public payable {
-    owner = msg.sender;
+    contractOwner = msg.sender;
     sku = 1;
     upc = 1;
   }
 
   // Define a function 'kill' if required
   function kill() public {
-    if (msg.sender == owner) {
-      selfdestruct(owner);
+    if (msg.sender == contractOwner) {
+      selfdestruct(contractOwner);
     }
   }
 
   // Define a function 'harvestItem' that allows a farmer to mark an item 'Planted'
   function plantItem(uint _upc, address _originFarmerID, string _originFarmName, string _originFarmInformation, string  _originFarmLatitude, string  _originFarmLongitude, string  _productNotes) public
+
+  onlyOwner()
+
   {
+    addFarmer(_originFarmerID);
+    transferOwnership(_originFarmerID);
+
     // Add the new item as part of Harvest
     items[_upc] = Item({
         sku: sku,
@@ -176,9 +182,9 @@ pragma solidity ^0.4.24;
         productNotes: _productNotes,
         productPrice: 0,
         itemState: defaultState,
-        distributorID: address(0),
-        retailerID: address(0),
-        consumerID: address(0)
+        distributorID: address(2),
+        retailerID: address(3),
+        consumerID: address(4)
     });
 
     // Increment sku
@@ -193,7 +199,8 @@ pragma solidity ^0.4.24;
   // Call modifier to check if upc has passed previous supply chain stage
 
   // Call modifier to verify caller of this function
-
+    //onlyOwner()
+    onlyFarmer()
   {
     // Update the appropriate fields
     items[_upc].itemState = State.Harvested;
@@ -210,6 +217,7 @@ pragma solidity ^0.4.24;
 
   // Call modifier to verify caller of this function
 
+  onlyFarmer()
   {
     // Update the appropriate fields
     items[_upc].itemState = State.Packed;
@@ -219,12 +227,14 @@ pragma solidity ^0.4.24;
 
   }
   // Define a function 'sellItem' that allows a farmer to mark an item 'ForSale'
-  function sellItem(uint _upc, uint _price) packed(_upc) verifyCaller(msg.sender) public
+  function sellItem(uint _upc, uint _price, address _distributorID) packed(_upc) verifyCaller(msg.sender)  public
   // Call modifier to check if upc has passed previous supply chain stage
 
   // Call modifier to verify caller of this function
-
+   onlyFarmer()
   {
+    addDistributor(_distributorID);
+  //  transferOwnership(distributorID);
     // Update the appropriate fields
     items[_upc].itemState = State.ForSale;
     items[_upc].productPrice = _price;
@@ -237,9 +247,11 @@ pragma solidity ^0.4.24;
   // Define a function 'buyItem' that allows the distributor to mark an item 'Sold'
   // Use the above defined modifiers to check if the item is available for sale, if the buyer has paid enough,
   // and any excess ether sent is refunded back to the buyer
-  function buyItem(uint _upc) forSale(_upc) paidEnough(items[_upc].productPrice) checkValue(_upc) public payable
+  function buyItem(uint _upc)  public payable
+      forSale(_upc) paidEnough(items[_upc].productPrice) checkValue(_upc)
     // Call modifier to check if upc has passed previous supply chain stage
-
+    //addDistributor(_originFarmerID);
+    //transferOwnership(_originFarmerID);
     // Call modifer to check if buyer has paid enough
 
     // Call modifer to send any excess ether back to buyer
