@@ -340,6 +340,7 @@ pragma solidity ^0.4.24;
         string originFarmName,
         State itemState,
         uint productPrice,
+        address distributorID,
         address retailerID,
         address consumerID
     )
@@ -353,6 +354,7 @@ pragma solidity ^0.4.24;
         originFarmName = items[_upc].originFarmName;
         itemState = items[_upc].itemState;
         productPrice = items[_upc].productPrice;
+        distributorID = items[_upc].distributorID;
         retailerID = items[_upc].retailerID;
         consumerID = items[_upc].consumerID;
 
@@ -365,6 +367,7 @@ pragma solidity ^0.4.24;
         originFarmName,
         itemState,
         productPrice,
+        distributorID,
         retailerID,
         consumerID
         );
