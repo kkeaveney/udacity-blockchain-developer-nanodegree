@@ -147,6 +147,7 @@ contract('SupplyChain', function(accounts) {
    await supplyChain.packItem(upc, {from: originFarmID});
 
    // Retrieve the just now saved item from blockchain by calling function fetchItem()
+
    const resultBuffer = await supplyChain.fetchItem.call(upc);
    // Verify the result set
 
@@ -175,7 +176,12 @@ contract('SupplyChain', function(accounts) {
         // Mark an item as ForSale by calling function sellItem()
         await supplyChain.sellItem(upc, productPrice, distributorID, {from :originFarmID});
 
+        console.log(distributorID, 'distributorID');
+        console.log(originFarmID, 'originFarmID');
+
         const resultBuffer = await supplyChain.fetchItem.call(upc);
+
+        console.log(resultBuffer);
 
 
         // Verify the result set

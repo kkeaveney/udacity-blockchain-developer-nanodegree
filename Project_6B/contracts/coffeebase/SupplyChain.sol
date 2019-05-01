@@ -230,25 +230,27 @@ pragma solidity ^0.4.24;
 
 
   // Define a function 'sellItem' that allows a farmer to mark an item 'ForSale'
-  function sellItem(uint _upc, uint _price, address _distributorID)   public
+  function sellItem(uint _upc, uint _price, address retailerID)  public
   // Call modifier to check if upc has passed previous supply chain stage
 
   // Call modifier to verify caller of this function
-  onlyFarmer()
-  packed(_upc)
+//  onlyFarmer()
+//  packed(_upc)
 
    verifyCaller(items[_upc].ownerID)
     {
-         addDistributor(_distributorID);
-          /*transferOwnership(distributorID);
+
+
+         //addDistributor(_distributorID);
+          transferOwnership(retailerID);
 
         // Update the appropriate fields
-        items[_upc].ownerID = distributorID;
-        items[_upc].distributorID = distributorID;
-        items[_upc].itemState = State.ForSale;
-        items[_upc].productPrice = _price;
+    //    items[_upc].ownerID = distributorID;
+    //    items[_upc].distributorID = distributorID;
+    //    items[_upc].itemState = State.ForSale;
+    //    items[_upc].productPrice = _price;
 
-    */    // Emit the appropriate event
+    //    // Emit the appropriate event
         emit ForSale(_upc);
     }
   // Define a function 'buyItem' that allows the distributor to mark an item 'Sold'
