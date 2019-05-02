@@ -238,7 +238,7 @@ pragma solidity ^0.4.24;
   onlyFarmer()
   packed(_upc)
 
-   verifyCaller(items[_upc].ownerID)
+  verifyCaller(items[_upc].ownerID)
     {
           addDistributor(distributorID);
           transferOwnership(distributorID);
@@ -257,25 +257,21 @@ pragma solidity ^0.4.24;
   // and any excess ether sent is refunded back to the buyer
   function buyItem(uint _upc)  public payable
       onlyOwner()
+      onlyDistributor()
       // Call modifier to check if upc has passed previous supply chain stage
       forSale(_upc)
       // Call modifer to check if buyer has paid enough
       paidEnough(items[_upc].productPrice)
-      
+      // Call modifer to send any excess ether back to buyer
       checkValue(_upc)
 
-
-
-
-    // Call modifer to send any excess ether back to buyer
-
+      verifyCaller(items[_upc].ownerID)
   {
     // Update the appropriate fields - ownerID,  itemState
 
-    address distributor = msg.sender;
-    items[_upc].ownerID = distributor;
-    items[_upc].distributorID = distributor;
-    items[_upc].itemState = State.Sold;
+     items[_upc].ownerID = msg.sender;;
+     items[_upc].distributorID = msg.sender;
+     items[_upc].itemState = State.Sold;
 
     // Transfer money to farmer
     items[_upc].originFarmID.transfer(items[_upc].productPrice);

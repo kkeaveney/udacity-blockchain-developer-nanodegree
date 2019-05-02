@@ -203,13 +203,12 @@ contract('SupplyChain', function(accounts) {
         await supplyChain.buyItem(upc, {from: distributorID, value: web3.toWei(2, "ether")});
 
         // Retrieve the just now saved item from blockchain by calling function fetchItem()
-        const resultBufferOne = await supplyChain.fetchItemBufferOne.call(upc)
-        const resultBufferTwo = await supplyChain.fetchItemBufferTwo.call(upc)
+        const resultBuffer = await supplyChain.fetchItem.call(upc);
 
         // Verify the result set
-        console.log('Buy Item', resultBufferTwo[5].toNumber());
+        console.log('Buy Item', resultBuffer[5].toNumber());
         assert.equal(eventEmitted, true,'Invalid event emitted');
-        assert.equal(resultBufferTwo[5], 4, 'Error: Invalid item State');
+        assert.equal(resultBuffer[5], 4, 'Error: Invalid item State');
     })
 
     // 6th Test
