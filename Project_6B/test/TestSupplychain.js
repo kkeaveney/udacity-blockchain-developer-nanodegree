@@ -180,7 +180,7 @@ contract('SupplyChain', function(accounts) {
 
         // Verify the result set
         assert.equal(resultBuffer[5], 3, 'Error: Invalid item State');
-        assert.equal(resultBuffer[6], productPrice, 'Error: Invalid item price');
+        assert.equal(resultBuffer[6], productPrice, 'Error: Invalid price');
         assert.equal(resultBuffer[7], distributorID, 'Error: Missing or Invalid distributorID');
         assert.equal(eventEmitted, true, 'Invalid event emitted');
 
