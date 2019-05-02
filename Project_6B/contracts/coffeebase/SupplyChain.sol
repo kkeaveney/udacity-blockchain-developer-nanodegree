@@ -269,7 +269,7 @@ pragma solidity ^0.4.24;
   {
     // Update the appropriate fields - ownerID,  itemState
 
-     items[_upc].ownerID = msg.sender;;
+     items[_upc].ownerID = msg.sender;
      items[_upc].distributorID = msg.sender;
      items[_upc].itemState = State.Sold;
 
@@ -282,14 +282,22 @@ pragma solidity ^0.4.24;
 
   // Define a function 'shipItem' that allows the distributor to mark an item 'Shipped'
   // Use the above modifers to check if the item is sold
-  function shipItem(uint _upc) sold(_upc) verifyCaller(msg.sender) public
+  function shipItem(uint _upc, address retailerID) public
+    onlyOwner()
+    onlyDistributor()
     // Call modifier to check if upc has passed previous supply chain stage
-
+    sold(_upc)
     // Call modifier to verify caller of this function
+    verifyCaller(items[_upc].ownerID)
 
-  {
+    {
+    //  addRetailer(retailerID);
+    //  transferOwnership(retailerID);
+
     // Update the appropriate fields
-    items[_upc].itemState = State.Shipped;
+    //items[_upc].ownerID = retailerID;
+    //items[_upc].retailerID = retailerID;
+    //items[_upc].itemState = State.ForSale;
 
     // Emit the appropriate event
     emit Shipped(_upc);
