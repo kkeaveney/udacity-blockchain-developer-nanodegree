@@ -256,11 +256,16 @@ pragma solidity ^0.4.24;
   // Use the above defined modifiers to check if the item is available for sale, if the buyer has paid enough,
   // and any excess ether sent is refunded back to the buyer
   function buyItem(uint _upc)  public payable
-      forSale(_upc) paidEnough(items[_upc].productPrice) checkValue(_upc)
-    // Call modifier to check if upc has passed previous supply chain stage
-    //addDistributor(_originFarmerID);
-    //transferOwnership(_originFarmerID);
-    // Call modifer to check if buyer has paid enough
+      onlyOwner()
+      // Call modifier to check if upc has passed previous supply chain stage
+      forSale(_upc)
+      // Call modifer to check if buyer has paid enough
+      paidEnough(items[_upc].productPrice)
+      
+      checkValue(_upc)
+
+
+
 
     // Call modifer to send any excess ether back to buyer
 
