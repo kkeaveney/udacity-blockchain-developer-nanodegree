@@ -70,7 +70,7 @@ pragma solidity ^0.4.24;
 
   // Define a modifer that checks to see if msg.sender == owner of the contract
   modifier onlyOwner() {
-  require(msg.sender == contractOwner);
+  require(msg.sender == owner());
   _;
 }
 
@@ -194,7 +194,7 @@ pragma solidity ^0.4.24;
   }
   // Define a function 'processItem' that allows a farmer to mark an item 'Harvested'
   function harvestItem(uint _upc)  public
-  //  onlyOwner()
+     onlyOwner()
      onlyFarmer()
         // Call modifier to check if upc has passed previous supply chain stage
      planted(_upc)
@@ -215,7 +215,7 @@ pragma solidity ^0.4.24;
   // Call modifier to check if upc has passed previous supply chain stage
 
   // Call modifier to verify caller of this function
-
+  onlyOwner()
   onlyFarmer()
   harvested(_upc)
 
@@ -230,19 +230,34 @@ pragma solidity ^0.4.24;
 
 
   // Define a function 'sellItem' that allows a farmer to mark an item 'ForSale'
+<<<<<<< HEAD
   function sellItem(uint _upc, uint _price, address retailerID)  public
   // Call modifier to check if upc has passed previous supply chain stage
 
   // Call modifier to verify caller of this function
 //  onlyFarmer()
 //  packed(_upc)
+=======
+  function sellItem(uint _upc, uint _price, address distributorID)   public
+  // Call modifier to check if upc has passed previous supply chain stage
 
-   verifyCaller(items[_upc].ownerID)
+  // Call modifier to verify caller of this function
+  onlyOwner()
+  onlyFarmer()
+  packed(_upc)
+>>>>>>> 03fcd920ae840a2bf0e21415341a2ea857a7e986
+
+  verifyCaller(items[_upc].ownerID)
     {
+<<<<<<< HEAD
 
 
          //addDistributor(_distributorID);
           transferOwnership(retailerID);
+=======
+          addDistributor(distributorID);
+          transferOwnership(distributorID);
+>>>>>>> 03fcd920ae840a2bf0e21415341a2ea857a7e986
 
         // Update the appropriate fields
     //    items[_upc].ownerID = distributorID;
@@ -250,28 +265,33 @@ pragma solidity ^0.4.24;
     //    items[_upc].itemState = State.ForSale;
     //    items[_upc].productPrice = _price;
 
+<<<<<<< HEAD
     //    // Emit the appropriate event
+=======
+        // Emit the appropriate event
+>>>>>>> 03fcd920ae840a2bf0e21415341a2ea857a7e986
         emit ForSale(_upc);
     }
   // Define a function 'buyItem' that allows the distributor to mark an item 'Sold'
   // Use the above defined modifiers to check if the item is available for sale, if the buyer has paid enough,
   // and any excess ether sent is refunded back to the buyer
   function buyItem(uint _upc)  public payable
-      forSale(_upc) paidEnough(items[_upc].productPrice) checkValue(_upc)
-    // Call modifier to check if upc has passed previous supply chain stage
-    //addDistributor(_originFarmerID);
-    //transferOwnership(_originFarmerID);
-    // Call modifer to check if buyer has paid enough
+      onlyOwner()
+      onlyDistributor()
+      // Call modifier to check if upc has passed previous supply chain stage
+      forSale(_upc)
+      // Call modifer to check if buyer has paid enough
+      paidEnough(items[_upc].productPrice)
+      // Call modifer to send any excess ether back to buyer
+      checkValue(_upc)
 
-    // Call modifer to send any excess ether back to buyer
-
+      verifyCaller(items[_upc].ownerID)
   {
     // Update the appropriate fields - ownerID,  itemState
 
-    address distributor = msg.sender;
-    items[_upc].ownerID = distributor;
-    items[_upc].distributorID = distributor;
-    items[_upc].itemState = State.Sold;
+     items[_upc].ownerID = msg.sender;
+     items[_upc].distributorID = msg.sender;
+     items[_upc].itemState = State.Sold;
 
     // Transfer money to farmer
     items[_upc].originFarmID.transfer(items[_upc].productPrice);
@@ -282,14 +302,22 @@ pragma solidity ^0.4.24;
 
   // Define a function 'shipItem' that allows the distributor to mark an item 'Shipped'
   // Use the above modifers to check if the item is sold
-  function shipItem(uint _upc) sold(_upc) verifyCaller(msg.sender) public
+  function shipItem(uint _upc, address retailerID) public
+    onlyOwner()
+    onlyDistributor()
     // Call modifier to check if upc has passed previous supply chain stage
-
+    sold(_upc)
     // Call modifier to verify caller of this function
+    verifyCaller(items[_upc].ownerID)
 
-  {
+    {
+    //  addRetailer(retailerID);
+    //  transferOwnership(retailerID);
+
     // Update the appropriate fields
-    items[_upc].itemState = State.Shipped;
+    //items[_upc].ownerID = retailerID;
+    //items[_upc].retailerID = retailerID;
+    //items[_upc].itemState = State.ForSale;
 
     // Emit the appropriate event
     emit Shipped(_upc);
@@ -341,6 +369,7 @@ pragma solidity ^0.4.24;
         string originFarmName,
         State itemState,
         uint productPrice,
+        address distributorID,
         address retailerID,
         address consumerID
     )
@@ -354,6 +383,7 @@ pragma solidity ^0.4.24;
         originFarmName = items[_upc].originFarmName;
         itemState = items[_upc].itemState;
         productPrice = items[_upc].productPrice;
+        distributorID = items[_upc].distributorID;
         retailerID = items[_upc].retailerID;
         consumerID = items[_upc].consumerID;
 
@@ -366,6 +396,7 @@ pragma solidity ^0.4.24;
         originFarmName,
         itemState,
         productPrice,
+        distributorID,
         retailerID,
         consumerID
         );
