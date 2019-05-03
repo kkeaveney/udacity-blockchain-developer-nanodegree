@@ -306,10 +306,14 @@ pragma solidity ^0.4.24;
 
   // Define a function 'receiveItem' that allows the retailer to mark an item 'Received'
   // Use the above modifiers to check if the item is shipped
-  function receiveItem(uint _upc) shipped(_upc) public
+  function receiveItem(uint _upc)  public
     // Call modifier to check if upc has passed previous supply chain stage
+    onlyOwner()
+    onlyRetailer()
+    shipped(_upc)
 
     // Access Control List enforced by calling Smart Contract / DApp
+    verifyCaller(items[_upc].ownerID)
   {
     // Update the appropriate fields - ownerID, retailerID, itemState
     address retailer = msg.sender;
@@ -324,10 +328,13 @@ pragma solidity ^0.4.24;
 
   // Define a function 'purchaseItem' that allows the consumer to mark an item 'Purchased'
   // Use the above modifiers to check if the item is received
-  function purchaseItem(uint _upc) received(_upc) public
+  function purchaseItem(uint _upc) public
     // Call modifier to check if upc has passed previous supply chain stage
+    //onlyOwner()
 
+    received(_upc)
     // Access Control List enforced by calling Smart Contract / DApp
+    verifyCaller(items[_upc].ownerID)
   {
     // Update the appropriate fields - ownerID, consumerID, itemState
     address consumer = msg.sender;
