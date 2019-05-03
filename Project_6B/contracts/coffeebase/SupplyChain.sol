@@ -315,6 +315,7 @@ pragma solidity ^0.4.24;
     // Access Control List enforced by calling Smart Contract / DApp
     verifyCaller(items[_upc].ownerID)
   {
+
     // Update the appropriate fields - ownerID, retailerID, itemState
     address retailer = msg.sender;
     items[_upc].ownerID = retailer;
@@ -334,7 +335,7 @@ pragma solidity ^0.4.24;
 
     received(_upc)
     // Access Control List enforced by calling Smart Contract / DApp
-    verifyCaller(items[_upc].ownerID)
+    //verifyCaller(items[_upc].ownerID)
   {
     // Update the appropriate fields - ownerID, consumerID, itemState
     address consumer = msg.sender;
