@@ -291,16 +291,16 @@ pragma solidity ^0.4.24;
     verifyCaller(items[_upc].ownerID)
 
     {
-    //  addRetailer(retailerID);
-    //  transferOwnership(retailerID);
+        addRetailer(retailerID);
+        transferOwnership(retailerID);
 
-    // Update the appropriate fields
-    //items[_upc].ownerID = retailerID;
-    //items[_upc].retailerID = retailerID;
-    //items[_upc].itemState = State.ForSale;
+      // Update the appropriate fields
+      items[_upc].ownerID = retailerID;
+      items[_upc].retailerID = retailerID;
+      items[_upc].itemState = State.Shipped;
 
-    // Emit the appropriate event
-    emit Shipped(_upc);
+      // Emit the appropriate event
+      emit Shipped(_upc);
 
   }
 

@@ -177,6 +177,7 @@ contract('SupplyChain', function(accounts) {
 
         const resultBuffer = await supplyChain.fetchItem.call(upc);
 
+        console.log('Sold', resultBuffer[5].toNumber());
 
         // Verify the result set
         assert.equal(resultBuffer[5], 3, 'Error: Invalid item State');
@@ -206,7 +207,7 @@ contract('SupplyChain', function(accounts) {
         const resultBuffer = await supplyChain.fetchItem.call(upc);
 
         // Verify the result set
-        console.log('Buy Item', resultBuffer[5].toNumber());
+        console.log('Bought', resultBuffer[5].toNumber());
         assert.equal(eventEmitted, true,'Invalid event emitted');
         assert.equal(resultBuffer[5], 4, 'Error: Invalid item State');
     })
@@ -225,15 +226,15 @@ contract('SupplyChain', function(accounts) {
         })
 
         // Mark an item as Sold by calling function shipItem()
-        await supplyChain.shipItem(upc, {from: distributorID});
+        await supplyChain.shipItem(upc, retailerID,{from: distributorID});
 
         // Retrieve the just now saved item from blockchain by calling function fetchItem()
         const resultBuffer = await supplyChain.fetchItem.call(upc);
 
         // Verify the result set
-      //  console.log('Ship Item', resultBufferTwo[5].toNumber());
+        console.log('Shipped', resultBuffer[5].toNumber());
         assert.equal(eventEmitted, true,'Invalid event emitted');
-      //  assert.equal(resultBufferTwo[5], 5, 'Error: Invalid item State');
+        assert.equal(resultBuffer[5], 5, 'Error: Invalid item State');
     })
 
     // 7th Test
