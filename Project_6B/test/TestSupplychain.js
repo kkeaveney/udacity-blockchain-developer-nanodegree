@@ -53,7 +53,7 @@ contract('SupplyChain', function(accounts) {
       assert.equal(_resultBuffer[5], originFarmInformation, 'Error Invalid originFarmInformation');
       assert.equal(_resultBuffer[6], originFarmLatitude, 'Error Invalid originFarmLatitude');
       assert.equal(_resultBuffer[7], originFarmLongitude, 'Error Invalid originFarmLongitude');
-      console.log('anyOwnerID = ',anyOwnerID);
+      
       }
 
     var _assertBufferTwo = function(_resultBufferTwo, _ownerID) {
