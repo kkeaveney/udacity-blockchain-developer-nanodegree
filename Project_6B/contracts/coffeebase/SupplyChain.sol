@@ -179,6 +179,7 @@ pragma solidity ^0.4.24;
         newItem.originFarmInformation = _originFarmInformation;
         newItem.originFarmLatitude = _originFarmLatitude;
         newItem.originFarmLongitude = _originFarmLongitude;
+        newItem.productNotes = _productNotes;
         newItem.itemState = defaultState;
 
         items[_upc] = newItem;
@@ -432,5 +433,46 @@ pragma solidity ^0.4.24;
       originFarmLongitude
       );
       }
+
+      // Define a function 'fetchItemBufferTwo' that fetches the data
+    function fetchItemBufferTwo(uint _upc) public view returns
+    (
+    uint    itemSKU,
+    uint    itemUPC,
+    uint    productID,
+    string  productNotes,
+    uint    productPrice,
+    State   itemState,
+    address distributorID,
+    address retailerID,
+    address consumerID
+    )
+    {
+    // Assign values to the 9 parameters
+    Item storage _item = items[_upc];
+
+    itemSKU = _item.sku;
+    itemUPC = _item.upc;
+    productID = _item.productID;
+    productNotes = _item.productNotes;
+    productPrice = _item.productPrice;
+    itemState = _item.itemState;
+    distributorID= _item.distributorID;
+    retailerID= _item.retailerID;
+    consumerID = _item.consumerID;
+
+    return
+    (
+    itemSKU,
+    itemUPC,
+    productID,
+    productNotes,
+    productPrice,
+    itemState,
+    distributorID,
+    retailerID,
+    consumerID
+    );
+    }
 
 }
