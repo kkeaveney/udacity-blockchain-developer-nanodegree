@@ -329,19 +329,24 @@ pragma solidity ^0.4.24;
 
   // Define a function 'purchaseItem' that allows the retailer to mark an item 'Purchased'
   // Use the above modifiers to check if the item is received
-  function purchaseItem(uint _upc) public
+  function purchaseItem(uint _upc, address consumerID) public
     // Call modifier to check if upc has passed previous supply chain stage
-    onlyOwner()
-    onlyRetailer()
+  //  onlyOwner()
+  //  onlyRetailer()
     received(_upc)
     // Access Control List enforced by calling Smart Contract / DApp
     verifyCaller(items[_upc].ownerID)
   {
     // Update the appropriate fields - ownerID, consumerID, itemState
-    address consumer = msg.sender;
-    items[_upc].ownerID = consumer;
-    items[_upc].consumerID = consumer;
+
+    addConsumer(consumerID);
+    transferOwnership(consumerID);
+
+
+    items[_upc].ownerID = consumerID;
+    items[_upc].consumerID = consumerID;
     items[_upc].itemState = State.Purchased;
+
 
     // Emit the appropriate event
     emit Purchased(_upc);
@@ -389,5 +394,43 @@ pragma solidity ^0.4.24;
         consumerID
         );
     }
+
+    // Define a function 'fetchItemBufferOne' that fetches the data
+      function fetchItemBufferOne(uint _upc) public view returns
+      (
+      uint    itemSKU,
+      uint    itemUPC,
+      address ownerID,
+      address originFarmID,
+      string  originFarmName,
+      string  originFarmInformation,
+      string  originFarmLatitude,
+      string  originFarmLongitude
+      )
+      {
+      // Assign values to the 8 parameters
+      Item storage _item = items[_upc];
+
+      itemSKU = _item.sku;
+      itemUPC = _item.upc;
+      ownerID = _item.ownerID;
+      originFarmID = _item.originFarmID;
+      originFarmName = _item.originFarmName;
+      originFarmInformation = _item.originFarmInformation;
+      originFarmLatitude = _item.originFarmLatitude;
+      originFarmLongitude = _item.originFarmLongitude;
+
+      return
+      (
+      itemSKU,
+      itemUPC,
+      ownerID,
+      originFarmID,
+      originFarmName,
+      originFarmInformation,
+      originFarmLatitude,
+      originFarmLongitude
+      );
+      }
 
 }
