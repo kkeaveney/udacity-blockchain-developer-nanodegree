@@ -285,7 +285,7 @@ contract('SupplyChain', function(accounts) {
         // Verify the result set
         console.log('Purchased Item', resultBuffer[5].toNumber());
         assert.equal(eventEmitted, true,'Invalid event emitted');
-        //assert.equal(resultBuffer[5], 7, 'Error: Invalid item State');
+        assert.equal(resultBuffer[5], 7, 'Error: Invalid item State');
     })
 
     // 9th Test
@@ -293,7 +293,7 @@ contract('SupplyChain', function(accounts) {
         const supplyChain = await SupplyChain.deployed()
 
         // Retrieve the just now saved item from blockchain by calling function fetchItem()
-        const resultBufferOne = await supplyChain.fetchItemBufferOne.call(upc);
+        const resultBufferOne = await supplyChain.fetchItem.call(upc);
 
         // Verify the result set:
         _assertBufferOne(resultBufferOne, consumerID);
