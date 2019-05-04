@@ -53,6 +53,7 @@ contract('SupplyChain', function(accounts) {
       assert.equal(_resultBuffer[5], originFarmInformation, 'Error Invalid originFarmInformation');
       assert.equal(_resultBuffer[6], originFarmLatitude, 'Error Invalid originFarmLatitude');
       assert.equal(_resultBuffer[7], originFarmLongitude, 'Error Invalid originFarmLongitude');
+      console.log('anyOwnerID = ',anyOwnerID);
       }
 
     var _assertBufferTwo = function(_resultBufferTwo, _ownerID) {
@@ -276,7 +277,7 @@ contract('SupplyChain', function(accounts) {
         })
 
         // Mark an item as Sold by calling function purchaseItem()
-        await supplyChain.purchaseItem(upc,{from: retailerID});
+        await supplyChain.purchaseItem(upc,consumerID,{from: retailerID});
 
         // Retrieve the just now saved item from blockchain by calling function fetchItem()
         const resultBuffer = await supplyChain.fetchItem.call(upc);
@@ -293,7 +294,7 @@ contract('SupplyChain', function(accounts) {
         const supplyChain = await SupplyChain.deployed()
 
         // Retrieve the just now saved item from blockchain by calling function fetchItem()
-        const resultBufferOne = await supplyChain.fetchItem.call(upc);
+        const resultBufferOne = await supplyChain.fetchItemBufferOne.call(upc);
 
         // Verify the result set:
         _assertBufferOne(resultBufferOne, consumerID);
