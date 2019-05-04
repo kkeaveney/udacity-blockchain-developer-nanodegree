@@ -32,11 +32,7 @@ contract DistributorRole {
   }
 
   // Define a function 'addDistributor' that adds this role
-<<<<<<< HEAD
-  function addDistributor(address account) public {
-=======
   function addDistributor(address account) public  {
->>>>>>> 03fcd920ae840a2bf0e21415341a2ea857a7e986
         _addDistributor(account);
   }
 
