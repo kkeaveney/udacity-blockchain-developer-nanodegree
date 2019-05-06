@@ -53,7 +53,7 @@ contract('SupplyChain', function(accounts) {
       assert.equal(_resultBuffer[5], originFarmInformation, 'Error Invalid originFarmInformation');
       assert.equal(_resultBuffer[6], originFarmLatitude, 'Error Invalid originFarmLatitude');
       assert.equal(_resultBuffer[7], originFarmLongitude, 'Error Invalid originFarmLongitude');
-      
+
       }
 
     var _assertBufferTwo = function(_resultBufferTwo, _ownerID) {
@@ -202,7 +202,7 @@ contract('SupplyChain', function(accounts) {
         })
 
         // Mark an item as Sold by calling function buyItem()
-        await supplyChain.buyItem(upc, {from: distributorID, value: web3.toWei(2, "ether")});
+        await supplyChain.buyItem(upc, {from: distributorID, value: web3.toWei(1, "ether")});
 
         // Retrieve the just now saved item from blockchain by calling function fetchItem()
         const resultBuffer = await supplyChain.fetchItem.call(upc);
