@@ -1,6 +1,6 @@
 var HDWalletProvider = require('truffle-hdwallet-provider');
 
-var mnemonic = 'garbage hybrid artist dwarf gain child segment shield slim stay token album';
+var mnemonic = 'crack drastic please mobile harvest toast trick wet basket join athlete pride';
 
 module.exports = {
   networks: {
