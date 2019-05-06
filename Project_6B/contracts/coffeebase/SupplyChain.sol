@@ -162,7 +162,7 @@ pragma solidity ^0.4.24;
   // Define a function 'harvestItem' that allows a farmer to mark an item 'Planted'
   function plantItem(uint _upc, address _originFarmID, string _originFarmName, string _originFarmInformation, string  _originFarmLatitude, string  _originFarmLongitude, string  _productNotes) public
 
-  //onlyOwner()
+   onlyOwner()
 
   {
     addFarmer(_originFarmID);
