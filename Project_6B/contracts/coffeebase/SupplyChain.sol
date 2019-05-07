@@ -162,7 +162,7 @@ pragma solidity ^0.4.24;
   // Define a function 'harvestItem' that allows a farmer to mark an item 'Planted'
   function plantItem(uint _upc, address _originFarmID, string _originFarmName, string _originFarmInformation, string  _originFarmLatitude, string  _originFarmLongitude, string  _productNotes) public
 
-  onlyOwner()
+   onlyOwner()
 
   {
     addFarmer(_originFarmID);
@@ -179,6 +179,7 @@ pragma solidity ^0.4.24;
         newItem.originFarmInformation = _originFarmInformation;
         newItem.originFarmLatitude = _originFarmLatitude;
         newItem.originFarmLongitude = _originFarmLongitude;
+        newItem.productNotes = _productNotes;
         newItem.itemState = defaultState;
 
         items[_upc] = newItem;
@@ -327,8 +328,9 @@ pragma solidity ^0.4.24;
 
   }
 
-  // Define a function 'purchaseItem' that allows the consumer to mark an item 'Purchased'
+  // Define a function 'purchaseItem' that allows the retailer to mark an item 'Purchased'
   // Use the above modifiers to check if the item is received
+<<<<<<< HEAD
   function purchaseItem(uint _upc) public
     // Call modifier to check if upc has passed previous supply chain stage
     //onlyOwner()
@@ -336,12 +338,26 @@ pragma solidity ^0.4.24;
     received(_upc)
     // Access Control List enforced by calling Smart Contract / DApp
     //verifyCaller(items[_upc].ownerID)
+=======
+  function purchaseItem(uint _upc, address consumerID) public
+    // Call modifier to check if upc has passed previous supply chain stage
+  //  onlyOwner()
+  //  onlyRetailer()
+    received(_upc)
+    // Access Control List enforced by calling Smart Contract / DApp
+    verifyCaller(items[_upc].ownerID)
+>>>>>>> 089ef936870ee8cbbffc436d4fe1ef2503d1f8bb
   {
     // Update the appropriate fields - ownerID, consumerID, itemState
-    address consumer = msg.sender;
-    items[_upc].ownerID = consumer;
-    items[_upc].consumerID = consumer;
+
+    addConsumer(consumerID);
+    transferOwnership(consumerID);
+
+
+    items[_upc].ownerID = consumerID;
+    items[_upc].consumerID = consumerID;
     items[_upc].itemState = State.Purchased;
+
 
     // Emit the appropriate event
     emit Purchased(_upc);
@@ -388,6 +404,85 @@ pragma solidity ^0.4.24;
         retailerID,
         consumerID
         );
+    }
+
+    // Define a function 'fetchItemBufferOne' that fetches the data
+      function fetchItemBufferOne(uint _upc) public view returns
+      (
+      uint    itemSKU,
+      uint    itemUPC,
+      address ownerID,
+      address originFarmID,
+      string  originFarmName,
+      string  originFarmInformation,
+      string  originFarmLatitude,
+      string  originFarmLongitude
+      )
+      {
+      // Assign values to the 8 parameters
+      Item storage _item = items[_upc];
+
+      itemSKU = _item.sku;
+      itemUPC = _item.upc;
+      ownerID = _item.ownerID;
+      originFarmID = _item.originFarmID;
+      originFarmName = _item.originFarmName;
+      originFarmInformation = _item.originFarmInformation;
+      originFarmLatitude = _item.originFarmLatitude;
+      originFarmLongitude = _item.originFarmLongitude;
+
+      return
+      (
+      itemSKU,
+      itemUPC,
+      ownerID,
+      originFarmID,
+      originFarmName,
+      originFarmInformation,
+      originFarmLatitude,
+      originFarmLongitude
+      );
+      }
+
+      // Define a function 'fetchItemBufferTwo' that fetches the data
+    function fetchItemBufferTwo(uint _upc) public view returns
+    (
+    uint    itemSKU,
+    uint    itemUPC,
+    uint    productID,
+    string  productNotes,
+    uint    productPrice,
+    State   itemState,
+    address distributorID,
+    address retailerID,
+    address consumerID
+    )
+    {
+    // Assign values to the 9 parameters
+    Item storage _item = items[_upc];
+
+    itemSKU = _item.sku;
+    itemUPC = _item.upc;
+    productID = _item.productID;
+    productNotes = _item.productNotes;
+    productPrice = _item.productPrice;
+    itemState = _item.itemState;
+    distributorID= _item.distributorID;
+    retailerID= _item.retailerID;
+    consumerID = _item.consumerID;
+
+    return
+    (
+    itemSKU,
+    itemUPC,
+    productID,
+    productNotes,
+    productPrice,
+    itemState,
+    distributorID,
+    retailerID,
+    consumerID
+    );
     }
 
 }
