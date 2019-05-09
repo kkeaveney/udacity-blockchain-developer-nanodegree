@@ -174,7 +174,7 @@ contract('SupplyChain', function(accounts) {
         })
 
         // Mark an item as ForSale by calling function sellItem()
-        await supplyChain.sellItem(upc, productPrice, distributorID, {from :originFarmID});
+        await supplyChain.sellItem(upc, productPrice, {from :originFarmID});
 
         const resultBuffer = await supplyChain.fetchItem.call(upc);
 
