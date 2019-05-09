@@ -162,11 +162,11 @@ pragma solidity ^0.4.24;
   // Define a function 'harvestItem' that allows a farmer to mark an item 'Planted'
   function plantItem(uint _upc, address _originFarmID, string _originFarmName, string _originFarmInformation, string  _originFarmLatitude, string  _originFarmLongitude, string  _productNotes) public
 
-   onlyOwner()
+   // onlyOwner()
 
   {
-    addFarmer(_originFarmID);
-    transferOwnership(_originFarmID);
+    //  addFarmer(_originFarmID);
+    //  transferOwnership(_originFarmID);
 
     // Add the new item as part of Processed
         Item memory newItem;
@@ -231,7 +231,7 @@ pragma solidity ^0.4.24;
 
 
   // Define a function 'sellItem' that allows a farmer to mark an item 'ForSale'
-  function sellItem(uint _upc, uint _price, address distributorID)   public
+  function sellItem(uint _upc, uint _price)   public
   // Call modifier to check if upc has passed previous supply chain stage
 
   // Call modifier to verify caller of this function
@@ -241,12 +241,13 @@ pragma solidity ^0.4.24;
 
   verifyCaller(items[_upc].ownerID)
     {
-          addDistributor(distributorID);
-          transferOwnership(distributorID);
+        //  addDistributor(distributorID);
+        //  transferOwnership(distributorID);
 
         // Update the appropriate fields
-        items[_upc].ownerID = distributorID;
-        items[_upc].distributorID = distributorID;
+        address distributor = msg.sender;
+        items[_upc].ownerID = distributor;
+        items[_upc].distributorID = distributor;
         items[_upc].itemState = State.ForSale;
         items[_upc].productPrice = _price;
 
@@ -283,7 +284,7 @@ pragma solidity ^0.4.24;
 
   // Define a function 'shipItem' that allows the distributor to mark an item 'Shipped'
   // Use the above modifers to check if the item is sold
-  function shipItem(uint _upc, address retailerID) public
+  function shipItem(uint _upc) public
     onlyOwner()
     onlyDistributor()
     // Call modifier to check if upc has passed previous supply chain stage
@@ -292,12 +293,13 @@ pragma solidity ^0.4.24;
     verifyCaller(items[_upc].ownerID)
 
     {
-        addRetailer(retailerID);
-        transferOwnership(retailerID);
+      //  addRetailer(retailerID);
+      //  transferOwnership(retailerID);
 
       // Update the appropriate fields
-      items[_upc].ownerID = retailerID;
-      items[_upc].retailerID = retailerID;
+      address retailer = msg.sender;
+      items[_upc].ownerID = retailer;
+      items[_upc].retailerID = retailer;
       items[_upc].itemState = State.Shipped;
 
       // Emit the appropriate event
@@ -330,32 +332,24 @@ pragma solidity ^0.4.24;
 
   // Define a function 'purchaseItem' that allows the retailer to mark an item 'Purchased'
   // Use the above modifiers to check if the item is received
-<<<<<<< HEAD
-  function purchaseItem(uint _upc) public
-    // Call modifier to check if upc has passed previous supply chain stage
-    //onlyOwner()
 
-    received(_upc)
-    // Access Control List enforced by calling Smart Contract / DApp
-    //verifyCaller(items[_upc].ownerID)
-=======
-  function purchaseItem(uint _upc, address consumerID) public
+  function purchaseItem(uint _upc) public
     // Call modifier to check if upc has passed previous supply chain stage
   //  onlyOwner()
   //  onlyRetailer()
     received(_upc)
     // Access Control List enforced by calling Smart Contract / DApp
     verifyCaller(items[_upc].ownerID)
->>>>>>> 089ef936870ee8cbbffc436d4fe1ef2503d1f8bb
+
   {
     // Update the appropriate fields - ownerID, consumerID, itemState
 
-    addConsumer(consumerID);
-    transferOwnership(consumerID);
+    //addConsumer(consumerID);
+    //transferOwnership(consumerID);
 
-
-    items[_upc].ownerID = consumerID;
-    items[_upc].consumerID = consumerID;
+    address consumer = msg.sender;
+    items[_upc].ownerID = consumer;
+    items[_upc].consumerID = consumer;
     items[_upc].itemState = State.Purchased;
 
 
