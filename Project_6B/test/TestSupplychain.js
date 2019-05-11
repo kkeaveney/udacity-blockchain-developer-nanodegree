@@ -57,8 +57,8 @@ contract('SupplyChain', function(accounts) {
       }
 
     var _assertBufferTwo = function(_resultBufferTwo, _ownerID) {
-//      var anyOwnerID = _ownerID ? _ownerID : originFarmerID;
-//      assert.equal(_resultBufferTwo [0], sku, 'Error Invalid item SKU');
+      var anyOwnerID = _ownerID ? _ownerID : originFarmerID;
+      assert.equal(_resultBufferTwo [0], sku, 'Error Invalid item SKU');
 //      assert.equal(_resultBufferTwo [1], upc, 'Error: Invalid item UPC');
 //      assert.equal(_resultBufferTwo [2], productID, 'Error: Invalid productID');
 //      assert.equal(_resultBufferTwo [3], productNotes, 'Error: Invalid productNotes');
@@ -174,7 +174,7 @@ contract('SupplyChain', function(accounts) {
         })
 
         // Mark an item as ForSale by calling function sellItem()
-        await supplyChain.sellItem(upc, productPrice, {from :originFarmID});
+        await supplyChain.sellItem(upc, productPrice, distributorID, {from :originFarmID});
 
         const resultBuffer = await supplyChain.fetchItem.call(upc);
 
