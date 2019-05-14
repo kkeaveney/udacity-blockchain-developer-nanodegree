@@ -305,7 +305,7 @@ pragma solidity ^0.4.24;
   function purchaseItem(uint _upc) public payable
     // Call modifier to check if upc has passed previous supply chain stage
 
-    onlyConusumer()
+    onlyConsumer()
     received(_upc)
     // Access Control List enforced by calling Smart Contract / DApp
     verifyCaller(items[_upc].ownerID) {
