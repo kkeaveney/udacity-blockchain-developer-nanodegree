@@ -53,10 +53,10 @@ contract('SupplyChain', accounts => {
         await this.contract.addConsumer(consumer, {from: defaultAccount});
     });
 
-    describe('test every single method of the contract', () => {
-        it('Testing smart contract function harvestItem() that allows a farmer to harvest coffee', async function() {
+    describe('test all methods in the contract', () => {
+        it('Testing smart contract function plantItem()) that allows a farmer to harvest coffee', async function() {
             // perform harvesting
-            let transaction = await this.contract.plantItem(upc, farmer, originFarmName, originFarmInformation, originFarmLatitude, originFarmLongitude, productNotes);
+            let activity= await this.contract.plantItem(upc, farmer, originFarmName, originFarmInformation, originFarmLatitude, originFarmLongitude, productNotes);
 
             // retrieve the just now saved item from blockchain by calling function fetchItem()
             const resultBufferOne = await this.contract.fetchItemBufferOne.call(upc);
@@ -75,8 +75,8 @@ contract('SupplyChain', accounts => {
             assert.equal(resultBufferTwo[6], emptyAddress, 'Error: Invalid distributor');
             assert.equal(resultBufferTwo[7], emptyAddress, 'Error: Invalid retailer');
             assert.equal(resultBufferTwo[8], emptyAddress, 'Error: Invalid consumer');
-            assert.equal(transaction.logs[0].event, 'Planted', 'Planted event not found');
-            assert.equal(transaction.logs[0].args.upc, upc, 'Harvested event not found for upc ' + upc);
+            assert.equal(activity.logs[0].event, 'Planted', 'Planted event not found');
+            assert.equal(activity.logs[0].args.upc, upc, 'Harvested event not found for upc ' + upc);
 
 
         });
@@ -86,7 +86,7 @@ contract('SupplyChain', accounts => {
             await this.contract.plantItem(upc, farmer, originFarmName, originFarmInformation, originFarmLatitude, originFarmLongitude, productNotes);
 
             // perform processing
-            let transaction = await this.contract.harvestItem(upc, {from: farmer});
+            let activity= await this.contract.harvestItem(upc, {from: farmer});
 
             // retrieve the just now saved item from blockchain by calling function fetchItem()
             const resultBufferOne = await this.contract.fetchItemBufferOne.call(upc);
@@ -98,8 +98,8 @@ contract('SupplyChain', accounts => {
             assert.equal(resultBufferTwo[6], emptyAddress, 'Error: Invalid distributor');
             assert.equal(resultBufferTwo[7], emptyAddress, 'Error: Invalid retailer');
             assert.equal(resultBufferTwo[8], emptyAddress, 'Error: Invalid consumer');
-            assert.equal(transaction.logs[0].event, 'Harvested', 'Harvestedevent not found');
-            assert.equal(transaction.logs[0].args.upc, upc, 'Harvested event not found for upc ' + upc);
+            assert.equal(activity.logs[0].event, 'Harvested', 'Harvestedevent not found');
+            assert.equal(activity.logs[0].args.upc, upc, 'Harvested event not found for upc ' + upc);
 
 
         });
@@ -110,7 +110,7 @@ contract('SupplyChain', accounts => {
             await this.contract.harvestItem(upc, {from: farmer});
 
             // perform packing
-            let transaction = await this.contract.packItem(upc, {from: farmer});
+            let activity= await this.contract.packItem(upc, {from: farmer});
 
             // retrieve the just now saved item from blockchain by calling function fetchItem()
             const resultBufferOne = await this.contract.fetchItemBufferOne.call(upc);
@@ -122,8 +122,8 @@ contract('SupplyChain', accounts => {
             assert.equal(resultBufferTwo[6], emptyAddress, 'Error: Invalid distributor');
             assert.equal(resultBufferTwo[7], emptyAddress, 'Error: Invalid retailer');
             assert.equal(resultBufferTwo[8], emptyAddress, 'Error: Invalid consumer');
-            assert.equal(transaction.logs[0].event, 'Packed', 'Packed event not found');
-            assert.equal(transaction.logs[0].args.upc, upc, 'Packed event not found for upc ' + upc);
+            assert.equal(activity.logs[0].event, 'Packed', 'Packed event not found');
+            assert.equal(activity.logs[0].args.upc, upc, 'Packed event not found for upc ' + upc);
         });
 
         it("Testing smart contract function sellItem() that allows a farmer to sell coffee", async function() {
@@ -133,7 +133,7 @@ contract('SupplyChain', accounts => {
             await this.contract.packItem(upc, {from: farmer});
 
             // perform packing
-            let transaction = await this.contract.sellItem(upc, productPrice, {from: farmer});
+            let activity= await this.contract.sellItem(upc, productPrice, {from: farmer});
 
             // retrieve the just now saved item from blockchain by calling function fetchItem()
             const resultBufferOne = await this.contract.fetchItemBufferOne.call(upc);
@@ -146,8 +146,8 @@ contract('SupplyChain', accounts => {
             assert.equal(resultBufferTwo[6], emptyAddress, 'Error: Invalid distributor');
             assert.equal(resultBufferTwo[7], emptyAddress, 'Error: Invalid retailer');
             assert.equal(resultBufferTwo[8], emptyAddress, 'Error: Invalid consumer');
-            assert.equal(transaction.logs[0].event, 'ForSale', 'ForSale event not found');
-            assert.equal(transaction.logs[0].args.upc, upc, 'ForSale event not found for upc ' + upc);
+            assert.equal(activity.logs[0].event, 'ForSale', 'ForSale event not found');
+            assert.equal(activity.logs[0].args.upc, upc, 'ForSale event not found for upc ' + upc);
         });
 
         it("Testing smart contract function buyItem() that allows a distributor to buy coffee", async function() {
@@ -160,8 +160,8 @@ contract('SupplyChain', accounts => {
             const distributorBalanceBefore = await web3.eth.getBalance(distributor);
 
             // perform packing
-            //let transaction = await this.contract.buyItem(upc, {from: distributor, value: web3.toWei(1.1, "ether")});
-            let transaction = await this.contract.buyItem(upc, {from: distributor, value: 110});
+            //let activity= await this.contract.buyItem(upc, {from: distributor, value: web3.toWei(1.1, "ether")});
+            let activity= await this.contract.buyItem(upc, {from: distributor, value: 110});
             const farmerBalanceAfter = await web3.eth.getBalance(farmer);
             const distributorBalanceAfter = await web3.eth.getBalance(distributor);
 
@@ -177,10 +177,10 @@ contract('SupplyChain', accounts => {
             assert.equal(resultBufferTwo[6], distributor, 'Error: Invalid distributor');
             assert.equal(resultBufferTwo[7], emptyAddress, 'Error: Invalid retailer');
             assert.equal(resultBufferTwo[8], emptyAddress, 'Error: Invalid consumer');
-            assert.equal(transaction.logs[0].event, 'Sold', 'Sold event not found');
-            assert.equal(transaction.logs[0].args.upc, upc, 'Sold event not found for upc ' + upc);
+            assert.equal(activity.logs[0].event, 'Sold', 'Sold event not found');
+            assert.equal(activity.logs[0].args.upc, upc, 'Sold event not found for upc ' + upc);
             assert.equal(farmerBalanceBefore.add(productPrice).eq(farmerBalanceAfter), true, 'farmer has not received the correct amount of money');
-        /   assert.equal(distributorBalanceAfter.add(productPrice).add(blockchainCost).eq(distributorBalanceBefore), true, 'distributor has not paid the correct amount of money');
+            assert.equal(distributorBalanceAfter.add(productPrice).add(blockchainCost).eq(distributorBalanceBefore), true, 'distributor has not paid the correct amount of money');
 
         });
 
@@ -193,7 +193,7 @@ contract('SupplyChain', accounts => {
             await this.contract.buyItem(upc, {from: distributor, value: productPrice});
 
             // perform packing
-            let transaction = await this.contract.shipItem(upc, {from: distributor});
+            let activity= await this.contract.shipItem(upc, {from: distributor});
 
             // retrieve the just now saved item from blockchain by calling function fetchItem()
             const resultBufferOne = await this.contract.fetchItemBufferOne.call(upc);
@@ -205,8 +205,8 @@ contract('SupplyChain', accounts => {
             assert.equal(resultBufferTwo[6], distributor, 'Error: Invalid distributor');
             assert.equal(resultBufferTwo[7], emptyAddress, 'Error: Invalid retailer');
             assert.equal(resultBufferTwo[8], emptyAddress, 'Error: Invalid consumer');
-            assert.equal(transaction.logs[0].event, 'Shipped', 'Shipped event not found');
-            assert.equal(transaction.logs[0].args.upc, upc, 'Shipped event not found for upc ' + upc);
+            assert.equal(activity.logs[0].event, 'Shipped', 'Shipped event not found');
+            assert.equal(activity.logs[0].args.upc, upc, 'Shipped event not found for upc ' + upc);
         });
 
         it("Testing smart contract function receiveItem() that allows a retailer to mark coffee received", async function() {
@@ -221,7 +221,7 @@ contract('SupplyChain', accounts => {
             const retailerBalanceBefore = await web3.eth.getBalance(retailer);
 
             // perform packing
-            let transaction = await this.contract.receiveItem(upc, {from: retailer, value: 120});
+            let activity= await this.contract.receiveItem(upc, {from: retailer, value: 120});
             const distributorBalanceAfter = await web3.eth.getBalance(distributor);
             const retailerBalanceAfter = await web3.eth.getBalance(retailer);
 
@@ -236,8 +236,8 @@ contract('SupplyChain', accounts => {
             assert.equal(resultBufferTwo[6], distributor, 'Error: Invalid distributor');
             assert.equal(resultBufferTwo[7], retailer, 'Error: Invalid retailer');
             assert.equal(resultBufferTwo[8], emptyAddress, 'Error: Invalid consumer');
-            assert.equal(transaction.logs[0].event, 'Received', 'Received event not found');
-            assert.equal(transaction.logs[0].args.upc, upc, 'Received event not found for upc ' + upc);
+            assert.equal(activity.logs[0].event, 'Received', 'Received event not found');
+            assert.equal(activity.logs[0].args.upc, upc, 'Received event not found for upc ' + upc);
         //    assert.equal(distributorBalanceBefore.add(productPrice).eq(distributorBalanceAfter), true, 'distributor has not received the correct amount of money');
         //    assert.equal(retailerBalanceAfter.add(productPrice).add(blockchainCost).eq(retailerBalanceBefore), true, 'retailer has not paid the correct amount of money');
         });
@@ -255,7 +255,7 @@ contract('SupplyChain', accounts => {
             const consumerBalanceBefore = await web3.eth.getBalance(consumer);
 
             // perform packing
-            let transaction = await this.contract.purchaseItem(upc, {from: consumer, value: 200});
+            let activity= await this.contract.purchaseItem(upc, {from: consumer, value: 200});
             const retailerBalanceAfter = await web3.eth.getBalance(retailer);
             const consumerBalanceAfter = await web3.eth.getBalance(consumer);
 
@@ -270,8 +270,8 @@ contract('SupplyChain', accounts => {
             assert.equal(resultBufferTwo[6], distributor, 'Error: Invalid distributor');
             assert.equal(resultBufferTwo[7], retailer, 'Error: Invalid retailer');
             assert.equal(resultBufferTwo[8], consumer, 'Error: Invalid consumer');
-            assert.equal(transaction.logs[0].event, 'Purchased', 'Purchased event not found');
-            assert.equal(transaction.logs[0].args.upc, upc, 'Purchased event not found for upc ' + upc);
+            assert.equal(activity.logs[0].event, 'Purchased', 'Purchased event not found');
+            assert.equal(activity.logs[0].args.upc, upc, 'Purchased event not found for upc ' + upc);
             //assert.equal(retailerBalanceBefore.add(productPrice).eq(retailerBalanceAfter), true, 'retailer has not received the correct amount of money');
             //assert.equal(consumerBalanceAfter.add(productPrice).add(blockchainCost).eq(consumerBalanceBefore), true, 'consumer has not paid the correct amount of money');
 
