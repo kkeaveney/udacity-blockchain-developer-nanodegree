@@ -166,7 +166,7 @@ pragma solidity ^0.4.24;
                     string _originFarmInformation,
                     string  _originFarmLatitude,
                     string  _originFarmLongitude,
-                    string  _productNotes) public onlyOwner()
+                    string  _productNotes) public onlyFarmer()
 
   {
   //  addFarmer(_originFarmID);
@@ -198,7 +198,7 @@ pragma solidity ^0.4.24;
   }
   // Define a function 'processItem' that allows a farmer to mark an item 'Harvested'
   function harvestItem(uint _upc)  public
-     onlyOwner()
+
      onlyFarmer()
      verifyCaller(items[_upc].ownerID)
      planted(_upc) {
@@ -213,7 +213,6 @@ pragma solidity ^0.4.24;
   // Define a function 'packItem' that allows a farmer to mark an item 'Packed'
   function packItem(uint _upc) public
 
-  onlyOwner()
   verifyCaller(items[_upc].ownerID)
   onlyFarmer()
   harvested(_upc) {
@@ -228,7 +227,6 @@ pragma solidity ^0.4.24;
   // Define a function 'sellItem' that allows a farmer to mark an item 'ForSale'
   function sellItem(uint _upc, uint _price) public
 
-  onlyOwner()
   onlyFarmer()
   verifyCaller(items[_upc].ownerID)
   packed(_upc) {
@@ -246,7 +244,7 @@ pragma solidity ^0.4.24;
   // Use the above defined modifiers to check if the item is available for sale, if the buyer has paid enough,
   // and any excess ether sent is refunded back to the buyer
   function buyItem(uint _upc)  public payable
-      onlyOwner()
+
       onlyDistributor()
       forSale(_upc)
       paidEnough(items[_upc].productPrice)
@@ -270,7 +268,7 @@ pragma solidity ^0.4.24;
   // Define a function 'shipItem' that allows the distributor to mark an item 'Shipped'
   // Use the above modifers to check if the item is sold
   function shipItem(uint _upc) public
-    onlyOwner()
+
     onlyDistributor()
     sold(_upc)
     verifyCaller(items[_upc].distributorID) {
@@ -287,9 +285,8 @@ pragma solidity ^0.4.24;
 
   // Define a function 'receiveItem' that allows the retailer to mark an item 'Received'
   // Use the above modifiers to check if the item is shipped
-  function receiveItem(uint _upc)  public
+  function receiveItem(uint _upc)  public payable
 
-    onlyOwner()
     onlyRetailer()
     shipped(_upc) {
 
@@ -305,10 +302,10 @@ pragma solidity ^0.4.24;
 
   // Define a function 'purchaseItem' that allows the retailer to mark an item 'Purchased'
   // Use the above modifiers to check if the item is received
-  function purchaseItem(uint _upc) public
+  function purchaseItem(uint _upc) public payable
     // Call modifier to check if upc has passed previous supply chain stage
-    onlyOwner()
-    onlyRetailer()
+
+    onlyConusumer()
     received(_upc)
     // Access Control List enforced by calling Smart Contract / DApp
     verifyCaller(items[_upc].ownerID) {
