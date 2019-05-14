@@ -159,171 +159,166 @@ pragma solidity ^0.4.24;
     }
   }
 
-  // Define a function 'harvestItem' that allows a farmer to mark an item 'Planted'
-  function plantItem(uint _upc,
-                    address _originFarmID,
-                    string _originFarmName,
-                    string _originFarmInformation,
-                    string  _originFarmLatitude,
-                    string  _originFarmLongitude,
-                    string  _productNotes) public onlyFarmer()
+      // Define a function 'plantItem' that allows a farmer to mark an item 'Planted'
+      function plantItem(uint _upc,
+                        address _originFarmID,
+                        string _originFarmName,
+                        string _originFarmInformation,
+                        string  _originFarmLatitude,
+                        string  _originFarmLongitude,
+                        string  _productNotes) public onlyFarmer()
 
-  {
-  //  addFarmer(_originFarmID);
-  //  transferOwnership(_originFarmID);
-
-    // Add the new item as part of Processed
-        Item memory newItem;
-        newItem.upc = _upc;
-        newItem.sku = sku;
-        newItem.productID = sku + _upc;
-        newItem.ownerID = _originFarmID;
-        newItem.originFarmID = _originFarmID;
-        newItem.originFarmName = _originFarmName;
-        newItem.originFarmInformation = _originFarmInformation;
-        newItem.originFarmLatitude = _originFarmLatitude;
-        newItem.originFarmLongitude = _originFarmLongitude;
-        newItem.itemState = defaultState;
-        newItem.productNotes = _productNotes;
-
-        items[_upc] = newItem;
-
-        // Increment sku
-        sku = sku + 1;
-
-        // Emit the appropriate event
-        emit Planted(_upc);
+      {
 
 
+            // Add the new item as part of Processed
+            Item memory newItem;
+            newItem.upc = _upc;
+            newItem.sku = sku;
+            newItem.productID = sku + _upc;
+            newItem.ownerID = _originFarmID;
+            newItem.originFarmID = _originFarmID;
+            newItem.originFarmName = _originFarmName;
+            newItem.originFarmInformation = _originFarmInformation;
+            newItem.originFarmLatitude = _originFarmLatitude;
+            newItem.originFarmLongitude = _originFarmLongitude;
+            newItem.itemState = defaultState;
+            newItem.productNotes = _productNotes;
 
-  }
-  // Define a function 'processItem' that allows a farmer to mark an item 'Harvested'
-  function harvestItem(uint _upc)  public
+            items[_upc] = newItem;
 
-     onlyFarmer()
-     verifyCaller(items[_upc].ownerID)
-     planted(_upc) {
-        // Update the appropriate fields
-        items[_upc].itemState = State.Harvested;
+            // Increment sku
+            sku = sku + 1;
 
-        // Emit the appropriate event
-        emit Harvested(_upc);
-     }
+            // Emit the appropriate event
+            emit Planted(_upc);
 
-
-  // Define a function 'packItem' that allows a farmer to mark an item 'Packed'
-  function packItem(uint _upc) public
-
-  verifyCaller(items[_upc].ownerID)
-  onlyFarmer()
-  harvested(_upc) {
-      // Update the appropriate fields
-      items[_upc].itemState = State.Packed;
-
-      // Emit the appropriate event
-      emit Packed(_upc);
-  }
+          }
 
 
-  // Define a function 'sellItem' that allows a farmer to mark an item 'ForSale'
-  function sellItem(uint _upc, uint _price) public
+      // Define a function 'harvestItem()' that allows a farmer to mark an item 'Harvested'
+      function harvestItem(uint _upc)  public
 
-  onlyFarmer()
-  verifyCaller(items[_upc].ownerID)
-  packed(_upc) {
+         onlyFarmer()
+         verifyCaller(items[_upc].ownerID)
+         planted(_upc) {
+            // Update the appropriate fields
+            items[_upc].itemState = State.Harvested;
+
+            // Emit the appropriate event
+            emit Harvested(_upc);
+         }
+
+        // Define a function 'packItem' that allows a farmer to mark an item 'Packed'
+        function packItem(uint _upc) public
+
+        verifyCaller(items[_upc].ownerID)
+        onlyFarmer()
+        harvested(_upc) {
+            // Update the appropriate fields
+            items[_upc].itemState = State.Packed;
+
+            // Emit the appropriate event
+            emit Packed(_upc);
+        }
+
+
+      // Define a function 'sellItem' that allows a farmer to mark an item 'ForSale'
+      function sellItem(uint _upc, uint _price) public
+
+        onlyFarmer()
+        verifyCaller(items[_upc].ownerID)
+        packed(_upc) {
 
         // Update the appropriate fields
-        //items[_upc].ownerID = msg.sender;
-        //items[_upc].distributorID = distributorID;
+
         items[_upc].itemState = State.ForSale;
         items[_upc].productPrice = _price;
 
         // Emit the appropriate event
         emit ForSale(_upc);
     }
-  // Define a function 'buyItem' that allows the distributor to mark an item 'Sold'
-  // Use the above defined modifiers to check if the item is available for sale, if the buyer has paid enough,
-  // and any excess ether sent is refunded back to the buyer
-  function buyItem(uint _upc)  public payable
+        // Define a function 'buyItem' that allows the distributor to mark an item 'Sold'
+        // Use the above defined modifiers to check if the item is available for sale, if the buyer has paid enough,
+        // and any excess ether sent is refunded back to the buyer
+        function buyItem(uint _upc)  public payable
 
-      onlyDistributor()
-      forSale(_upc)
-      paidEnough(items[_upc].productPrice)
-      checkValue(_upc)
+            onlyDistributor()
+            forSale(_upc)
+            paidEnough(items[_upc].productPrice)
+            checkValue(_upc)
 
-      //verifyCaller(items[_upc].ownerID)
-  {
-    // Update the appropriate fields - ownerID,  itemState
 
-     items[_upc].ownerID = msg.sender;
-     items[_upc].distributorID = msg.sender;
-     items[_upc].itemState = State.Sold;
+        {
+            // Update the appropriate fields - ownerID,  itemState
 
-    // Transfer money to farmer
-    items[_upc].originFarmID.transfer(items[_upc].productPrice);
+             items[_upc].ownerID = msg.sender;
+             items[_upc].distributorID = msg.sender;
+             items[_upc].itemState = State.Sold;
 
-    // emit the appropriate event
-    emit Sold(_upc);
+            // Transfer money to farmer
+            items[_upc].originFarmID.transfer(items[_upc].productPrice);
+
+            // emit the appropriate event
+            emit Sold(_upc);
   }
 
-  // Define a function 'shipItem' that allows the distributor to mark an item 'Shipped'
-  // Use the above modifers to check if the item is sold
-  function shipItem(uint _upc) public
+        // Define a function 'shipItem' that allows the distributor to mark an item 'Shipped'
+        // Use the above modifers to check if the item is sold
+        function shipItem(uint _upc) public
 
-    onlyDistributor()
-    sold(_upc)
-    verifyCaller(items[_upc].distributorID) {
+          onlyDistributor()
+          sold(_upc)
+          verifyCaller(items[_upc].distributorID) {
 
-      // Update the appropriate fields
-    //  items[_upc].ownerID = retailerID;
-    //  items[_upc].retailerID = retailerID;
-      items[_upc].itemState = State.Shipped;
+            // Update the appropriate fields
+            items[_upc].itemState = State.Shipped;
 
-      // Emit the appropriate event
-      emit Shipped(_upc);
+            // Emit the appropriate event
+            emit Shipped(_upc);
 
-  }
+        }
 
-  // Define a function 'receiveItem' that allows the retailer to mark an item 'Received'
-  // Use the above modifiers to check if the item is shipped
-  function receiveItem(uint _upc)  public payable
+        // Define a function 'receiveItem' that allows the retailer to mark an item 'Received'
+        // Use the above modifiers to check if the item is shipped
+        function receiveItem(uint _upc)  public payable
 
-    onlyRetailer()
-    shipped(_upc)
-    paidEnough(items[_upc].productPrice)
-    checkValue(_upc) {
+          onlyRetailer()
+          shipped(_upc)
+          paidEnough(items[_upc].productPrice)
+          checkValue(_upc) {
 
-    // Update the appropriate fields - ownerID, retailerID, itemState
-    items[_upc].ownerID = msg.sender;
-    items[_upc].retailerID = msg.sender;
-    items[_upc].itemState = State.Received;
-    items[_upc].distributorID.transfer(items[_upc].productPrice);
+          // Update the appropriate fields - ownerID, retailerID, itemState
+          items[_upc].ownerID = msg.sender;
+          items[_upc].retailerID = msg.sender;
+          items[_upc].itemState = State.Received;
+          items[_upc].distributorID.transfer(items[_upc].productPrice);
 
-    // Emit the appropriate event
-    emit Received(_upc);
+          // Emit the appropriate event
+          emit Received(_upc);
 
-  }
+        }
 
-  // Define a function 'purchaseItem' that allows the retailer to mark an item 'Purchased'
-  // Use the above modifiers to check if the item is received
-  function purchaseItem(uint _upc) public payable
-    // Call modifier to check if upc has passed previous supply chain stage
+        // Define a function 'purchaseItem' that allows the retailer to mark an item 'Purchased'
+        // Use the above modifiers to check if the item is received
+        function purchaseItem(uint _upc) public payable
+          // Call modifier to check if upc has passed previous supply chain stage
 
-    onlyConsumer()
-    received(_upc)
-    // Access Control List enforced by calling Smart Contract / DApp
-     {
-    // Update the appropriate fields - ownerID, consumerID, itemState
+          onlyConsumer()
+          received(_upc)
+          // Access Control List enforced by calling Smart Contract / DApp
+           {
+          // Update the appropriate fields - ownerID, consumerID, itemState
 
-    items[_upc].ownerID = msg.sender;
-    items[_upc].consumerID = msg.sender;
-    items[_upc].itemState = State.Purchased;
+          items[_upc].ownerID = msg.sender;
+          items[_upc].consumerID = msg.sender;
+          items[_upc].itemState = State.Purchased;
 
 
-    // Emit the appropriate event
-    emit Purchased(_upc);
+          // Emit the appropriate event
+          emit Purchased(_upc);
 
-  }
+        }
 
   function fetchItem(uint _upc) public view returns
     (

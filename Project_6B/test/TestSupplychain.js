@@ -180,7 +180,7 @@ contract('SupplyChain', accounts => {
             assert.equal(transaction.logs[0].event, 'Sold', 'Sold event not found');
             assert.equal(transaction.logs[0].args.upc, upc, 'Sold event not found for upc ' + upc);
             assert.equal(farmerBalanceBefore.add(productPrice).eq(farmerBalanceAfter), true, 'farmer has not received the correct amount of money');
-        //    assert.equal(distributorBalanceAfter.add(productPrice).add(blockchainCost).eq(distributorBalanceBefore), true, 'distributor has not paid the correct amount of money');
+        /   assert.equal(distributorBalanceAfter.add(productPrice).add(blockchainCost).eq(distributorBalanceBefore), true, 'distributor has not paid the correct amount of money');
 
         });
 
@@ -265,17 +265,16 @@ contract('SupplyChain', accounts => {
             const blockchainCost = 7139200000000000;
 
             // verify the result set
-      /*      assert.equal(resultBufferOne[2], consumer, 'Error: Missing or Invalid ownerID');
+            assert.equal(resultBufferOne[2], consumer, 'Error: Missing or Invalid ownerID');
             assert.equal(resultBufferTwo[5], 7, 'Error: Invalid item State');
             assert.equal(resultBufferTwo[6], distributor, 'Error: Invalid distributor');
             assert.equal(resultBufferTwo[7], retailer, 'Error: Invalid retailer');
             assert.equal(resultBufferTwo[8], consumer, 'Error: Invalid consumer');
             assert.equal(transaction.logs[0].event, 'Purchased', 'Purchased event not found');
             assert.equal(transaction.logs[0].args.upc, upc, 'Purchased event not found for upc ' + upc);
-            assert.equal(retailerBalanceBefore.add(productPrice).eq(retailerBalanceAfter), true, 'retailer has not received the correct amount of money');
+            //assert.equal(retailerBalanceBefore.add(productPrice).eq(retailerBalanceAfter), true, 'retailer has not received the correct amount of money');
+            //assert.equal(consumerBalanceAfter.add(productPrice).add(blockchainCost).eq(consumerBalanceBefore), true, 'consumer has not paid the correct amount of money');
 
-            assert.equal(consumerBalanceAfter.add(productPrice).add(blockchainCost).eq(consumerBalanceBefore), true, 'consumer has not paid the correct amount of money');
-*/
         });
 
         it("Testing smart contract function fetchItemBufferOne() that allows anyone to fetch item details from blockchain", async function() {
