@@ -184,6 +184,7 @@ pragma solidity ^0.4.24;
         newItem.originFarmLatitude = _originFarmLatitude;
         newItem.originFarmLongitude = _originFarmLongitude;
         newItem.itemState = defaultState;
+        newItem.productNotes = _productNotes;
 
         items[_upc] = newItem;
 
@@ -288,12 +289,15 @@ pragma solidity ^0.4.24;
   function receiveItem(uint _upc)  public payable
 
     onlyRetailer()
-    shipped(_upc) {
+    shipped(_upc)
+    paidEnough(items[_upc].productPrice)
+    checkValue(_upc) {
 
     // Update the appropriate fields - ownerID, retailerID, itemState
     items[_upc].ownerID = msg.sender;
     items[_upc].retailerID = msg.sender;
     items[_upc].itemState = State.Received;
+    items[_upc].distributorID.transfer(items[_upc].productPrice);
 
     // Emit the appropriate event
     emit Received(_upc);
@@ -308,7 +312,7 @@ pragma solidity ^0.4.24;
     onlyConsumer()
     received(_upc)
     // Access Control List enforced by calling Smart Contract / DApp
-    verifyCaller(items[_upc].ownerID) {
+     {
     // Update the appropriate fields - ownerID, consumerID, itemState
 
     items[_upc].ownerID = msg.sender;
