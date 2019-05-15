@@ -15,7 +15,7 @@
 // Declare a variable and assign the compiled smart contract artifact
 var SupplyChain = artifacts.require('SupplyChain')
 
-const State = ['Harvested', 'Processed', 'Packed', 'ForSale', 'Sold', 'Shipped', 'Received', 'Purchased'];
+//const State = ['Harvested', 'Processed', 'Packed', 'ForSale', 'Sold', 'Shipped', 'Received', 'Purchased'];
 
 contract('SupplyChain', accounts => {
     const defaultAccount = accounts[0];
@@ -161,7 +161,7 @@ contract('SupplyChain', accounts => {
 
             // perform packing
             //let activity= await this.contract.buyItem(upc, {from: distributor, value: web3.toWei(1.1, "ether")});
-            let activity= await this.contract.buyItem(upc, {from: distributor, value: 110});
+            let activity= await this.contract.buyItem(upc, {from: distributor, value: 100});
             const farmerBalanceAfter = await web3.eth.getBalance(farmer);
             const distributorBalanceAfter = await web3.eth.getBalance(distributor);
 
