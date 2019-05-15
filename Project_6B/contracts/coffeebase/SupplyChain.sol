@@ -283,16 +283,18 @@ pragma solidity ^0.4.24;
         // Use the above modifiers to check if the item is shipped
         function receiveItem(uint _upc)  public payable
 
-          onlyRetailer()
-          shipped(_upc)
-          paidEnough(items[_upc].productPrice)
-          checkValue(_upc) {
+           onlyRetailer()
+           shipped(_upc)
+        //   paidEnough(items[_upc].productPrice)
+        //   checkValue(_upc)
+          {
 
           // Update the appropriate fields - ownerID, retailerID, itemState
           items[_upc].ownerID = msg.sender;
           items[_upc].retailerID = msg.sender;
           items[_upc].itemState = State.Received;
-          items[_upc].distributorID.transfer(items[_upc].productPrice);
+
+        //  items[_upc].distributorID.transfer(items[_upc].productPrice);
 
           // Emit the appropriate event
           emit Received(_upc);
