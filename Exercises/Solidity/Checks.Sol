@@ -1,0 +1,17 @@
+using safeMath for uint256;
+
+mapping(address => uint) private sales;
+
+function safeWithdraw(uint 256 amount) external {
+
+    // Checks
+    require(msg.sender == tx.origin,"Contracts not allowed");
+    require(sales.[msg.sender] >= amount, "Insufficient Funds");
+
+    // Effects
+    uint amount = sales[msg.sender];
+    sales[msg.sender] = sales[msg.sender].sub(amount);
+
+    // Interaction
+
+    msg.sender.transfer[amount];

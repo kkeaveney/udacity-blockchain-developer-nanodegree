@@ -1,0 +1,47 @@
+Security Best Practices
+
+```
+1. Keep functions 'private' or 'internal' unless they are needed outside of your contract
+```
+
+
+```
+2. Debit before Credit to minimise re-entrancy attacks
+```
+
+```
+3. Another contract may call delegateCall() to call your contract functions.
+   Be aware of this and code definsively
+```
+
+```
+4. now = block.timestamp()
+   For time sensitive operations, keep in mind that 'now' is a synonym
+   for 'block.timestamp and can be manipulated by miners'
+```
+
+```
+5. External calls are untrusted, prefix all calls to external contracts with 'Untrusted'
+```
+
+```
+6. Don't store Sensitive info. On-Chain data is always public, don't share any sensitive information
+```
+
+```
+7. Avoid State Changes - Don't make State changes is function modifiers, only uses them for assertions.
+```
+
+```
+8.  Fallback function tips. Keep fallback functions short and require msg.data.length = 0
+```
+
+```
+9. Explicitly Mark Visibility of functions and state variables.
+
+```
+
+```
+10. Does it need to be On-Chain. Not all data is rerquired to be on-Chain, think
+    about alternatives such as IPFS.
+```
