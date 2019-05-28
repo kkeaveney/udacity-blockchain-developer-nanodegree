@@ -1,8 +1,0 @@
-using SafeMath for uint256;
-
-uint256 private enabled = block.timestamp;
-
-modifier rateLimit(uint time) {
-    require(block.time >= enabled, "Rate Limiting in effect");
-    enabled =  enabled.add(time);
-}
