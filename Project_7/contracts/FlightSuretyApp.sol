@@ -34,6 +34,13 @@ contract FlightSuretyApp {
     }
     mapping(bytes32 => Flight) private flights;
 
+    bool private Operational = true;
+
+    uint insurances = 0
+    ;
+
+    FlightSuretyData private data;
+
 
     /********************************************************************************************/
     /*                                       FUNCTION MODIFIERS                                 */
@@ -50,7 +57,7 @@ contract FlightSuretyApp {
     modifier requireIsOperational()
     {
          // Modify to call data contract's status
-        require(true, "Contract is currently not operational");
+        require(isOperational, "Contract is currently not operational");
         _;  // All modifiers require an "_" which indicates where the function body will be added
     }
 
@@ -71,24 +78,23 @@ contract FlightSuretyApp {
     * @dev Contract constructor
     *
     */
-    constructor
-                                (
-                                )
-                                public
+    constructor(address contract) public
     {
         contractOwner = msg.sender;
+        data = FlightSuretyData(contract);
     }
 
     /********************************************************************************************/
     /*                                       UTILITY FUNCTIONS                                  */
     /********************************************************************************************/
 
-    function isOperational()
-                            public
-                            pure
-                            returns(bool)
+    function isOperational() public view returns(bool)
     {
-        return true;  // Modify to call data contract's status
+        return operational;  // Modify to call data contract's status
+    }
+
+    function setOperatingStatus(bool status) external requireContractOwner {
+        operational = status;
     }
 
     /********************************************************************************************/
@@ -100,14 +106,9 @@ contract FlightSuretyApp {
     * @dev Add an airline to the registration queue
     *
     */
-    function registerAirline
-                            (
-                            )
-                            external
-                            pure
-                            returns(bool success, uint256 votes)
+    function registerAirline() external requireIsOperational
     {
-        return (success, 0);
+        data.registerAirline(msg.sender);
     }
 
 
@@ -115,29 +116,28 @@ contract FlightSuretyApp {
     * @dev Register a future flight for insuring.
     *
     */
-    function registerFlight
-                                (
-                                )
-                                external
-                                pure
+    function registerFlight() external pure
     {
 
+    }
+
+    function buyInsurance(string flightNumber) public payable requireIsOperational {
+      require(msg.value <= 1 ether, "insurance must be no greater than 1 ethetr");
+      address(data).transfer(msg.value);
+      data.buyInsurance(msg.sender, flightNumber, msg.value);
+      insurances = insurances + 1;
     }
 
    /**
     * @dev Called after oracle has updated flight status
     *
     */
-    function processFlightStatus
-                                (
-                                    address airline,
-                                    string memory flight,
-                                    uint256 timestamp,
-                                    uint8 statusCode
-                                )
-                                internal
-                                pure
+    function processFlightStatus(address airline,string memory flight, uint256 timestamp,uint8 statusCode)internal
+
     {
+      if(statusCode == STATUS_CODE_LATE_AIRLINE) {
+        data.payInsurees(flight);
+      }
     }
 
 
@@ -335,3 +335,9 @@ contract FlightSuretyApp {
 // endregion
 
 }
+
+  contract FlightSuretyData {
+    function registerAirline(address airline) external;
+    function buyInsurance(address passenger, string flightNumber, uint insuranceValue) external;
+    function creditInsurees(string flightNumber) external payable;
+  }
