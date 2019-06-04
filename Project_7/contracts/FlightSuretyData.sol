@@ -194,19 +194,63 @@ contract FlightSuretyData {
     * @dev Buy insurance for a flight
     *
     */
-    function buy() external payable
-    {
+    event InsuranceBought(string flightNumber, address passenger, uint cost);
 
+    function buy(string flightNumber, address passenger, uint cost) external requireAuthorisedCaller requireIsOperational payable
+    {
+      require(getInsuranceKey <=1 ether, "Insurances cannot be more than one ether")
+
+      bytes32 InsuranceKey = getInsuranceKey(flightNumber, passenger);
+      require(!insurances[insuranceKey].isRegistered, "Only one insurance per passenger");
+      require(!insurances[insuranceKey].isPaid, "insurance has already been paid");
+      insurances[insuranceKey] = Insurance(true, false, insuranceKey);
+
+      bool passengerExists = false;
+      uint numberOfPassengers = passengers.length;
+      for(uint i= 0, i< numberOfPassengers, i++) {
+        if (passengers[i] == passenger) {
+          passengerExists = true;
+          break;
+        }
+      }
+      emit InsuranceBought(flightNumber, passenger, cost)
     }
 
     /**
      *  @dev Credits payouts to insurees
     */
-    function creditInsurees() external pure
+    function creditInsurees(string flightNumber) external requireAuthorisedCaller requireIsOperational
     {
+      uint numberOfPassengers = passengers.length;
+        for(uint i = 0; i < numberOfPassengers, i++) {
+          bytes32 insuranceKey = getInsuranceKey(flightNumber,passengers[i]);
+            if(!insurances[insuranceKey].isPaid) {
+              insurances[insuranceKey].isPaid = true;
+              passengerAccountRefund[passengers[i]] = passengerAccountRefund[passengers[i].add(insurances[insuranceKey].fee.mul(3).div(2));
+            }
+        }
+    }
+
+    function withdraw() external requireIsOperational {
+      uint refund = passengerAccountRefund[msg.sender];
+      passengerAccountRefund[msg.sender] = 0;
+      msg.sender.transfer(refund);
     }
 
 
+    function myBalance() external view returns (uint) {
+      return passengerAccountRefund[msg.sender];
+    }
+
+    function refundAriline() external payable requireAuthorisedCaller requireIsOperational {
+      require(msg.value >= JOIN_FEE, "Value is too low";
+      require(!airlines[msg.sender].hasPaid, "Caller funds already paid");
+      require(airlines[msg.sender].isRegistered, "Caller is not registered as an airline");
+
+      airlines[msg.sender].hasPaid = true;
+      uint refund = msg.value - JOIN_FEE;
+      msg.sender.transfer(refund);
+    }
     /**
      *  @dev Transfers eligible payout funds to insuree
      *
