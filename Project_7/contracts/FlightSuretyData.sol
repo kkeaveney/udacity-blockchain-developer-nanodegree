@@ -26,9 +26,9 @@ contract FlightSuretyData {
 
 
     struct Insurance {
-      uint cost;
       bool hasPaidOut;
       bool isRegistered;
+      uint cost;
     }
 
     mapping(address => uint) refundedAccount;
@@ -216,7 +216,7 @@ contract FlightSuretyData {
           break;
         }
       }
-      emit InsuranceBought(flightNumber, passenger, cost);
+      emit InsuranceBought(passenger, flightNumber, cost);
     }
 
     /**
@@ -227,8 +227,8 @@ contract FlightSuretyData {
       uint numberOfPassengers = passengers.length;
         for(uint i = 0; i < numberOfPassengers; i++) {
           bytes32 insuranceKey = getInsuranceKey(passengers[i],flightNumber);
-            if(!insurances[insuranceKey].isPaid) {
-              insurances[insuranceKey].isPaid = true;
+            if(!insurances[insuranceKey].hasPaidOut) {
+              insurances[insuranceKey].hasPaidOut = true;
               passengerAccountToRefund[passengers[i]] = passengerAccountToRefund[passengers[i]].add(insurances[insuranceKey].cost.mul(3).div(2));
             }
         }
