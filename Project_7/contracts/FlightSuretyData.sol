@@ -21,7 +21,7 @@ contract FlightSuretyData {
       bool hasPaid;
       bool isRegistered;
       uint numberOfAirlines;
-      mapping(address => uint) registeringAirlines;
+      mapping(address => uint) registeredAirlines;
     }
 
 
@@ -39,7 +39,7 @@ contract FlightSuretyData {
     bool private operational = true;                                    // Blocks all state changes throughout the contract if false
     uint numberOfAirlines = 0;
     mapping(address => uint) private authorisedContracts;
-    mapping(address => uint) private airlines;
+    mapping(address => Airline) private airlines;
 
     mapping(address => uint) passengerAccountToRefund;
     /********************************************************************************************/
@@ -91,6 +91,7 @@ contract FlightSuretyData {
 
     modifier requireAuthorisedCaller() {
       require(isCallerAuthorised(msg.sender), "Caller must be authorised");
+      _;
     }
 
 
@@ -121,7 +122,7 @@ contract FlightSuretyData {
     }
 
     function isCallerAuthorised(address caller) public view returns(bool){
-      return authorisedContracts[caller] = 1;
+      return authorisedContracts[caller] == 1;
     }
 
     function authoriseCaller(address caller) external requireContractOwner {
@@ -140,12 +141,12 @@ contract FlightSuretyData {
       return airlines[airline].isRegistered;
     }
 
-    function hasAirlinePaidFund(address airline) external view returns (uint ){
+    function hasAirlinePaidFund(address airline) external view returns (bool){
       return airlines[airline].hasPaid;
     }
 
-    function getInsuranceKey(string flightNumber, address passenger) pure internal returns(bytes32){
-      return keccak256(abi.encodePacked(flightNumber, passenger));
+    function getInsuranceKey(address passenger, string flightNumber) pure internal returns(bytes32){
+      return keccak256(abi.encodePacked(passenger, flightNumber));
     }
 
 
@@ -163,10 +164,10 @@ contract FlightSuretyData {
     {
       require(airlines[msg.sender].hasPaid, "Airline must pay in funds");
       require(airlines[msg.sender].isRegistered, "Airline must be registered");
-      require(!airline[airline].isRegistered, "Airline is already registered");
+      require(!airlines[airline].isRegistered, "Airline is already registered");
 
         if(numberOfAirlines >= CONSENSEUS_THRESHOLD) {
-          require(airlines[airline].registeringAirlines[msg.sender] == 0, "Cannot register twice");
+          require(airlines[airline].registeredAirlines[msg.sender] == 0, "Cannot register twice");
 
           airlines[airline].registeredAirlines[msg.sender] = 1;
           airlines[airline].numberOfAirlines = airlines[airline].numberOfAirlines.add(1);
@@ -177,8 +178,8 @@ contract FlightSuretyData {
           }
           else {
             airlines[airline].isRegistered = true;
-            airlines[airline].registeredAirlines[msg.sender];
-            airline[airline].numberOfAirlines = 1;
+            airlines[airline].registeredAirlines[msg.sender] = 1;
+            airlines[airline].numberOfAirlines = 1;
             numberOfAirlines = numberOfAirlines.add(1);
           }
 
@@ -196,15 +197,15 @@ contract FlightSuretyData {
     * @dev Buy insurance for a flight
     *
     */
-    event InsuranceBought(string flightNumber, address passenger, uint cost);
+    event InsuranceBought(address passenger, string flightNumber, uint cost);
 
-    function buy(string flightNumber, address passenger, uint cost) external requireAuthorisedCaller requireIsOperational payable
+    function buy(address passenger, string flightNumber, uint cost) external requireAuthorisedCaller requireIsOperational payable
     {
-      require(getInsuranceKey <=1 ether, "Insurances cannot be more than one ether");
+      require(insuranceKey <=1 ether, "Insurances cannot be more than one ether");
 
-      bytes32 insuranceKey = getInsuranceKey(flightNumber, passenger);
+      bytes32 insuranceKey = getInsuranceKey (passenger, flightNumber);
       require(!insurances[insuranceKey].isRegistered, "Only one insurance per passenger");
-      require(!insurances[insuranceKey].isPaid, "insurance has already been paid");
+      require(!insurances[insuranceKey].hasPaidOut, "insurance has already been paid");
       insurances[insuranceKey] = Insurance(true, false, cost);
 
       bool passengerExists = false;
@@ -225,7 +226,7 @@ contract FlightSuretyData {
     {
       uint numberOfPassengers = passengers.length;
         for(uint i = 0; i < numberOfPassengers; i++) {
-          bytes32 insuranceKey = getInsuranceKey(flightNumber,passengers[i]);
+          bytes32 insuranceKey = getInsuranceKey(passengers[i],flightNumber);
             if(!insurances[insuranceKey].isPaid) {
               insurances[insuranceKey].isPaid = true;
               passengerAccountToRefund[passengers[i]] = passengerAccountToRefund[passengers[i]].add(insurances[insuranceKey].cost.mul(3).div(2));
