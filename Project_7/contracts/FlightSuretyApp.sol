@@ -34,7 +34,7 @@ contract FlightSuretyApp {
     }
     mapping(bytes32 => Flight) private flights;
 
-    bool private Operational = true;
+    bool private operational = true;
 
     uint insurances = 0
     ;
@@ -57,7 +57,7 @@ contract FlightSuretyApp {
     modifier requireIsOperational()
     {
          // Modify to call data contract's status
-        require(isOperational, "Contract is currently not operational");
+        require(operational, "Contract is currently not operational");
         _;  // All modifiers require an "_" which indicates where the function body will be added
     }
 
@@ -78,10 +78,10 @@ contract FlightSuretyApp {
     * @dev Contract constructor
     *
     */
-    constructor(address contract) public
+    constructor(address newContract) public
     {
         contractOwner = msg.sender;
-        data = FlightSuretyData(contract);
+        data = FlightSuretyData(newContract);
     }
 
     /********************************************************************************************/
@@ -136,7 +136,7 @@ contract FlightSuretyApp {
 
     {
       if(statusCode == STATUS_CODE_LATE_AIRLINE) {
-        data.payInsurees(flight);
+        data.creditInsurees(flight);
       }
     }
 

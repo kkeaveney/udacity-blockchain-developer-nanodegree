@@ -17,11 +17,11 @@ contract FlightSuretyData {
 
     mapping(bytes32 => Flight) private flights;
 
-    struct airline {
+    struct Airline {
       bool hasPaid;
       bool isRegistered;
       uint numberOfAirlines;
-      mapping(address => uint) registeringAirlines
+      mapping(address => uint) registeringAirlines;
     }
 
 
@@ -32,7 +32,7 @@ contract FlightSuretyData {
     }
 
     mapping(address => uint) refundedAccount;
-    mapping(bytes32 => Insurances) insurances;
+    mapping(bytes32 => Insurance) insurances;
     address[] passengers;
 
     address private contractOwner;                                      // Account used to deploy contract
@@ -40,6 +40,8 @@ contract FlightSuretyData {
     uint numberOfAirlines = 0;
     mapping(address => uint) private authorisedContracts;
     mapping(address => uint) private airlines;
+
+    mapping(address => uint) passengerAccountToRefund;
     /********************************************************************************************/
     /*                                       EVENT DEFINITIONS                                  */
     /********************************************************************************************/
@@ -88,7 +90,7 @@ contract FlightSuretyData {
     }
 
     modifier requireAuthorisedCaller() {
-      requireisCallerAuthorised(msg.sender), "Caller must be authorised"
+      require(isCallerAuthorised(msg.sender), "Caller must be authorised");
     }
 
 
@@ -118,7 +120,7 @@ contract FlightSuretyData {
         operational = mode;
     }
 
-    function requireisCallerAuthorised(address caller) public view returns(bool){
+    function isCallerAuthorised(address caller) public view returns(bool){
       return authorisedContracts[caller] = 1;
     }
 
@@ -127,7 +129,7 @@ contract FlightSuretyData {
     }
 
     function unAuthoriseCaller(address caller) external requireContractOwner {
-      delete authorisedContracts[caller]
+      delete authorisedContracts[caller];
     }
 
     function getNumberOfAirlines() external view returns(uint) {
@@ -175,7 +177,7 @@ contract FlightSuretyData {
           }
           else {
             airlines[airline].isRegistered = true;
-            airleins[airline].registeredAirlines[msg.sender];
+            airlines[airline].registeredAirlines[msg.sender];
             airline[airline].numberOfAirlines = 1;
             numberOfAirlines = numberOfAirlines.add(1);
           }
@@ -198,22 +200,22 @@ contract FlightSuretyData {
 
     function buy(string flightNumber, address passenger, uint cost) external requireAuthorisedCaller requireIsOperational payable
     {
-      require(getInsuranceKey <=1 ether, "Insurances cannot be more than one ether")
+      require(getInsuranceKey <=1 ether, "Insurances cannot be more than one ether");
 
-      bytes32 InsuranceKey = getInsuranceKey(flightNumber, passenger);
+      bytes32 insuranceKey = getInsuranceKey(flightNumber, passenger);
       require(!insurances[insuranceKey].isRegistered, "Only one insurance per passenger");
       require(!insurances[insuranceKey].isPaid, "insurance has already been paid");
-      insurances[insuranceKey] = Insurance(true, false, insuranceKey);
+      insurances[insuranceKey] = Insurance(true, false, cost);
 
       bool passengerExists = false;
       uint numberOfPassengers = passengers.length;
-      for(uint i= 0, i< numberOfPassengers, i++) {
+      for(uint i= 0; i< numberOfPassengers; i++) {
         if (passengers[i] == passenger) {
           passengerExists = true;
           break;
         }
       }
-      emit InsuranceBought(flightNumber, passenger, cost)
+      emit InsuranceBought(flightNumber, passenger, cost);
     }
 
     /**
@@ -222,33 +224,33 @@ contract FlightSuretyData {
     function creditInsurees(string flightNumber) external requireAuthorisedCaller requireIsOperational
     {
       uint numberOfPassengers = passengers.length;
-        for(uint i = 0; i < numberOfPassengers, i++) {
+        for(uint i = 0; i < numberOfPassengers; i++) {
           bytes32 insuranceKey = getInsuranceKey(flightNumber,passengers[i]);
             if(!insurances[insuranceKey].isPaid) {
               insurances[insuranceKey].isPaid = true;
-              passengerAccountRefund[passengers[i]] = passengerAccountRefund[passengers[i].add(insurances[insuranceKey].fee.mul(3).div(2));
+              passengerAccountToRefund[passengers[i]] = passengerAccountToRefund[passengers[i]].add(insurances[insuranceKey].cost.mul(3).div(2));
             }
         }
     }
 
     function withdraw() external requireIsOperational {
-      uint refund = passengerAccountRefund[msg.sender];
-      passengerAccountRefund[msg.sender] = 0;
+      uint refund = passengerAccountToRefund[msg.sender];
+      passengerAccountToRefund[msg.sender] = 0;
       msg.sender.transfer(refund);
     }
 
 
     function myBalance() external view returns (uint) {
-      return passengerAccountRefund[msg.sender];
+      return passengerAccountToRefund[msg.sender];
     }
 
     function refundAriline() external payable requireAuthorisedCaller requireIsOperational {
-      require(msg.value >= JOIN_FEE, "Value is too low";
+      require(msg.value >= JOINING_FEE, "Value is too low");
       require(!airlines[msg.sender].hasPaid, "Caller funds already paid");
       require(airlines[msg.sender].isRegistered, "Caller is not registered as an airline");
 
       airlines[msg.sender].hasPaid = true;
-      uint refund = msg.value - JOIN_FEE;
+      uint refund = msg.value - JOINING_FEE;
       msg.sender.transfer(refund);
     }
     /**
