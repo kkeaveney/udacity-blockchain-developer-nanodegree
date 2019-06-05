@@ -1,96 +1,68 @@
-
 var FlightSuretyApp = artifacts.require("FlightSuretyApp");
 var FlightSuretyData = artifacts.require("FlightSuretyData");
-var BigNumber = require('bignumber.js');
 
-contract('Flight Surety Tests', async (accounts) => {
+contract('Flight Surety App Tests', async (accounts) => {
+    let owner = accounts[0];
+    let firstAirline = accounts[1];
+    let someone = accounts[2];
 
-  var config;
-  before('setup contract', async () => {
-    config = await Test.Config(accounts);
-    await config.flightSuretyData.authorizeCaller(config.flightSuretyApp.address);
-  });
+    beforeEach(async function() {
+        this.flightSuretyData = await FlightSuretyData.new(firstAirline, { from: owner });
+        this.flightSuretyApp = await FlightSuretyApp.new(this.flightSuretyData.address, { from: owner });
+        await this.flightSuretyData.authorizeCaller(this.flightSuretyApp.address, { from: owner });
+    });
 
-  /****************************************************************************************/
-  /* Operations and Settings                                                              */
-  /****************************************************************************************/
+    it('buy an insurances for too much money', async function() {
+        let flightnumber = 'testflight_0';
+        let insurancefee = web3.toWei('1.3', 'ether');
 
-/*  it(`(multiparty) has correct initial isOperational() value`, async function () {
 
-    // Get operating status
-    let status = await config.flightSuretyData.isOperational.call();
-    assert.equal(status, true, "Incorrect initial operating status value");
+        try {
+            let response = await this.flightSuretyApp.buyInsurance(flightnumber, { from: someone, value: insurancefee });
+        } catch(e) {
+            assert.equal(e.reason, "insurances can only be up to 1 ether", "wrong exception occurred");
 
-  });
+        }
 
-  it(`(multiparty) can block access to setOperatingStatus() for non-Contract Owner account`, async function () {
+        let numberOfInsurances = await this.flightSuretyApp.getNumberOfInsurances();
+        assert.equal(numberOfInsurances, 0, 'insurance has been bought although it should not have been possible');
+    });
 
-      // Ensure that access is denied for non-Contract Owner account
-      let accessDenied = false;
-      try
-      {
-          await config.flightSuretyData.setOperatingStatus(false, { from: config.testAddresses[2] });
-      }
-      catch(e) {
-          accessDenied = true;
-      }
-      assert.equal(accessDenied, true, "Access not restricted to Contract Owner");
+    it('buy two insurances for the same flight', async function() {
+        let flightnumber = 'testflight_0';
+        let insurancefee = web3.toWei('0.3', 'ether');
 
-  });
+        await this.flightSuretyApp.buyInsurance(flightnumber, { from: someone, value: insurancefee });
 
-  it(`(multiparty) can allow access to setOperatingStatus() for Contract Owner account`, async function () {
+        let numberOfInsurances = await this.flightSuretyApp.getNumberOfInsurances();
+        assert.equal(numberOfInsurances, 1, 'could not buy an insurance');
 
-      // Ensure that access is allowed for Contract Owner account
-      let accessDenied = false;
-      try
-      {
-          await config.flightSuretyData.setOperatingStatus(false);
-      }
-      catch(e) {
-          accessDenied = true;
-      }
-      assert.equal(accessDenied, false, "Access not restricted to Contract Owner");
+        try {
+            await this.flightSuretyApp.buyInsurance(flightnumber, { from: someone, value: insurancefee });
+        } catch(e) {
+            assert.equal(e.reason, "you can only buy one insurance per flight per passenger", "wrong exception occurred");
+        }
 
-  });
+        numberOfInsurances = await this.flightSuretyApp.getNumberOfInsurances();
+        assert.equal(numberOfInsurances, 1, 'two insurances have been bought although only one should have been possible');
+    });
 
-  it(`(multiparty) can block access to functions using requireIsOperational when operating status is false`, async function () {
+    it('buy an insurances', async function() {
+        let flightnumber = 'testflight_0';
+        let insurancefee = web3.toWei('0.4', 'ether');
 
-      await config.flightSuretyData.setOperatingStatus(false);
+        await this.flightSuretyApp.buyInsurance(flightnumber, { from: someone, value: insurancefee });
 
-      let reverted = false;
-      try
-      {
-          await config.flightSurety.setTestingMode(true);
-      }
-      catch(e) {
-          reverted = true;
-      }
-      assert.equal(reverted, true, "Access not blocked for requireIsOperational");
+        let numberOfInsurances = await this.flightSuretyApp.getNumberOfInsurances();
+        assert.equal(numberOfInsurances, 1, 'insurance could not be bought');
+    });
 
-      // Set it back for other tests to work
-      await config.flightSuretyData.setOperatingStatus(true);
-
-  });
-
-  it('(airline) cannot register an Airline using registerAirline() if it is not funded', async () => {
-
-    // ARRANGE
-    let newAirline = accounts[2];
-
-    // ACT
-    try {
-        await config.flightSuretyApp.registerAirline(newAirline, {from: config.firstAirline});
-    }
-    catch(e) {
-
-    }
-    let result = await config.flightSuretyData.isAirline.call(newAirline);
-
-    // ASSERT
-    assert.equal(result, false, "Airline should not be able to register another airline if it hasn't provided funding");
-
-  });
-
+    it('call fetchFlightStatus', async function() {
+        let flightnumber = 'testflight_0';
+        let result = await this.flightSuretyApp.fetchFlightStatus(firstAirline, flightnumber, Math.floor(Date.now() / 1000));
+        assert.equal(result.logs[0].event, 'OracleRequest', 'no OracleRequest event was sent');
+        assert.equal(result.logs[0].args.airline, firstAirline, 'wrong airline in OracleRequest event');
+        assert.equal(result.logs[0].args.flight, flightnumber, 'wrong flightnumber in OracleRequest event');
+    });
 
 });
-*/
