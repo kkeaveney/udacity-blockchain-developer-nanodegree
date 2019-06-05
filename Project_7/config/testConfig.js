@@ -3,6 +3,7 @@ var FlightSuretyApp = artifacts.require("FlightSuretyApp");
 var FlightSuretyData = artifacts.require("FlightSuretyData");
 var BigNumber = require('bignumber.js');
 
+
 var Config = async function(accounts) {
 
     // These test addresses are useful when you need to add
@@ -23,18 +24,14 @@ var Config = async function(accounts) {
     let owner = accounts[0];
     let initialAirline = accounts[1];
 
-    let flightSuretyData = await FlightSuretyData.new(initialAirline, {from:owner});
-    let flightSuretyApp = await FlightSuretyApp.new(flightSuretyData.address {from:owner});
+    let flightSuretyData = await FlightSuretyData.new(initialAirline, {from : owner});
+    let flightSuretyApp = await FlightSuretyApp.new(flightSuretyData.address, {from : owner});
     await flightSuretyData.authoriseCaller(flightSuretyData.address, {from: owner});
-    
-
-
-
 
 
     return {
         owner: owner,
-        firstAirline: firstAirline,
+        initialAirline: initialAirline,
         weiMultiple: (new BigNumber(10)).pow(18),
         testAddresses: testAddresses,
         flightSuretyData: flightSuretyData,
@@ -42,6 +39,6 @@ var Config = async function(accounts) {
     }
 }
 
-module.exports = {
-    Config: Config
-};
+    module.exports = {
+        Config: Config
+    };

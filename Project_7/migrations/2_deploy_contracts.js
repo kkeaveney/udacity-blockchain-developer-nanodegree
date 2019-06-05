@@ -11,7 +11,7 @@ module.exports = async function(deployer) {
     await deployer.deploy(FlightSuretyApp, flightSuretyData.address);
     const flightSuretyApp = await FlightSuretyApp.deployed();
 
-    await flightSuretyData.authorizeCaller(flightSuretyApp.address);
+    await flightSuretyData.authoriseCaller(flightSuretyApp.address);
 
     let config = {
                   localhost: {
