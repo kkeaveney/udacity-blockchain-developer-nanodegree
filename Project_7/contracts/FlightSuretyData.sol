@@ -51,7 +51,7 @@ contract FlightSuretyData {
     * @dev Constructor
     *      The deploying account becomes contractOwner
     */
-    constructor(address initialAirline) public
+    constructor(address firstAirline) public
     {
         contractOwner = msg.sender;
         numberOfAirlines = 1;
@@ -59,7 +59,7 @@ contract FlightSuretyData {
         airline.hasPaid = true;
         airline.isRegistered = true;
         airline.numberOfAirlines = 0;
-        airlines[initialAirline] = airline;
+        airlines[firstAirline] = airline;
       }
 
     /********************************************************************************************/
@@ -245,7 +245,7 @@ contract FlightSuretyData {
       return passengerAccountToRefund[msg.sender];
     }
 
-    function refundAriline() external payable requireAuthorisedCaller requireIsOperational {
+    function fundAirline() external payable requireAuthorisedCaller requireIsOperational {
       require(msg.value >= JOINING_FEE, "Value is too low");
       require(!airlines[msg.sender].hasPaid, "Caller funds already paid");
       require(airlines[msg.sender].isRegistered, "Caller is not registered as an airline");
@@ -258,8 +258,8 @@ contract FlightSuretyData {
      *  @dev Transfers eligible payout funds to insuree
      *
     */
-    function pay() external pure
-    {
+    function pay() pure {
+
     }
 
    /**
