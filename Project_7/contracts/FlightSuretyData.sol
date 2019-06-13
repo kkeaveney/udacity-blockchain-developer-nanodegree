@@ -149,6 +149,10 @@ contract FlightSuretyData {
       return keccak256(abi.encodePacked(passenger, flightNumber));
     }
 
+    function getNumberOfAirlinesRegistered(address airline) external view returns (uint) {
+      return airlines[airline].numberOfAirlines;
+    }
+
 
     /********************************************************************************************/
     /*                                     SMART CONTRACT FUNCTIONS                             */

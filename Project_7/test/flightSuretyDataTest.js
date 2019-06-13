@@ -136,14 +136,14 @@ contract('Flight Surety Tests', async (accounts) => {
 
   });
 
-  it(`(Multiparty Consensus) Only existing airline may register a new airline until there are at least four airlines registered`, async function ( ){
+  it(`(Multiparty Consensus) Only existing airline may register a new airline until there are at least four airlines registered`, async function (){
 
     await this.flightSuretyData.setOperatingStatus(true);
     await this.flightSuretyData.authoriseCaller(firstAirline);
     await this.flightSuretyData.fundAirline({from: firstAirline, value:web3.toWei('10','ether')});
 
     let numberOfAirlines = await this.flightSuretyData.getNumberOfAirlines();
-    assert.equal(numberOfAirlines,1, "Only one Airline is registered");
+    assert.equal(numberOfAirlines,1, "One Airline is expected to be registered");
 
     await this.flightSuretyData.registerAirline(secondAirline, {from: firstAirline});
     numberOfAirlines = await this.flightSuretyData.getNumberOfAirlines();
@@ -166,11 +166,67 @@ contract('Flight Surety Tests', async (accounts) => {
 
   });
 
-  */
+*/
 
-  it(`(Multiparty Consensus) Registration of fifth and subsequent airlines requires multi-party consensus of 50% of registered airlines`, async() function => {
+    it(`(Registration of fifth and subsequent airlines requires multi-party consensus of 50% of registered airlines`, async function (){
 
-  }
+    await this.flightSuretyData.setOperatingStatus(true);
+    await this.flightSuretyData.authoriseCaller(firstAirline);
+    await this.flightSuretyData.fundAirline({from: firstAirline, value:web3.toWei('10','ether')});
+
+    let numberOfAirlines = await this.flightSuretyData.getNumberOfAirlines();
+    assert.equal(numberOfAirlines,1, "One Airline is expected to be registered");
+
+    await this.flightSuretyData.registerAirline(secondAirline, {from:firstAirline});
+    await this.flightSuretyData.authoriseCaller(secondAirline);
+    await this.flightSuretyData.fundAirline({from: secondAirline, value:web3.toWei('10','ether')});
+
+    numberOfAirlines = await this.flightSuretyData.getNumberOfAirlines();
+    assert.equal(numberOfAirlines,2, "Four Airlines are expected to be registered");
+
+    await this.flightSuretyData.registerAirline(thirdAirline, {from:firstAirline});
+    numberOfAirlines = await this.flightSuretyData.getNumberOfAirlines();
+    assert.equal(numberOfAirlines,3, "Four Airlines are expected to be registered");
+
+    await this.flightSuretyData.registerAirline(fourthAirline, {from:firstAirline});
+    numberOfAirlines = await this.flightSuretyData.getNumberOfAirlines();
+    assert.equal(numberOfAirlines,4, "Four Airlines are expected to be registered");
+
+    await this.flightSuretyData.registerAirline(fifthAirline, {from:secondAirline});
+    numberOfAirlines = await this.flightSuretyData.getNumberOfAirlines();
+    assert.equal(numberOfAirlines,4, "Five Airlines are expected to be registered");
+
+
+})
+ it(`Airline can be registered, but does not participate in contract until it submits funding of 10 ether`, async function () {
+
+   await this.flightSuretyData.setOperatingStatus(true);
+   await this.flightSuretyData.authoriseCaller(firstAirline);
+   await this.flightSuretyData.fundAirline({from: firstAirline, value:web3.toWei('10','ether')});
+
+   let result =  await this.flightSuretyData.hasAirlinePaidFund(firstAirline);
+   assert.equal(result, true, "Airline has paid fund");
+
+   await this.flightSuretyData.registerAirline(secondAirline, {from:firstAirline});
+   result =  await this.flightSuretyData.hasAirlinePaidFund(secondAirline);
+   assert.equal(result, false, "Airline has Registered but not paid funds");
+
+   result = await this.flightSuretyData.isCallerAuthorised(secondAirline);
+   assert.equal(result,false, "Airline is Registered but not Authorised");
+
+
+   let canParticipate = true;
+   try {
+
+        result = await this.flightSuretyData.registerAirline(thirdAirline, {from:secondAirline})
+    }
+    catch(e) {
+     canParticipate = false;
+    }
+
+    assert.equal(canParticipate, false, "Airline is Registered but cannot participate")
+
+})
 
 
 });
