@@ -5,7 +5,7 @@ import "../node_modules/openzeppelin-solidity/contracts/math/SafeMath.sol";
 contract FlightSuretyData {
     using SafeMath for uint256;
 
-    uint constant CONSENSEUS_THRESHOLD = 3;
+    uint constant CONSENSEUS_THRESHOLD = 4;
     uint constant JOINING_FEE = 10 ether;
 
     struct Flight {
@@ -56,7 +56,7 @@ contract FlightSuretyData {
         contractOwner = msg.sender;
         numberOfAirlines = 1;
         Airline memory airline;
-        airline.hasPaid = true;
+        airline.hasPaid = false;
         airline.isRegistered = true;
         airline.numberOfAirlines = 0;
         airlines[firstAirline] = airline;
@@ -150,7 +150,6 @@ contract FlightSuretyData {
     }
 
 
-
     /********************************************************************************************/
     /*                                     SMART CONTRACT FUNCTIONS                             */
     /********************************************************************************************/
@@ -172,18 +171,20 @@ contract FlightSuretyData {
           airlines[airline].registeredAirlines[msg.sender] = 1;
           airlines[airline].numberOfAirlines = airlines[airline].numberOfAirlines.add(1);
 
+
           if(airlines[airline].numberOfAirlines * 2 >= numberOfAirlines) {
             airlines[airline].isRegistered = true;
             numberOfAirlines = numberOfAirlines.add(1);
-          }
-          else {
+
+         }
+      }  else {
             airlines[airline].isRegistered = true;
             airlines[airline].registeredAirlines[msg.sender] = 1;
             airlines[airline].numberOfAirlines = 1;
             numberOfAirlines = numberOfAirlines.add(1);
           }
 
-        }
+
     }
 
     function unRegisterAirline(address airline) external requireAuthorisedCaller requireIsOperational {
@@ -245,10 +246,10 @@ contract FlightSuretyData {
       return passengerAccountToRefund[msg.sender];
     }
 
-    function fundAirline() external payable requireAuthorisedCaller requireIsOperational {
+    function fundAirline() external payable requireIsOperational requireAuthorisedCaller {
       require(msg.value >= JOINING_FEE, "Value is too low");
-      require(!airlines[msg.sender].hasPaid, "Caller funds already paid");
       require(airlines[msg.sender].isRegistered, "Caller is not registered as an airline");
+      require(!airlines[msg.sender].hasPaid, "Caller funds already paid");
 
       airlines[msg.sender].hasPaid = true;
       uint refund = msg.value - JOINING_FEE;

@@ -8,6 +8,10 @@ contract('Flight Surety Tests', async (accounts) => {
 
   let owner = accounts[0];
   let firstAirline = accounts[1];
+  let secondAirline = accounts[2];
+  let thirdAirline = accounts[3];
+  let fourthAirline = accounts[4];
+  let fifthAirline = accounts[5];
 
   // These test addresses are useful when you need to add
   // multiple users in test scripts
@@ -34,6 +38,8 @@ contract('Flight Surety Tests', async (accounts) => {
   /****************************************************************************************/
   /* Operations and Settings                                                              */
   /****************************************************************************************/
+
+/*
     it(` (multiparty) registers an airline when contract is deployed.`, async function () {
 
       // Ensure an airline has been registered
@@ -108,38 +114,63 @@ contract('Flight Surety Tests', async (accounts) => {
 
   });
 
-  it('(airline) cannot register an Airline using registerAirline() if it is not funded', async () => {
+  it('(airline) cannot register an Airline using registerAirline() if it is not funded', async function ()  {
 
     // ARRANGE
-    let newAirline = accounts[2];
+    let airlineTwo = accounts[2];
+    let airlineThree = accounts[3];
+    await this.flightSuretyData.setOperatingStatus(true);
+    await this.flightSuretyData.authoriseCaller(airlineTwo);
 
-    // ACT
-    try {
-        
-        await this.flightSuretyApp.registerAirline(newAirline, {from: this.firstAirline});
-    }
-    catch(e) {
+     let isRegistered = true;
+     try {
 
-    }
-    let result = await this.flightSuretyData.isAirlineRegistered.call(newAirline);
+          await this.flightSuretyData.registerAirline(airlineThree, {from: airlineTwo});
+      }
+      catch(e) {
+       isRegistered = false;
+      }
 
-    // ASSERT
-    assert.equal(result, false, "Airline should not be able to register another airline if it hasn't provided funding");
+      // ASSERT
+      assert.equal(isRegistered, false, "Airline should not be able to register another airline if it hasn't provided funding");
 
   });
 
-  it(`(Multiparty Consensus) Only existing airline may register a new airline until there are at least four airlines registered`, async () => {
+  it(`(Multiparty Consensus) Only existing airline may register a new airline until there are at least four airlines registered`, async function ( ){
 
     await this.flightSuretyData.setOperatingStatus(true);
-  //  await this.flightSuretyData.authoriseCaller(this.firstAirline);
-  //  await this.flightSuretyData.fundAirline({from: this.firstAirline, value:web3.toWei('10','ether')});
+    await this.flightSuretyData.authoriseCaller(firstAirline);
+    await this.flightSuretyData.fundAirline({from: firstAirline, value:web3.toWei('10','ether')});
+
+    let numberOfAirlines = await this.flightSuretyData.getNumberOfAirlines();
+    assert.equal(numberOfAirlines,1, "Only one Airline is registered");
+
+    await this.flightSuretyData.registerAirline(secondAirline, {from: firstAirline});
+    numberOfAirlines = await this.flightSuretyData.getNumberOfAirlines();
+    assert.equal(numberOfAirlines,2, "Two Airlines are expected to be registered");
 
 
+    await this.flightSuretyData.registerAirline(thirdAirline, {from: firstAirline});
+    numberOfAirlines = await this.flightSuretyData.getNumberOfAirlines();
+    assert.equal(numberOfAirlines,3, "Three Airlines are expected to be registered");
+
+
+    await this.flightSuretyData.registerAirline(fourthAirline, {from: firstAirline});
+    numberOfAirlines = await this.flightSuretyData.getNumberOfAirlines();
+    assert.equal(numberOfAirlines,4, "Four Airlines are expected to be registered");
+
+    await this.flightSuretyData.registerAirline(fifthAirline, {from: firstAirline});
+    numberOfAirlines = await this.flightSuretyData.getNumberOfAirlines();
+    assert.equal(numberOfAirlines,4, "Four Airlines are expected to be registered");
 
 
   });
 
+  */
 
+  it(`(Multiparty Consensus) Registration of fifth and subsequent airlines requires multi-party consensus of 50% of registered airlines`, async() function => {
+
+  }
 
 
 });
