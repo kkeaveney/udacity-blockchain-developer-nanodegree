@@ -227,6 +227,8 @@ contract('Flight Surety Tests', async (accounts) => {
     assert.equal(canParticipate, false, "Airline is Registered but cannot participate")
 
 })
+    
+
 
 
 });

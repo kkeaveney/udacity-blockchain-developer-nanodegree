@@ -1,8 +1,8 @@
 {
 	"localhost": {
 		"url": "ws://localhost:7545",
-		"dataAddress": "0xf57f76d23568e31b12f62e7b8eb880f486369bcf",
-		"appAddress": "0x8f1a69555d18587277937d06a6df3c07459d1da9",
+		"dataAddress": "0x4b31c27826c810007749860be339ecc28f56fb1b",
+		"appAddress": "0x5ca9f95992eb68163efdf8bf751e813f2c53c450",
 		"firstAirline": "0xf17f52151EbEF6C7334FAD080c5704D77216b732"
 	}
 }
