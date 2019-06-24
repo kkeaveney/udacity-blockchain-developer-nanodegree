@@ -39,7 +39,7 @@ contract('Flight Surety Tests', async (accounts) => {
   /* Operations and Settings                                                              */
   /****************************************************************************************/
 
-/*
+
     it(` (multiparty) registers an airline when contract is deployed.`, async function () {
 
       // Ensure an airline has been registered
@@ -166,7 +166,7 @@ contract('Flight Surety Tests', async (accounts) => {
 
   });
 
-*/
+
 
     it(`(Registration of fifth and subsequent airlines requires multi-party consensus of 50% of registered airlines`, async function (){
 

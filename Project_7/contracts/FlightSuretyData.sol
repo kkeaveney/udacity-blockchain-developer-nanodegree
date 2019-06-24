@@ -121,20 +121,28 @@ contract FlightSuretyData {
         operational = mode;
     }
 
-    function isCallerAuthorised(address caller) public view returns(bool){
-      return authorisedContracts[caller] == 1;
+    function getNumberOfAirlines() external view returns(uint) {
+      return numberOfAirlines;
     }
 
     function authoriseCaller(address caller) external requireContractOwner {
       authorisedContracts[caller] = 1;
     }
 
+    function isCallerAuthorised(address caller) public view returns(bool){
+      return authorisedContracts[caller] == 1;
+    }
+
     function unAuthoriseCaller(address caller) external requireContractOwner {
       delete authorisedContracts[caller];
     }
 
-    function getNumberOfAirlines() external view returns(uint) {
-      return numberOfAirlines;
+    function getInsuranceKey(address passenger, string flightNumber) pure internal returns(bytes32){
+      return keccak256(abi.encodePacked(passenger, flightNumber));
+    }
+
+    function returnNumberOfAirlinesRegistered(address airline) external view returns (uint) {
+      return airlines[airline].numberOfAirlines;
     }
 
     function isAirlineRegistered(address airline) external view returns(bool) {
@@ -145,13 +153,7 @@ contract FlightSuretyData {
       return airlines[airline].hasPaid;
     }
 
-    function getInsuranceKey(address passenger, string flightNumber) pure internal returns(bytes32){
-      return keccak256(abi.encodePacked(passenger, flightNumber));
-    }
 
-    function getNumberOfAirlinesRegistered(address airline) external view returns (uint) {
-      return airlines[airline].numberOfAirlines;
-    }
 
 
     /********************************************************************************************/
@@ -204,37 +206,37 @@ contract FlightSuretyData {
     */
     event InsuranceBought(address passenger, string flightNumber, uint cost);
 
-    function buy(address passenger, string flightNumber, uint cost) external requireAuthorisedCaller requireIsOperational payable
+    function buy(address passenger, string flight, uint cost) external requireAuthorisedCaller requireIsOperational payable
     {
-      require(insuranceKey <=1 ether, "Insurances cannot be more than one ether");
+      require(key <=1 ether, "Insurances cannot be more than one ether");
 
-      bytes32 insuranceKey = getInsuranceKey (passenger, flightNumber);
-      require(!insurances[insuranceKey].isRegistered, "Only one insurance per passenger");
-      require(!insurances[insuranceKey].hasPaidOut, "insurance has already been paid");
-      insurances[insuranceKey] = Insurance(true, false, cost);
+      bytes32 key= getInsuranceKey (passenger, flight);
+      require(!insurances[key].isRegistered, "Only one insurance per passenger");
+      require(!insurances[key].hasPaidOut, "insurance has already been paid");
+      insurances[key] = Insurance(true, false, cost);
 
-      bool passengerExists = false;
-      uint numberOfPassengers = passengers.length;
-      for(uint i= 0; i< numberOfPassengers; i++) {
+      bool isPassenger = false;
+      uint passengersLength = passengers.length;
+      for(uint i= 0; i< passengersLength; i++) {
         if (passengers[i] == passenger) {
-          passengerExists = true;
+          isPassenger = true;
           break;
         }
       }
-      emit InsuranceBought(passenger, flightNumber, cost);
+      emit InsuranceBought(passenger, flight, cost);
     }
 
     /**
      *  @dev Credits payouts to insurees
     */
-    function creditInsurees(string flightNumber) external requireAuthorisedCaller requireIsOperational
+    function creditInsurees(string flight) external requireAuthorisedCaller requireIsOperational
     {
-      uint numberOfPassengers = passengers.length;
-        for(uint i = 0; i < numberOfPassengers; i++) {
-          bytes32 insuranceKey = getInsuranceKey(passengers[i],flightNumber);
-            if(!insurances[insuranceKey].hasPaidOut) {
-              insurances[insuranceKey].hasPaidOut = true;
-              passengerAccountToRefund[passengers[i]] = passengerAccountToRefund[passengers[i]].add(insurances[insuranceKey].cost.mul(3).div(2));
+      uint passengersLength = passengers.length;
+        for(uint i = 0; i < passengersLength; i++) {
+          bytes32 key = getInsuranceKey(passengers[i],flight);
+            if(!insurances[key].hasPaidOut) {
+              insurances[key].hasPaidOut = true;
+              passengerAccountToRefund[passengers[i]] = passengerAccountToRefund[passengers[i]].add(insurances[key].cost.mul(3).div(2));
             }
         }
     }

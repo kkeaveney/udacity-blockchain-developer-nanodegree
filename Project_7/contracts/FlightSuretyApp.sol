@@ -36,8 +36,7 @@ contract FlightSuretyApp {
 
     bool private operational = true;
 
-    uint insurances = 0
-    ;
+    uint numberOfInsurances = 0;
 
     FlightSuretyData private data;
 
@@ -121,11 +120,11 @@ contract FlightSuretyApp {
 
     }
 
-    function buyInsurance(string flightNumber) public payable requireIsOperational {
-      require(msg.value <= 1 ether, "insurance must be no greater than 1 ethetr");
+    function buyInsurance(string flight) public payable requireIsOperational {
+      require(msg.value <= 1 ether, "insurance must be less than than 1 ethetr");
       address(data).transfer(msg.value);
-      data.buyInsurance(msg.sender, flightNumber, msg.value);
-      insurances = insurances + 1;
+      data.buyInsurance(msg.sender, flight, msg.value);
+      numberOfInsurances = numberOfInsurances + 1;
     }
 
    /**
