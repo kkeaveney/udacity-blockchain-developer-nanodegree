@@ -16,18 +16,18 @@ async function init() {
     let numberOfAccounts = accounts.length;
     web3.eth.defaultAccount = accounts[0];
     console.log('there are %d accounts', numberOfAccounts);
-
     let registrationFee = await flightSuretyApp.methods.REGISTRATION_FEE().call();
     console.log('registrationFee: ' + registrationFee);
+
+
 
     // register 20 oracles
     for (let i = numberOfAccounts - numberOfOracles; i < numberOfAccounts; i++) {
         console.log('registering oracle %d', i + numberOfOracles - numberOfAccounts + 1);
         await flightSuretyApp.methods.registerOracle().send({ from: accounts[i], value: registrationFee, gas: 99999999, gasPrice: 1 });
         let oracle = await flightSuretyApp.methods.getMyIndexes().call({ from: accounts[i] });
-        oracle.push(accounts[i]);
 
-        console.log(oracle);
+        oracle.push(accounts[i]);
         registeredOracles.push(oracle);
     }
 
@@ -43,7 +43,6 @@ async function init() {
 
         console.log('flight %s triggered a status update with index %s', flight, event.returnValues.index);
 
-        // half of all flights are secured, for better testability, the other half gets a random status
         let status;
         if (Math.random() > 0.5) {
             status = insuredStatus;
@@ -57,10 +56,9 @@ async function init() {
             if (parseInt(registeredOracles[i][0]) == index ||
                 parseInt(registeredOracles[i][1]) == index ||
                 parseInt(registeredOracles[i][2]) == index) {
-                    console.log('found oracle:');
                     console.log(registeredOracles[i]);
                     await flightSuretyApp.methods.submitOracleResponse(index, airline, flight, timestamp, status).send({ from: registeredOracles[i][3] });
-                    console.log('oracle response was sent');
+
                 }
         }
     });

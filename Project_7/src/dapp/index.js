@@ -9,8 +9,8 @@ let contract;
 (async() => {
 
     contract = new Contract('localhost', () => {
-        for (var i = 0; i < getRandomInt(10) + 10; i++) {
-            flights.push({ id: 'flight_' + i, departure: randomDate() });
+        for (var i = 0; i < randomInt(10) + 10; i++) {
+            flights.push({ id: 'flight ' + i, departure: randomDate() });
         }
 
         displayFlightList();
@@ -18,80 +18,77 @@ let contract;
         contract.flightSuretyApp.events.FlightStatusInfo({
             fromBlock: 0,
             toBlock: "latest"
-        }, function (error, result) {
-            if (error) {
-                console.log(error)
+        }, function (err, result) {
+            if (err) {
+                console.log(err)
             } else {
-                console.log("oracles issued new flight status info");
                 console.log(result.returnValues);
             }
         });
     });
 })();
 
-function buyInsuranceHandler() {
+function buyInsurance() {
     let id = this.getAttribute('data-id');
-    let flightnumberText = DOM.elid('flightnumber_' + id);
-    let flightnumber = flightnumberText.innerHTML;
-    let insuranceFeeTextfield = DOM.elid('textinput_' + id);
-    let insurancefee = parseFloat(insuranceFeeTextfield.value);
+    let flightText = DOM.elid('flightnumber_' + id);
+    let flight = flightText.innerHTML;
+    let insuranceFeeText = DOM.elid('textinput_' + id);
+    let fee= parseFloat(insuranceFeeText.value);
     let button = DOM.elid('button_' + id);
 
-    if (!insurancefee || insurancefee < 0 || insurancefee > 1) {
+    if (!fee|| fee< 0 || fee> 1) {
         alert('insurance fee must be between 0.0 and 1.0 ETH');
     } else {
-        contract.buyInsurance(flightnumber, web3.toWei(insurancefee, 'ether'), (error, result) => {
-            if (error) {
-                console.log('error');
-                console.log(error);
+        contract.buyInsurance(flight, web3.toWei(fee, 'ether'), (err, result) => {
+            if (err) {
+                console.log(err);
             } else {
-                console.log('result');
                 console.log(result);
-                alert('you successfully bought an insurance for flight ' + flightnumber + ' being worth ' + insurancefee + ' ether');
-                insuranceFeeTextfield.readOnly = true;
+                alert('you bought an insurance for flight ' + flight + 'worth ' + fee+ ' ether');
+                insuranceFeeText.readOnly = true;
                 button.disabled = true;
             }
         });
     }
 }
 
-function updateStatusHandler() {
+function updateStatus() {
     let flightnumber = DOM.elid('flightnumber_' + this.getAttribute('data-id')).innerHTML;
-    contract.fetchFlightStatus(flightnumber, (error, result) => {
-        if (error) {
-            console.log('error');
-            console.log(error);
+    contract.fetchFlightStatus(flightnumber, (err, result) => {
+        if (err) {
+        console.log(err);
         }
         console.log(result);
-        // TODO UI update
+
     });
 }
 
 function displayFlightList() {
     let displayDiv = DOM.elid('flightlist');
 
-    displayDiv.appendChild(DOM.h2('List of Flights'));
-    displayDiv.appendChild(DOM.h5('Choose one to get an insurance'));
+    displayDiv.appendChild(DOM.h4('Flights'));
 
     let length = flights.length;
 
     for (let i = 0; i < length; i++) {
         let rowClass = i % 2 == 0 ? 'even' : 'odd';
         let row = displayDiv.appendChild(DOM.div({className:'row ' + rowClass}));
-        let textinput = DOM.input({ id: 'textinput_' + i, type: 'number', placeholder: 'insurance fee in ETH (max. 1.0)'});
-
-        let button = DOM.button({ id: 'button_' + i, className: 'btn btn-primary buyInsurance'}, 'buy insurance');
-        button.setAttribute('data-id', i);
-        button.addEventListener('click', buyInsuranceHandler);
+        let textinput = DOM.input({ id: 'textinput_' + i, type: 'number', placeholder: 'insurance fee (max. 1.0)'});
 
         let infobutton = DOM.button({ id: 'infobutton_' + i, className: 'btn btn-primary'}, 'update status');
         infobutton.setAttribute('data-id', i);
-        infobutton.addEventListener('click', updateStatusHandler);
+        infobutton.addEventListener('click', updateStatus);
+
+        let button = DOM.button({ id: 'button_' + i, className: 'btn btn-primary buyInsurance'}, 'buy insurance');
+        button.setAttribute('data-id', i);
+        button.addEventListener('click', buyInsurance);
+
+
 
         row.appendChild(DOM.div({className: 'col-sm-2 field', id: 'flightnumber_' + i}, flights[i].id));
         row.appendChild(DOM.div({className: 'col-sm-3 field'}, flights[i].departure.toISOString()));
-        row.appendChild(DOM.div({className: 'col-sm-3 field'}, textinput));
-        row.appendChild(DOM.div({className: 'col-sm-2 field'}, button));
+        row.appendChild(DOM.div({className: 'col-sm-2 field'}, textinput));
+        row.appendChild(DOM.div({className: 'col-sm-3 field'}, button));
         row.appendChild(DOM.div({className: 'col-sm-2 field'}, infobutton));
         displayDiv.appendChild(row);
     }
@@ -101,6 +98,6 @@ function randomDate(start, end) {
     return new Date(+(new Date()) + Math.floor(Math.random()*1000000000));
 }
 
-function getRandomInt(max) {
+function randomInt(max) {
     return Math.floor(Math.random() * Math.floor(max));
 }
