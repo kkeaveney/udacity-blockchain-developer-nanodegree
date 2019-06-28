@@ -38,7 +38,7 @@ contract FlightSuretyApp {
 
     uint numberOfInsurances = 0;
 
-    FlightSuretyData private data;
+    FlightSuretyData flightSuretyData;
 
 
     /********************************************************************************************/
@@ -79,8 +79,9 @@ contract FlightSuretyApp {
     */
     constructor(address newContract) public
     {
-        contractOwner = msg.sender;
-        data = FlightSuretyData(newContract);
+        contractOwner = tx.origin;
+        flightSuretyData = FlightSuretyData(newContract);
+        registerAirline(contractOwner);
     }
 
     /********************************************************************************************/
@@ -105,9 +106,9 @@ contract FlightSuretyApp {
     * @dev Add an airline to the registration queue
     *
     */
-    function registerAirline() external requireIsOperational
+    function registerAirline(address airline) public
     {
-        data.registerAirline(msg.sender);
+        flightSuretyData.registerAirline(airline);
     }
 
 
@@ -120,10 +121,18 @@ contract FlightSuretyApp {
 
     }
 
+    function isAirlineRegistered(address airline) public view returns(bool) {
+      return flightSuretyData.isAirlineRegistered(airline);
+    }
+
+    function numberOfRegisteredAirlines() external returns (uint) {
+      return flightSuretyData.numberOfRegisteredAirlines();
+    }
+
     function buyInsurance(string flight) public payable requireIsOperational {
       require(msg.value <= 1 ether, "insurance must be less than than 1 ethetr");
-      address(data).transfer(msg.value);
-      data.buyInsurance(msg.sender, flight, msg.value);
+      address(flightSuretyData).transfer(msg.value);
+      flightSuretyData.buyInsurance(msg.sender, flight, msg.value);
       numberOfInsurances = numberOfInsurances + 1;
     }
 
@@ -135,7 +144,7 @@ contract FlightSuretyApp {
 
     {
       if(statusCode == STATUS_CODE_LATE_AIRLINE) {
-        data.creditInsurees(flight);
+        flightSuretyData.creditInsurees(flight);
       }
     }
 
@@ -289,4 +298,7 @@ contract FlightSuretyApp {
     function registerAirline(address airline) external;
     function buyInsurance(address passenger, string flightNumber, uint insuranceValue) external;
     function creditInsurees(string flightNumber) external payable;
+    function isAirlineRegistered(address airline) public view returns(bool);
+    function numberOfRegisteredAirlines() external view returns(uint);
+
   }
