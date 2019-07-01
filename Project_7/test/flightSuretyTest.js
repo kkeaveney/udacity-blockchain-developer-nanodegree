@@ -36,11 +36,24 @@ contract('Flight Surety Tests', async (accounts) => {
       console.log('number of airlines',airlines.toNumber());
     });
 
-    it("deploys with balance equal to zero", async() => {
+    it("deploys with contract balance equal to zero", async() => {
           let data = await FlightSuretyApp.deployed();
           let balance = await data.contractBalance.call();
           assert.equal(balance, 0, "Balance should equal 0 have contact is deployed");
       });
+
+      it("checks if first airline can send funds to the contract", async() => {
+        let data = await FlightSuretyApp.deployed();
+        let fee = await web3.toWei("10", "ether");
+        let balanceBefore = await web3.eth.getBalance(owner);
+        await data.fundAirline({from: owner, value: fee}); 
+        let balance = await data.contractBalance.call();
+        let balanceAfter = await web3.eth.getBalance(owner);
+        assert.isAbove(Number(balanceBefore) - Number(balanceAfter), Number(fee));
+        let airline = await instanceApp.getAirline.call(owner);
+        let isFunded = airline[0];
+        assert.equal(isFunded, true);
+    });
 
 
 
