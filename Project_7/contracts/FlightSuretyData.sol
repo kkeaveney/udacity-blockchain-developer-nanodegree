@@ -159,6 +159,10 @@ contract FlightSuretyData {
      return airlines[airline].numberOfAirlines;
     }
 
+    function contractBalance() public view returns(uint) {
+      return address(this).balance;
+    }
+
 
 
 

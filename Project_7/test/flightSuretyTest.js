@@ -9,32 +9,40 @@ contract('Flight Surety Tests', async (accounts) => {
   let owner = accounts[0];
 
 
-  it(`(multiparty) has correct initial isOperational() value`, async () => {
+    it(`(multiparty) has correct initial isOperational() value`, async () => {
 
-    // Get operating status
-    let data =  await FlightSuretyData.deployed();
-    let status = await data.isOperational.call();
-    assert.equal(status, true, "Incorrect initial operating status value");
+      // Get operating status
+      let data =  await FlightSuretyData.deployed();
+      let status = await data.isOperational.call();
+      assert.equal(status, true, "Incorrect initial operating status value");
 
-  });
+    });
 
-  it(`(multiparty) has correct initial isOperational() value when called from the App contract`, async () =>  {
+    it(`(multiparty) has correct initial isOperational() value when called from the App contract`, async () =>  {
 
-    // Get operating status
-    let data =  await FlightSuretyApp.deployed();
-    let status = await data.isOperational.call();
-    assert.equal(status, true, "Incorrect initial operating status value");
+      // Get operating status
+      let data =  await FlightSuretyApp.deployed();
+      let status = await data.isOperational.call();
+      assert.equal(status, true, "Incorrect initial operating status value");
 
-  });
+    });
 
-  it("deploys with contract owner registered as the initial airline", async () => {
-    let data = await FlightSuretyApp.deployed();
-    let status = await data.isAirlineRegistered.call(owner);
-    let airlines = await data.numberOfRegisteredAirlines.call(owner);
-    assert.equal(status,true, "Contract is not registered");
-    assert.equal(airlines,1,"Only one airline should be registered");
-    //console.log('airline',airlines);
-  });
+    it("deploys with contract owner registered as the initial airline", async () => {
+      let data = await FlightSuretyApp.deployed();
+      let status = await data.isAirlineRegistered.call(owner);
+      let airlines = await data.numberOfRegisteredAirlines.call(owner);
+      assert.equal(status,true, "Contract is not registered");
+      assert.equal(airlines,1,"Only one airline should be registered");
+      console.log('number of airlines',airlines.toNumber());
+    });
+
+    it("deploys with balance equal to zero", async() => {
+          let data = await FlightSuretyApp.deployed();
+          let balance = await data.contractBalance.call();
+          assert.equal(balance, 0, "Balance should equal 0 have contact is deployed");
+      });
+
+
 
 
   /****************************************************************************************/
