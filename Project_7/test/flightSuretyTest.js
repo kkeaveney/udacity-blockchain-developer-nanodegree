@@ -32,7 +32,7 @@ contract('Flight Surety Tests', async (accounts) => {
     let status = await data.isAirlineRegistered.call(owner);
     let airlines = await data.numberOfRegisteredAirlines.call();
     assert.equal(status,true, "Contract is not registered");
-    assert.equal(airlines,1,"Only one airline should be registered");
+    assert.equal(airlines,0,"Only one airline should be registered");
   });
 
 

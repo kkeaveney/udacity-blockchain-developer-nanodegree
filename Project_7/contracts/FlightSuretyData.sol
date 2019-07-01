@@ -42,6 +42,8 @@ contract FlightSuretyData {
     mapping(address => Airline) private airlines;
 
     mapping(address => uint) passengerAccountToRefund;
+
+    Airline[] private airlinesList;
     /********************************************************************************************/
     /*                                       EVENT DEFINITIONS                                  */
     /********************************************************************************************/
@@ -199,7 +201,7 @@ contract FlightSuretyData {
     }
 
     function numberOfRegisteredAirlines() external view returns(uint){
-      return numberOfAirlines;
+       return airlinesList.length;
     }
 
 
