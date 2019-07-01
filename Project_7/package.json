@@ -44,6 +44,7 @@
     "webpack-node-externals": "1.7.2"
   },
   "dependencies": {
-    "@babel/code-frame": "^7.0.0"
+    "@babel/code-frame": "^7.0.0",
+    "truffle-debugger": "^5.0.17"
   }
 }

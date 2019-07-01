@@ -125,8 +125,8 @@ contract FlightSuretyApp {
       return flightSuretyData.isAirlineRegistered(airline);
     }
 
-    function numberOfRegisteredAirlines() external returns (uint) {
-      return flightSuretyData.numberOfRegisteredAirlines();
+    function numberOfRegisteredAirlines(address airline) public view returns (uint) {
+      return flightSuretyData.numberOfRegisteredAirlines(airline);
     }
 
     function buyInsurance(string flight) public payable requireIsOperational {
@@ -299,6 +299,6 @@ contract FlightSuretyApp {
     function buyInsurance(address passenger, string flightNumber, uint insuranceValue) external;
     function creditInsurees(string flightNumber) external payable;
     function isAirlineRegistered(address airline) public view returns(bool);
-    function numberOfRegisteredAirlines() external view returns(uint);
+    function numberOfRegisteredAirlines(address airline) public view returns(uint);
 
   }

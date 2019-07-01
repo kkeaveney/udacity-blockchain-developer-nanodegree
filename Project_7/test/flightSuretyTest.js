@@ -30,9 +30,10 @@ contract('Flight Surety Tests', async (accounts) => {
   it("deploys with contract owner registered as the initial airline", async () => {
     let data = await FlightSuretyApp.deployed();
     let status = await data.isAirlineRegistered.call(owner);
-    let airlines = await data.numberOfRegisteredAirlines.call();
+    let airlines = await data.numberOfRegisteredAirlines.call(owner);
     assert.equal(status,true, "Contract is not registered");
-    assert.equal(airlines,0,"Only one airline should be registered");
+    assert.equal(airlines,1,"Only one airline should be registered");
+    //console.log('airline',airlines);
   });
 
 

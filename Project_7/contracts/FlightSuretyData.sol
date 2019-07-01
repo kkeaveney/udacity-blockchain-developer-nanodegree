@@ -155,6 +155,10 @@ contract FlightSuretyData {
       return airlines[airline].hasPaid;
     }
 
+    function numberOfRegisteredAirlines(address airline) public view returns(uint){
+     return airlines[airline].numberOfAirlines;
+    }
+
 
 
 
@@ -200,9 +204,7 @@ contract FlightSuretyData {
       numberOfAirlines = numberOfAirlines.sub(1);
     }
 
-    function numberOfRegisteredAirlines() external view returns(uint){
-       return airlinesList.length;
-    }
+
 
 
    /**
