@@ -42,6 +42,8 @@ contract FlightSuretyData {
     mapping(address => Airline) private airlines;
 
     mapping(address => uint) passengerAccountToRefund;
+
+    Airline[] private airlinesList;
     /********************************************************************************************/
     /*                                       EVENT DEFINITIONS                                  */
     /********************************************************************************************/
@@ -145,7 +147,7 @@ contract FlightSuretyData {
       return airlines[airline].numberOfAirlines;
     }
 
-    function isAirlineRegistered(address airline) external view returns(bool) {
+    function isAirlineRegistered(address airline) public view returns(bool) {
       return airlines[airline].isRegistered;
     }
 
@@ -165,10 +167,9 @@ contract FlightSuretyData {
     *      Can only be called from FlightSuretyApp contract
     *
     */
-    function registerAirline(address airline) external requireAuthorisedCaller requireIsOperational
+    function registerAirline(address airline) external requireIsOperational
     {
-      require(airlines[msg.sender].hasPaid, "Airline must pay in funds");
-      require(airlines[msg.sender].isRegistered, "Airline must be registered");
+
       require(!airlines[airline].isRegistered, "Airline is already registered");
 
         if(numberOfAirlines >= CONSENSEUS_THRESHOLD) {
@@ -197,6 +198,10 @@ contract FlightSuretyData {
       require(airlines[airline].isRegistered, "airline is not registered");
       delete airlines[airline];
       numberOfAirlines = numberOfAirlines.sub(1);
+    }
+
+    function numberOfRegisteredAirlines() external view returns(uint){
+       return airlinesList.length;
     }
 
 

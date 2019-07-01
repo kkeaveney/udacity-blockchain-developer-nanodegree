@@ -7,40 +7,40 @@ var Test = require('../config/testConfig.js');
 contract('Flight Surety Tests', async (accounts) => {
 
   let owner = accounts[0];
-  let firstAirline = accounts[1];
-  let secondAirline = accounts[2];
-  let thirdAirline = accounts[3];
-  let fourthAirline = accounts[4];
-  let fifthAirline = accounts[5];
 
-  // These test addresses are useful when you need to add
-  // multiple users in test scripts
-  let testAddresses = [
-      "0x69e1CB5cFcA8A311586e3406ed0301C06fb839a2",
-      "0xF014343BDFFbED8660A9d8721deC985126f189F3",
-      "0x0E79EDbD6A727CfeE09A2b1d0A59F7752d5bf7C9",
-      "0x9bC1169Ca09555bf2721A5C9eC6D69c8073bfeB4",
-      "0xa23eAEf02F9E0338EEcDa8Fdd0A73aDD781b2A86",
-      "0x6b85cc8f612d5457d49775439335f83e12b8cfde",
-      "0xcbd22ff1ded1423fbc24a7af2148745878800024",
-      "0xc257274276a4e539741ca11b590b9447b26a8051",
-      "0x2f2899d6d35b1a48a4fbdc93a37a72f264a9fca7"
-  ];
 
-  beforeEach(async function (){
-    this.flightSuretyData = await FlightSuretyData.new(firstAirline, {from : owner});
-    this.flightSuretyApp = await FlightSuretyApp.new(this.flightSuretyData.address, {from: owner});
-    await this.flightSuretyData.authoriseCaller(this.flightSuretyApp.address, {from : owner});
-  })
+  it(`(multiparty) has correct initial isOperational() value`, async () => {
 
+    // Get operating status
+    let data =  await FlightSuretyData.deployed();
+    let status = await data.isOperational.call();
+    assert.equal(status, true, "Incorrect initial operating status value");
+
+  });
+
+  it(`(multiparty) has correct initial isOperational() value when called from the App contract`, async () =>  {
+
+    // Get operating status
+    let data =  await FlightSuretyApp.deployed();
+    let status = await data.isOperational.call();
+    assert.equal(status, true, "Incorrect initial operating status value");
+
+  });
+
+  it("deploys with contract owner registered as the initial airline", async () => {
+    let data = await FlightSuretyApp.deployed();
+    let status = await data.isAirlineRegistered.call(owner);
+    let airlines = await data.numberOfRegisteredAirlines.call();
+    assert.equal(status,true, "Contract is not registered");
+    assert.equal(airlines,0,"Only one airline should be registered");
+  });
 
 
   /****************************************************************************************/
   /* Operations and Settings                                                              */
   /****************************************************************************************/
 
-
-    it(` (multiparty) registers an airline when contract is deployed.`, async function () {
+/*    it(` (multiparty) registers an airline when contract is deployed.`, async function () {
 
       // Ensure an airline has been registered
       let airlineCount = await this.flightSuretyData.getNumberOfAirlines.call();
@@ -56,14 +56,6 @@ contract('Flight Surety Tests', async (accounts) => {
       assert.equal(status, true, "Incorrect initial operating status value");
 
     });
-
-    it(`(multiparty) has correct initial isOperational() value`, async function () {
-
-    // Get operating status
-    let status = await this.flightSuretyData.isOperational.call();
-    assert.equal(status, true, "Incorrect initial operating status value");
-
-  });
 
   it(`(multiparty) can block access to setOperatingStatus() for non-Contract Owner account`, async function () {
 
@@ -227,8 +219,8 @@ contract('Flight Surety Tests', async (accounts) => {
     assert.equal(canParticipate, false, "Airline is Registered but cannot participate")
 
 })
-    
 
+*/
 
 
 });
