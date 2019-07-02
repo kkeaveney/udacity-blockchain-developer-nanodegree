@@ -21,7 +21,7 @@ contract FlightSuretyData {
       bool hasPaid;
       bool isRegistered;
       uint numberOfAirlines;
-      mapping(address => uint) registeredAirlines;
+      address[] registeredAirlines;
     }
 
 
@@ -163,6 +163,11 @@ contract FlightSuretyData {
       return address(this).balance;
     }
 
+    function getAirline(address _airlineAddress) external view returns(bool, bool, uint, address[]) {
+        Airline memory airline = airlines[_airlineAddress];
+        return (airline.hasPaid, airline.isRegistered, airline.numberOfAirlines, airline.registeredAirlines);
+    }
+
 
 
 
@@ -181,9 +186,9 @@ contract FlightSuretyData {
       require(!airlines[airline].isRegistered, "Airline is already registered");
 
         if(numberOfAirlines >= CONSENSEUS_THRESHOLD) {
-          require(airlines[airline].registeredAirlines[msg.sender] == 0, "Cannot register twice");
+          //require(airlines[airline].registeredAirlines[msg.sender] == 0, "Cannot register twice");
 
-          airlines[airline].registeredAirlines[msg.sender] = 1;
+          //airlines[airline].registeredAirlines[msg.sender] = 1;
           airlines[airline].numberOfAirlines = airlines[airline].numberOfAirlines.add(1);
 
 
@@ -194,7 +199,7 @@ contract FlightSuretyData {
          }
       }  else {
             airlines[airline].isRegistered = true;
-            airlines[airline].registeredAirlines[msg.sender] = 1;
+            //airlines[airline].registeredAirlines[msg.sender] = 1;
             airlines[airline].numberOfAirlines = 1;
             numberOfAirlines = numberOfAirlines.add(1);
           }
@@ -263,14 +268,14 @@ contract FlightSuretyData {
       return passengerAccountToRefund[msg.sender];
     }
 
-    function fundAirline() external payable requireIsOperational requireAuthorisedCaller {
+    function fundAirline(address airlineAddress) external payable requireIsOperational  {
       require(msg.value >= JOINING_FEE, "Value is too low");
-      require(airlines[msg.sender].isRegistered, "Caller is not registered as an airline");
-      require(!airlines[msg.sender].hasPaid, "Caller funds already paid");
+      require(airlines[airlineAddress].isRegistered, "Caller is not registered as an airline");
+      require(!airlines[airlineAddress].hasPaid, "Caller funds already paid");
 
-      airlines[msg.sender].hasPaid = true;
+      airlines[airlineAddress].hasPaid = true;
       uint refund = msg.value - JOINING_FEE;
-      msg.sender.transfer(refund);
+    //  msg.sender.transfer(refund);
     }
     /**
      *  @dev Transfers eligible payout funds to insuree

@@ -46,14 +46,29 @@ contract('Flight Surety Tests', async (accounts) => {
         let data = await FlightSuretyApp.deployed();
         let fee = await web3.toWei("10", "ether");
         let balanceBefore = await web3.eth.getBalance(owner);
-        await data.fundAirline({from: owner, value: fee}); 
+        await data.fundAirline({from: owner, value: fee});
         let balance = await data.contractBalance.call();
         let balanceAfter = await web3.eth.getBalance(owner);
         assert.isAbove(Number(balanceBefore) - Number(balanceAfter), Number(fee));
-        let airline = await instanceApp.getAirline.call(owner);
-        let isFunded = airline[0];
-        assert.equal(isFunded, true);
-    });
+        let airline = await data.getAirline.call(owner);
+        let hasPaid = airline[0];
+        assert.equal(hasPaid, true);
+        console.log('airline',airline);
+      });
+
+      it("checks that a non-airline user cannot register another airline", async() => {
+    let user2 = accounts[1];
+    let instanceApp = await FlightSuretyApp.deployed();
+    let numAirlines = await instanceApp.howManyAirlines.call();
+    assert.equal(numAirlines, 1, "There should be only 1 registered airline so far");
+    let error;
+    try {
+        await instanceApp.registerAirline(user2, "Delta airlines", {from:user2});
+    } catch(err) {
+        error = true;
+    }
+    assert.equal(error, true, "Non-airline user should not be able to register an airline");
+});
 
 
 

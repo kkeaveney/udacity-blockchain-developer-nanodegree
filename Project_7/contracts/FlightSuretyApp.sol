@@ -140,6 +140,15 @@ contract FlightSuretyApp {
       numberOfInsurances = numberOfInsurances + 1;
     }
 
+    function fundAirline() public payable {
+        flightSuretyData.fundAirline.value(msg.value)(msg.sender);
+
+    }
+
+    function getAirline(address airlineAddress) public view returns(bool, bool, uint, address[]) {
+        return flightSuretyData.getAirline(airlineAddress);
+    }
+
    /**
     * @dev Called after oracle has updated flight status
     *
@@ -303,7 +312,9 @@ contract FlightSuretyApp {
     function buyInsurance(address passenger, string flightNumber, uint insuranceValue) external;
     function creditInsurees(string flightNumber) external payable;
     function contractBalance() public view returns(uint);
-    function isAirlineRegistered(address airline) public view returns(bool);
-    function numberOfRegisteredAirlines(address airline) public view returns(uint);
+    function isAirlineRegistered(address airlineAddress) public view returns(bool);
+    function numberOfRegisteredAirlines(address airlineAddress) public view returns(uint);
+    function fundAirline(address airlineAddress) external payable;
+    function getAirline(address airlineAddress) public view returns(bool, bool, uint, address[]);
 
   }
