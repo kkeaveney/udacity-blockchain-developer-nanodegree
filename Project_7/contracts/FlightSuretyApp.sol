@@ -133,6 +133,11 @@ contract FlightSuretyApp {
       return flightSuretyData.contractBalance();
     }
 
+    function getNumberOfAirlines() external view returns(uint) {
+      //return numberOfAirlines;
+      return flightSuretyData.getNumberOfAirlines();
+    }
+
     function buyInsurance(string flight) public payable requireIsOperational {
       require(msg.value <= 1 ether, "insurance must be less than than 1 ethetr");
       address(flightSuretyData).transfer(msg.value);
@@ -316,5 +321,6 @@ contract FlightSuretyApp {
     function numberOfRegisteredAirlines(address airlineAddress) public view returns(uint);
     function fundAirline(address airlineAddress) external payable;
     function getAirline(address airlineAddress) public view returns(bool, bool, uint, address[]);
+    function getNumberOfAirlines() external view returns(uint);
 
   }

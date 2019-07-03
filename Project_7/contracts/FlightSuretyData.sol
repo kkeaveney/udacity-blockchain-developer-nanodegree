@@ -124,7 +124,8 @@ contract FlightSuretyData {
     }
 
     function getNumberOfAirlines() external view returns(uint) {
-      return numberOfAirlines;
+      //return numberOfAirlines;
+      return airlinesList.length;
     }
 
     function authoriseCaller(address caller) external requireContractOwner {
@@ -275,7 +276,6 @@ contract FlightSuretyData {
 
       airlines[airlineAddress].hasPaid = true;
       uint refund = msg.value - JOINING_FEE;
-    //  msg.sender.transfer(refund);
     }
     /**
      *  @dev Transfers eligible payout funds to insuree
