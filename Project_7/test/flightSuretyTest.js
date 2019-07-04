@@ -105,7 +105,19 @@ contract('Flight Surety Tests', async (accounts) => {
         let numberOfAirlines = await data.getNumberOfAirlines.call();
         assert.equal(numberOfAirlines,5,"There should be 5 Airlines");
         let airline5Info = await data.getAirline(airline5);
-        assert.equal(airline5Info[1],false, "Airline 5 should not be registered")
+        assert.equal(airline5Info[2],false, "Airline 5 should not be registered");
+      });
+
+      it("Allows for multi-party consensus", async() => {
+
+        let data = await FlightSuretyApp.deployed();
+        let numberOfAirlines = await data.getNumberOfAirlines.call();
+        assert.equal(numberOfAirlines,5);
+
+        let airline5Info = await data.getAirline(airline5);
+        let airline3Info = await data.getAirline(airline3);
+        assert.equal(airline5Info[2],false, "Airline 5 should not be registered");
+        assert.equal(airline3Info[2],true, "Airline 4 should not be registered");
       });
 
 
