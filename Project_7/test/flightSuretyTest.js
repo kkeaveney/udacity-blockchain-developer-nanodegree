@@ -57,19 +57,19 @@ contract('Flight Surety Tests', async (accounts) => {
       });
 
       it("Only air-line users can register airlines", async() => {
-    let user2 = accounts[1];
-    let data = await FlightSuretyApp.deployed();
-    let numAirlines = await data.getNumberOfAirlines.call();
-    console.log('airlines number = ',numAirlines.toNumber());
-  /*  assert.equal(numAirlines, 1, "Only one airline should be registered");
-    let error;
-    try {
-        await instanceApp.registerAirline(user2, "Irish Airways", {from:user2});
-    } catch(err) {
-        error = true;
-    }
-    assert.equal(error, true, "Only air-line users can register airlines");
-    */
+        let user2 = accounts[1];
+        let data = await FlightSuretyApp.deployed();
+        let numAirlines = await data.getNumberOfAirlines.call();
+        console.log('airlines number = ',numAirlines.toNumber());
+        assert.equal(numAirlines, 1, "Only one airline should be registered");
+        let error;
+        try {
+            await instanceApp.registerAirline(user2, "Irish Airways", {from:user2});
+        } catch(err) {
+            error = true;
+        }
+        assert.equal(error, true, "Only air-line users can register airlines");
+        
 });
 
 

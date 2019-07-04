@@ -18,9 +18,9 @@ contract FlightSuretyData {
     mapping(bytes32 => Flight) private flights;
 
     struct Airline {
+      address airlineAddress;
       bool hasPaid;
       bool isRegistered;
-      uint numberOfAirlines;
       address[] registeredAirlines;
     }
 
@@ -56,13 +56,8 @@ contract FlightSuretyData {
     constructor(address firstAirline) public
     {
         contractOwner = msg.sender;
-        numberOfAirlines = 1;
-        Airline memory airline;
-        airline.hasPaid = false;
-        airline.isRegistered = true;
-        airline.numberOfAirlines = 0;
-        airlines[firstAirline] = airline;
-      }
+
+    }
 
     /********************************************************************************************/
     /*                                       FUNCTION MODIFIERS                                 */
@@ -124,8 +119,7 @@ contract FlightSuretyData {
     }
 
     function getNumberOfAirlines() external view returns(uint) {
-      //return numberOfAirlines;
-      return airlinesList.length;
+     return airlinesList.length;
     }
 
     function authoriseCaller(address caller) external requireContractOwner {
@@ -144,10 +138,6 @@ contract FlightSuretyData {
       return keccak256(abi.encodePacked(passenger, flightNumber));
     }
 
-    function returnNumberOfAirlinesRegistered(address airline) external view returns (uint) {
-      return airlines[airline].numberOfAirlines;
-    }
-
     function isAirlineRegistered(address airline) public view returns(bool) {
       return airlines[airline].isRegistered;
     }
@@ -157,18 +147,17 @@ contract FlightSuretyData {
     }
 
     function numberOfRegisteredAirlines(address airline) public view returns(uint){
-     return airlines[airline].numberOfAirlines;
+      return airlinesList.length;
     }
 
     function contractBalance() public view returns(uint) {
       return address(this).balance;
     }
 
-    function getAirline(address _airlineAddress) external view returns(bool, bool, uint, address[]) {
-        Airline memory airline = airlines[_airlineAddress];
-        return (airline.hasPaid, airline.isRegistered, airline.numberOfAirlines, airline.registeredAirlines);
+    function getAirline(address airlineAddress) external view returns(address, bool, bool, address[]) {
+        Airline memory airline = airlines[airlineAddress];
+        return (airline.airlineAddress, airline.hasPaid, airline.isRegistered, airline.registeredAirlines);
     }
-
 
 
 
@@ -181,32 +170,31 @@ contract FlightSuretyData {
     *      Can only be called from FlightSuretyApp contract
     *
     */
-    function registerAirline(address airline) external requireIsOperational
+    function registerAirline(address airlineAddress) external requireIsOperational
     {
 
-      require(!airlines[airline].isRegistered, "Airline is already registered");
+      require(!airlines[airlineAddress].isRegistered, "Airline is already registered");
 
-        if(numberOfAirlines >= CONSENSEUS_THRESHOLD) {
-          //require(airlines[airline].registeredAirlines[msg.sender] == 0, "Cannot register twice");
-
-          //airlines[airline].registeredAirlines[msg.sender] = 1;
-          airlines[airline].numberOfAirlines = airlines[airline].numberOfAirlines.add(1);
-
-
-          if(airlines[airline].numberOfAirlines * 2 >= numberOfAirlines) {
-            airlines[airline].isRegistered = true;
-            numberOfAirlines = numberOfAirlines.add(1);
-
-         }
-      }  else {
-            airlines[airline].isRegistered = true;
-            //airlines[airline].registeredAirlines[msg.sender] = 1;
-            airlines[airline].numberOfAirlines = 1;
-            numberOfAirlines = numberOfAirlines.add(1);
+        if(numberOfAirlines <= CONSENSEUS_THRESHOLD) {
+            Airline memory airline1 = Airline({
+              airlineAddress: airlineAddress,
+              hasPaid: false,
+              isRegistered: true,
+              registeredAirlines: new address[](0)
+            });
+            numberOfAirlines = airlinesList.push(airline1);
+            airlines[airlineAddress] =  airline1;
+            }  else {
+              Airline memory airline2 = Airline({
+                airlineAddress: airlineAddress,
+                hasPaid: false,
+                isRegistered: false,
+                registeredAirlines: new address[](0)
+              });
+              numberOfAirlines = airlinesList.push(airline2);
+              airlines[airlineAddress] =  airline2;
           }
-
-
-    }
+        }
 
     function unRegisterAirline(address airline) external requireAuthorisedCaller requireIsOperational {
       require(airlines[airline].isRegistered, "airline is not registered");

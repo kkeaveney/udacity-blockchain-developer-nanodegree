@@ -79,7 +79,7 @@ contract FlightSuretyApp {
     */
     constructor(address newContract) public
     {
-        contractOwner = tx.origin;
+        contractOwner = msg.sender;
         flightSuretyData = FlightSuretyData(newContract);
         registerAirline(contractOwner);
     }
