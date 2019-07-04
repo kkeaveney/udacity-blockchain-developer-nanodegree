@@ -175,7 +175,7 @@ contract FlightSuretyData {
 
       require(!airlines[airlineAddress].isRegistered, "Airline is already registered");
 
-        if(numberOfAirlines <= CONSENSEUS_THRESHOLD) {
+        if(numberOfAirlines < CONSENSEUS_THRESHOLD) {
             Airline memory airline1 = Airline({
               airlineAddress: airlineAddress,
               hasPaid: false,

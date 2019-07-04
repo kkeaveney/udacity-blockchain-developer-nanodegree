@@ -10,7 +10,7 @@ contract('Flight Surety Tests', async (accounts) => {
     let airline2 = accounts[1];
     let airline3 = accounts[2];
     let airline4 = accounts[3];
-
+    let airline5 = accounts[4];
 
     it(`(multiparty) has correct initial isOperational() value`, async () => {
 
@@ -90,12 +90,22 @@ contract('Flight Surety Tests', async (accounts) => {
         let airline2Info = await data.getAirline(airline2);
         let airline3Info = await data.getAirline(airline3);
         let airline4Info = await data.getAirline(airline4);
-        assert.equal(airline3Info[0],airline3,"Wrong Airline address");
-        assert.equal(airline3Info[1],false,"Airline should not be funded");
-        assert.equal(airline3Info[2],true,"Airline isn;t registered");
         console.log(airline2Info[0]);
         console.log(airline3Info[0]);
         console.log(airline4Info[0]);
+        assert.equal(airline3Info[0],airline3,"Wrong Airline address");
+        assert.equal(airline3Info[1],false,"Airline should not be funded");
+        assert.equal(airline3Info[2],true,"Airline isn;t registered");
+      });
+
+      it("Allows a fifth, non registerd airline to be added", async() => {
+
+        let data = await FlightSuretyApp.deployed();
+        await data.registerAirline(airline5, {from:owner});
+        let numberOfAirlines = await data.getNumberOfAirlines.call();
+        assert.equal(numberOfAirlines,5,"There should be 5 Airlines");
+        let airline5Info = await data.getAirline(airline5);
+        assert.equal(airline5Info[1],false, "Airline 5 should not be registered")
       });
 
 
