@@ -6,7 +6,10 @@ var Test = require('../config/testConfig.js');
 
 contract('Flight Surety Tests', async (accounts) => {
 
-  let owner = accounts[0];
+    let owner = accounts[0];
+    let airline2 = accounts[1];
+    let airline3 = accounts[2];
+    let airline4 = accounts[3];
 
 
     it(`(multiparty) has correct initial isOperational() value`, async () => {
@@ -51,7 +54,7 @@ contract('Flight Surety Tests', async (accounts) => {
         let balanceAfter = await web3.eth.getBalance(owner);
         assert.isAbove(Number(balanceBefore) - Number(balanceAfter), Number(fee));
         let airline = await data.getAirline.call(owner);
-        let hasPaid = airline[0];
+        let hasPaid = airline[1];
         assert.equal(hasPaid, true);
         console.log('airline',airline);
       });
@@ -59,9 +62,9 @@ contract('Flight Surety Tests', async (accounts) => {
       it("Only air-line users can register airlines", async() => {
         let user2 = accounts[1];
         let data = await FlightSuretyApp.deployed();
-        let numAirlines = await data.getNumberOfAirlines.call();
-        console.log('airlines number = ',numAirlines.toNumber());
-        assert.equal(numAirlines, 1, "Only one airline should be registered");
+        let numberOFAirlines = await data.getNumberOfAirlines.call();
+        console.log('airlines number = ',numberOFAirlines.toNumber());
+        assert.equal(numberOFAirlines, 1, "Only one airline should be registered");
         let error;
         try {
             await instanceApp.registerAirline(user2, "Irish Airways", {from:user2});
@@ -69,10 +72,31 @@ contract('Flight Surety Tests', async (accounts) => {
             error = true;
         }
         assert.equal(error, true, "Only air-line users can register airlines");
-        
-});
 
+        });
 
+      it("only 4 airlines can be registered without multi-party consenus", async() => {
+        let data = await FlightSuretyApp.deployed();
+        await data.registerAirline(airline2),{from:owner};
+        await data.registerAirline(airline3),{from:owner};
+        let numberOfAirlines = await data.getNumberOfAirlines.call();
+        console.log('airlines number = ',numberOfAirlines.toNumber());
+        assert.equal(numberOfAirlines, 3, "There should be three registered Airlines");
+
+        await data.registerAirline(airline4),{from:airline3};
+        numberOfAirlines = await data.getNumberOfAirlines.call();
+        assert.equal(numberOfAirlines, 4, "There should be three registered Airlines");
+
+        let airline2Info = await data.getAirline(airline2);
+        let airline3Info = await data.getAirline(airline3);
+        let airline4Info = await data.getAirline(airline4);
+        assert.equal(airline3Info[0],airline3,"Wrong Airline address");
+        assert.equal(airline3Info[1],false,"Airline should not be funded");
+        assert.equal(airline3Info[2],true,"Airline isn;t registered");
+        console.log(airline2Info[0]);
+        console.log(airline3Info[0]);
+        console.log(airline4Info[0]);
+      });
 
 
   /****************************************************************************************/

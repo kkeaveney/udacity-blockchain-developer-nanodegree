@@ -150,7 +150,7 @@ contract FlightSuretyApp {
 
     }
 
-    function getAirline(address airlineAddress) public view returns(bool, bool, uint, address[]) {
+    function getAirline(address airlineAddress) public view returns(address, bool, bool, address[]) {
         return flightSuretyData.getAirline(airlineAddress);
     }
 
@@ -320,7 +320,7 @@ contract FlightSuretyApp {
     function isAirlineRegistered(address airlineAddress) public view returns(bool);
     function numberOfRegisteredAirlines(address airlineAddress) public view returns(uint);
     function fundAirline(address airlineAddress) external payable;
-    function getAirline(address airlineAddress) public view returns(bool, bool, uint, address[]);
+    function getAirline(address airlineAddress) public view returns(address, bool, bool, address[]);
     function getNumberOfAirlines() external view returns(uint);
 
   }
