@@ -116,10 +116,10 @@ contract FlightSuretyApp {
     * @dev Register a future flight for insuring.
     *
     */
-    function registerFlight() external pure
-    {
-
+    function registerFlight(string memory flightNumber, string memory departure, string memory destination, uint256 departureDate) public {
+      flightSuretyData.registerFlight(flightNumber,departure,destination,departureDate);
     }
+
 
     function isAirlineRegistered(address airline) public view returns(bool) {
       return flightSuretyData.isAirlineRegistered(airline);
@@ -134,8 +134,12 @@ contract FlightSuretyApp {
     }
 
     function getNumberOfAirlines() external view returns(uint) {
-      //return numberOfAirlines;
+
       return flightSuretyData.getNumberOfAirlines();
+    }
+
+    function getNumberOfFlights() external view returns (uint) {
+      return flightSuretyData.getNumberOfFlights();
     }
 
     function buyInsurance(string flight) public payable requireIsOperational {
@@ -332,5 +336,7 @@ contract FlightSuretyApp {
     function getNumberOfAirlines() external view returns(uint);
     function vote(address airlineAddress) public;
     function voteCount(address airlineAddress) public view returns(uint);
+    function registerFlight(string memory flightNumber, string memory departure, string memory destination, uint256 departureDate) public;
+    function getNumberOfFlights() external view returns (uint);
 
   }

@@ -119,7 +119,7 @@ contract('Flight Surety Tests', async (accounts) => {
         let airline3Info = await data.getAirline(airline3);
         assert.equal(airline5Info[2],false, "Airline 5 should not be registered");
         assert.equal(airline3Info[2],true, "Airline 3 should not registered");
-        console.log('numberOfAirlines',numberOfAirlines.toNumber());
+
 
         await data.vote(airline5, {from:owner});
         assert.equal(airline5Info[2],false, "Airline 5 should not be registered");
@@ -127,18 +127,27 @@ contract('Flight Surety Tests', async (accounts) => {
         await data.vote(airline5, {from:airline2});
         assert.equal(airline5Info[2],false, "Airline 5 should still not be registered");
         await data.vote(airline5, {from:airline3});
-        //await data.vote(airline5, {from:airline4});
+        await data.vote(airline5, {from:airline4});
+        airline5Info = await data.getAirline(airline5);
         assert.equal(airline5Info[2],true, "Airline 5 has recieved consenus, is now Registered");
-        //airline5details = await data.getAirline(airline5);
-        console.log('airline5details',airline5details);
-        let airlines = await data.airlinesListCount.call(owner);
-        console.log('number of airlines',airlines.toNumber());
-
-
-
 
       });
 
+      it("Allows a funded airline to regiseter another flight", async() => {
+        let data = await FlightSuretyApp.deployed();
+        let airline1 = owner;
+        let airline1Info = await data.getAirline(airline1);
+        let airline2Info = await data.getAirline(airline2);
+        assert.equal(airline1Info[1],true);
+        let dateString = "2019-07-14T12:30:00Z"
+        let departureDate = new Date(dateString).getTime();
+        console.log(departureDate);
+        await data.registerFlight("IR01","DUB","BEL",departureDate, {from:airline1});
+        let flightCount = await data.getNumberOfFlights();
+        assert.equal(flightCount,1,"Incorrect number of flights");
+        console.log(flightCount.toNumber());
+
+      });
 
   /****************************************************************************************/
   /* Operations and Settings                                                              */

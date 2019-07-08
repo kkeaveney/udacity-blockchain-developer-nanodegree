@@ -11,7 +11,10 @@ contract FlightSuretyData {
     struct Flight {
       address airline;
       bool isRegistered;
-      uint256 updatedTimestamp;
+      bool isInsured;
+      string source;
+      string destination;
+      uint256 departureDate;
       uint8 statusCode;
     }
 
@@ -38,12 +41,14 @@ contract FlightSuretyData {
     address private contractOwner;                                      // Account used to deploy contract
     bool private operational = true;                                    // Blocks all state changes throughout the contract if false
     uint numberOfAirlines = 0;
+    uint numberOfFlights = 0;
     mapping(address => uint) private authorisedContracts;
     mapping(address => Airline) private airlines;
 
     mapping(address => uint) passengerAccountToRefund;
 
     Airline[] private airlinesList;
+    Flight[] private flightsList;
     /********************************************************************************************/
     /*                                       EVENT DEFINITIONS                                  */
     /********************************************************************************************/
@@ -150,6 +155,12 @@ contract FlightSuretyData {
       return airlinesList.length;
     }
 
+    function getNumberOfFlights() external view returns(uint) {
+     return  flightsList.length;
+    }
+
+
+
     function contractBalance() public view returns(uint) {
       return address(this).balance;
     }
@@ -158,6 +169,26 @@ contract FlightSuretyData {
         Airline memory airline = airlines[airlineAddress];
         return (airline.airlineAddress, airline.hasPaid, airline.isRegistered, airline.registeredAirlines);
     }
+
+    function registerFlight(string memory flightNumber, string memory departure, string memory destination, uint256 departureDate) public {
+      require(airlines[tx.origin].hasPaid);
+      bytes32 flightHash = getFlightKey(tx.origin, flightNumber, departureDate);
+
+      Flight memory newFlight = Flight({
+          airline: tx.origin,
+          isRegistered:true,
+          isInsured:false,
+          source: departure,
+          destination: destination,
+          departureDate: departureDate,
+          statusCode:0
+        });
+        numberOfFlights = flightsList.push(newFlight);
+        flights[flightHash] = newFlight;
+
+      }
+
+
 
 
 
