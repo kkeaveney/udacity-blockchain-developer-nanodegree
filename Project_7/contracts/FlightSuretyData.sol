@@ -146,7 +146,7 @@ contract FlightSuretyData {
       return airlines[airline].hasPaid;
     }
 
-    function numberOfRegisteredAirlines(address airline) public view returns(uint){
+    function airlinesListCount(address airline) public view returns(uint){
       return airlinesList.length;
     }
 
@@ -200,6 +200,19 @@ contract FlightSuretyData {
       require(airlines[airline].isRegistered, "airline is not registered");
       delete airlines[airline];
       numberOfAirlines = numberOfAirlines.sub(1);
+    }
+
+    function vote(address airlineAddress) public requireIsOperational {
+
+        Airline storage currentAirline = airlines[airlineAddress];
+        currentAirline.registeredAirlines.push(tx.origin);
+        if(currentAirline.registeredAirlines.length > (numberOfAirlines.div(2))){
+          currentAirline.isRegistered = true;
+        }
+    }
+
+    function voteCount(address airlineAddress) external view returns(uint) {
+        return airlines[airlineAddress].registeredAirlines.length;
     }
 
 

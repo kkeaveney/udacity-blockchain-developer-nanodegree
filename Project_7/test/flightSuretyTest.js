@@ -33,7 +33,7 @@ contract('Flight Surety Tests', async (accounts) => {
     it("deploys with contract owner registered as the initial airline", async () => {
       let data = await FlightSuretyApp.deployed();
       let status = await data.isAirlineRegistered.call(owner);
-      let airlines = await data.numberOfRegisteredAirlines.call(owner);
+      let airlines = await data.airlinesListCount.call(owner);
       assert.equal(status,true, "Contract is not registered");
       assert.equal(airlines,1,"Only one airline should be registered");
       console.log('number of airlines',airlines.toNumber());
@@ -114,10 +114,29 @@ contract('Flight Surety Tests', async (accounts) => {
         let numberOfAirlines = await data.getNumberOfAirlines.call();
         assert.equal(numberOfAirlines,5);
 
+
         let airline5Info = await data.getAirline(airline5);
         let airline3Info = await data.getAirline(airline3);
         assert.equal(airline5Info[2],false, "Airline 5 should not be registered");
-        assert.equal(airline3Info[2],true, "Airline 4 should not be registered");
+        assert.equal(airline3Info[2],true, "Airline 3 should not registered");
+        console.log('numberOfAirlines',numberOfAirlines.toNumber());
+
+        await data.vote(airline5, {from:owner});
+        assert.equal(airline5Info[2],false, "Airline 5 should not be registered");
+        let voteCount = await data.voteCount(airline5);
+        await data.vote(airline5, {from:airline2});
+        assert.equal(airline5Info[2],false, "Airline 5 should still not be registered");
+        await data.vote(airline5, {from:airline3});
+        //await data.vote(airline5, {from:airline4});
+        assert.equal(airline5Info[2],true, "Airline 5 has recieved consenus, is now Registered");
+        //airline5details = await data.getAirline(airline5);
+        console.log('airline5details',airline5details);
+        let airlines = await data.airlinesListCount.call(owner);
+        console.log('number of airlines',airlines.toNumber());
+
+
+
+
       });
 
 

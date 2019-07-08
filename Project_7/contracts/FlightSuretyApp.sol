@@ -125,8 +125,8 @@ contract FlightSuretyApp {
       return flightSuretyData.isAirlineRegistered(airline);
     }
 
-    function numberOfRegisteredAirlines(address airline) public view returns (uint) {
-      return flightSuretyData.numberOfRegisteredAirlines(airline);
+    function airlinesListCount(address airline) public view returns (uint) {
+      return flightSuretyData.airlinesListCount(airline);
     }
 
     function contractBalance() public view returns(uint) {
@@ -152,6 +152,14 @@ contract FlightSuretyApp {
 
     function getAirline(address airlineAddress) public view returns(address, bool, bool, address[]) {
         return flightSuretyData.getAirline(airlineAddress);
+    }
+
+    function vote(address airlineAddress) public {
+        flightSuretyData.vote(airlineAddress);
+    }
+
+    function voteCount(address airlineAddress) public view returns(uint) {
+        return flightSuretyData.voteCount(airlineAddress);
     }
 
    /**
@@ -318,9 +326,11 @@ contract FlightSuretyApp {
     function creditInsurees(string flightNumber) external payable;
     function contractBalance() public view returns(uint);
     function isAirlineRegistered(address airlineAddress) public view returns(bool);
-    function numberOfRegisteredAirlines(address airlineAddress) public view returns(uint);
+    function airlinesListCount(address airlineAddress) public view returns(uint);
     function fundAirline(address airlineAddress) external payable;
     function getAirline(address airlineAddress) public view returns(address, bool, bool, address[]);
     function getNumberOfAirlines() external view returns(uint);
+    function vote(address airlineAddress) public;
+    function voteCount(address airlineAddress) public view returns(uint);
 
   }
