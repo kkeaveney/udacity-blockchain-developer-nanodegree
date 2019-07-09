@@ -32,6 +32,7 @@ contract FlightSuretyApp {
         uint256 updatedTimestamp;
         address airline;
     }
+
     mapping(bytes32 => Flight) private flights;
 
     bool private operational = true;
@@ -282,10 +283,24 @@ contract FlightSuretyApp {
     }
 
 
-    function getFlightKey(address airline, string flight, uint256 timestamp) pure internal returns(bytes32)
+    function getFlightKey(address airline, string flight, uint256 timestamp) pure public returns(bytes32)
     {
         return keccak256(abi.encodePacked(airline, flight, timestamp));
     }
+
+    function getFlight(bytes32 flightHash) public view returns(
+      address airline,
+      bool isRegistered,
+      bool isInsured,
+      string flightID,
+      string source,
+      string destination,
+      uint256 departureDate,
+      uint8 statusCode) {
+        return flightSuretyData.getFlight(flightHash);
+    }
+
+
 
     // Returns array of three non-duplicating integers from 0-9
     function generateIndexes(address account) internal returns(uint8[3])
@@ -338,5 +353,15 @@ contract FlightSuretyApp {
     function voteCount(address airlineAddress) public view returns(uint);
     function registerFlight(string memory flightNumber, string memory departure, string memory destination, uint256 departureDate) public;
     function getNumberOfFlights() external view returns (uint);
+    function getFlightKey(address airline, string flight, uint256 timestamp) pure internal returns(bytes32);
+    function getFlight(bytes32 flightHash) public view returns(
+      address airline,
+      bool isRegistered,
+      bool isInsured,
+      string flightID,
+      string source,
+      string destination,
+      uint256 departureDate,
+      uint8 statusCode);
 
   }

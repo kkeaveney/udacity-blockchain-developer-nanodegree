@@ -12,6 +12,7 @@ contract FlightSuretyData {
       address airline;
       bool isRegistered;
       bool isInsured;
+      string flightID;
       string source;
       string destination;
       uint256 departureDate;
@@ -170,14 +171,15 @@ contract FlightSuretyData {
         return (airline.airlineAddress, airline.hasPaid, airline.isRegistered, airline.registeredAirlines);
     }
 
-    function registerFlight(string memory flightNumber, string memory departure, string memory destination, uint256 departureDate) public {
+    function registerFlight(string memory flightID, string memory departure, string memory destination, uint256 departureDate) public {
       require(airlines[tx.origin].hasPaid);
-      bytes32 flightHash = getFlightKey(tx.origin, flightNumber, departureDate);
+      bytes32 flightHash = getFlightKey(tx.origin, flightID, departureDate);
 
       Flight memory newFlight = Flight({
           airline: tx.origin,
           isRegistered:true,
           isInsured:false,
+          flightID: flightID,
           source: departure,
           destination: destination,
           departureDate: departureDate,
@@ -330,6 +332,21 @@ contract FlightSuretyData {
     {
         return keccak256(abi.encodePacked(airline, flight, timestamp));
     }
+
+    function getFlight(bytes32 flightHash) public view returns(
+      address airline,
+      bool isRegistered,
+      bool isInsured,
+      string flightID,
+      string source,
+      string destination,
+      uint256 departureDate,
+      uint8 statusCode){
+        Flight memory flight = flights[flightHash];
+        return(flight.airline, flight.isRegistered, flight.isInsured, flight.flightID, flight.source,  flight.destination,flight.departureDate, flight.statusCode);
+      }
+
+
 
     /**
     * @dev Fallback function for funding smart contract.

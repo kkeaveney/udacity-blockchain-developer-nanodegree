@@ -147,6 +147,12 @@ contract('Flight Surety Tests', async (accounts) => {
         assert.equal(flightCount,1,"Incorrect number of flights");
         console.log(flightCount.toNumber());
 
+        let hash = await data.getFlightKey.call(airline1, "IR01", departureDate);
+        let airline1Hash = await data.getFlight(hash);
+        assert.equal(airline1Hash[1],true);  // Registered
+        assert.equal(airline1Hash[2],false); // Not Funded
+        assert.equal(airline1Hash[3],"IR01"); // flightID
+        assert.equal(airline1Hash[4],"DUB");  // Arrival
       });
 
   /****************************************************************************************/
