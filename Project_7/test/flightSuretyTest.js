@@ -164,7 +164,10 @@ contract('Flight Surety Tests', async (accounts) => {
         let hash = await data.getFlightKey.call(airline1,"IR01",departureDate);
         let airline1Hash = await data.getFlight(hash);
         let fee = await web3.toWei("0.3","ether");
-        await data.buyInsurance(airline2, departureDate, "IR01",{from: firstPassenger, value: fee});
+        await data.buyInsurance(airline1, departureDate, "IR01",{from: firstPassenger, value: fee});
+        let hasInsurance = await data.hasInsurance(airline1, firstPassenger,"IR01", departureDate);
+        assert.equal(hasInsurance, true, "Passenger isn't insured");
+        console.log(hasInsurance);
       })
 
   /****************************************************************************************/

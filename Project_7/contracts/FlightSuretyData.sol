@@ -29,14 +29,8 @@ contract FlightSuretyData {
     }
 
 
-    struct Insurance {
-      bool hasPaidOut;
-      bool isRegistered;
-      uint cost;
-    }
-
     mapping(address => uint) refundedAccount;
-    mapping(bytes32 => Insurance) insurances;
+    mapping(address => bytes32[]) private insurances;
     address[] passengers;
 
     address private contractOwner;                                      // Account used to deploy contract
@@ -205,7 +199,10 @@ contract FlightSuretyData {
       function buyInsurance(address airlineAddress, uint departureDate, string flightID) external payable {
 
         require(msg.value <= 1 ether, "insurance must be less than than 1 ethetr");
-        //require(!hasInsurace(airlineAddress, tx.origin, flightID, departureDate),"User has already bought insurance for this flight");
+        require(!hasInsurance(airlineAddress, tx.origin, flightID, departureDate),"User has already bought insurance for this flight");
+        bytes32 flightHash = getFlightKey(airlineAddress,flightID, departureDate);
+        insurances[tx.origin].push(flightHash);
+
         //address(flightSuretyData).transfer(msg.value);
         //flightSuretyData.buyInsurance(msg.sender, flight, msg.value);
         //numberOfInsurances = numberOfInsurances + 1;
@@ -278,42 +275,10 @@ contract FlightSuretyData {
     */
     event InsuranceBought(address passenger, string flightNumber, uint cost);
 
-    function buy(address passenger, string flight, uint cost) external requireAuthorisedCaller requireIsOperational payable
-    {
-      require(key <=1 ether, "Insurances cannot be more than one ether");
 
-      bytes32 key= getInsuranceKey (passenger, flight);
-      require(!insurances[key].isRegistered, "Only one insurance per passenger");
-      require(!insurances[key].hasPaidOut, "insurance has already been paid");
-      insurances[key] = Insurance(true, false, cost);
 
-      bool isPassenger = false;
-      uint passengersLength = passengers.length;
-      for(uint i= 0; i< passengersLength; i++) {
-        if (passengers[i] == passenger) {
-          isPassenger = true;
-          break;
-        }
-      }
-      emit InsuranceBought(passenger, flight, cost);
-    }
 
-    /**
-     *  @dev Credits payouts to insurees
-    */
-    function creditInsurees(string flight) external requireAuthorisedCaller requireIsOperational
-    {
-      uint passengersLength = passengers.length;
-        for(uint i = 0; i < passengersLength; i++) {
-          bytes32 key = getInsuranceKey(passengers[i],flight);
-            if(!insurances[key].hasPaidOut) {
-              insurances[key].hasPaidOut = true;
-              passengerAccountToRefund[passengers[i]] = passengerAccountToRefund[passengers[i]].add(insurances[key].cost.mul(3).div(2));
-            }
-        }
-    }
-
-    function withdraw() external requireIsOperational {
+      function withdraw() external requireIsOperational {
       uint refund = passengerAccountToRefund[msg.sender];
       passengerAccountToRefund[msg.sender] = 0;
       msg.sender.transfer(refund);

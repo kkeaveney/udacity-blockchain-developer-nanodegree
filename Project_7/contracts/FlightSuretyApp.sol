@@ -166,8 +166,8 @@ contract FlightSuretyApp {
         return flightSuretyData.voteCount(airlineAddress);
     }
 
-    function hasInsurance(address airlineAddress, address passengerAddress, string _flightID, uint departureDate) public view returns(bool) {
-        return flightSuretyData.hasInsurance(airlineAddress, passengerAddress, _flightID, departureDate);
+    function hasInsurance(address airlineAddress, address passengerAddress, string flightID, uint departureDate) public view returns(bool) {
+        return flightSuretyData.hasInsurance(airlineAddress, passengerAddress, flightID, departureDate);
     }
 
    /**
@@ -366,6 +366,6 @@ contract FlightSuretyApp {
       string destination,
       uint256 departureDate,
       uint8 statusCode);
-      function hasInsurance(address airlineAddress, address passengerAddress, string _flightID, uint departureDate) public view returns(bool);
+      function hasInsurance(address airlineAddress, address passengerAddress, string flightID, uint departureDate) public view returns(bool);
 
   }
