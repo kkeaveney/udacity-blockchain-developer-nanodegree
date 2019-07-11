@@ -139,8 +139,8 @@ contract('Flight Surety Tests', async (accounts) => {
         let airline1Info = await data.getAirline(airline1);
         let airline2Info = await data.getAirline(airline2);
         assert.equal(airline1Info[1],true);
-        let dateString = "2019-07-14T12:30:00Z"
-        let departureDate = new Date(dateString).getTime();
+        let date = "2019-07-14T12:30:00Z"
+        let departureDate = new Date(date).getTime();
         console.log(departureDate);
         await data.registerFlight("IR01","DUB","BEL",departureDate, {from:airline1});
         let flightCount = await data.getNumberOfFlights();
@@ -154,6 +154,18 @@ contract('Flight Surety Tests', async (accounts) => {
         assert.equal(airline1Hash[3],"IR01"); // flightID
         assert.equal(airline1Hash[4],"DUB");  // Arrival
       });
+
+      it("allows a passenger to purchase insurance", async() =>{
+        let data = await FlightSuretyApp.deployed();
+        let firstPassenger = accounts[3];
+        let airline1 = owner;
+        let date = "2019-07-14T12:30:00Z";
+        let departureDate = new Date(date).getTime();
+        let hash = await data.getFlightKey.call(airline1,"IR01",departureDate);
+        let airline1Hash = await data.getFlight(hash);
+        let fee = await web3.toWei("0.3","ether");
+        await data.buyInsurance(airline2, departureDate, "IR01",{from: firstPassenger, value: fee});
+      })
 
   /****************************************************************************************/
   /* Operations and Settings                                                              */

@@ -190,6 +190,27 @@ contract FlightSuretyData {
 
       }
 
+      function hasInsurance(address airlineAddress, address passengerAddress, string flightID, uint departureDate) public view returns(bool) {
+        bool hasInsurance = false;
+        bytes32 flightHash = getFlightKey(airlineAddress, flightID, departureDate);
+        for (uint i = 0; i < insurances[passengerAddress].length; i++) {
+            if (insurances[passengerAddress][i] == flightHash) {
+                hasInsurance = true;
+                break;
+            }
+        }
+        return hasInsurance;
+    }
+
+      function buyInsurance(address airlineAddress, uint departureDate, string flightID) external payable {
+
+        require(msg.value <= 1 ether, "insurance must be less than than 1 ethetr");
+        //require(!hasInsurace(airlineAddress, tx.origin, flightID, departureDate),"User has already bought insurance for this flight");
+        //address(flightSuretyData).transfer(msg.value);
+        //flightSuretyData.buyInsurance(msg.sender, flight, msg.value);
+        //numberOfInsurances = numberOfInsurances + 1;
+      }
+
 
 
 

@@ -143,11 +143,10 @@ contract FlightSuretyApp {
       return flightSuretyData.getNumberOfFlights();
     }
 
-    function buyInsurance(string flight) public payable requireIsOperational {
-      require(msg.value <= 1 ether, "insurance must be less than than 1 ethetr");
-      address(flightSuretyData).transfer(msg.value);
-      flightSuretyData.buyInsurance(msg.sender, flight, msg.value);
-      numberOfInsurances = numberOfInsurances + 1;
+
+
+    function buyInsurance(address airlineAddress, uint departureDate, string memory flightID) public payable {
+        flightSuretyData.buyInsurance.value(msg.value)(airlineAddress, departureDate, flightID);
     }
 
     function fundAirline() public payable {
@@ -165,6 +164,10 @@ contract FlightSuretyApp {
 
     function voteCount(address airlineAddress) public view returns(uint) {
         return flightSuretyData.voteCount(airlineAddress);
+    }
+
+    function hasInsurance(address airlineAddress, address passengerAddress, string _flightID, uint departureDate) public view returns(bool) {
+        return flightSuretyData.hasInsurance(airlineAddress, passengerAddress, _flightID, departureDate);
     }
 
    /**
@@ -341,7 +344,7 @@ contract FlightSuretyApp {
 
   contract FlightSuretyData {
     function registerAirline(address airline) external;
-    function buyInsurance(address passenger, string flightNumber, uint insuranceValue) external;
+    function buyInsurance(address airlineAddress, uint departureDate, string memory flightID) public payable;
     function creditInsurees(string flightNumber) external payable;
     function contractBalance() public view returns(uint);
     function isAirlineRegistered(address airlineAddress) public view returns(bool);
@@ -363,5 +366,6 @@ contract FlightSuretyApp {
       string destination,
       uint256 departureDate,
       uint8 statusCode);
+      function hasInsurance(address airlineAddress, address passengerAddress, string _flightID, uint departureDate) public view returns(bool);
 
   }
