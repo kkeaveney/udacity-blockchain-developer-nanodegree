@@ -29,9 +29,9 @@ contract FlightSuretyData {
     }
 
 
-    mapping(address => uint) refundedAccount;
+
     mapping(address => bytes32[]) private insurances;
-    address[] passengers;
+    
 
     address private contractOwner;                                      // Account used to deploy contract
     bool private operational = true;                                    // Blocks all state changes throughout the contract if false
