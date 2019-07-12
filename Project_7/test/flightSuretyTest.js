@@ -133,19 +133,20 @@ contract('Flight Surety Tests', async (accounts) => {
 
       });
 
-      it("Allows a funded airline to regiseter another flight", async() => {
+      it("Allows a funded airline to register another flight", async() => {
         let data = await FlightSuretyApp.deployed();
         let airline1 = owner;
         let airline1Info = await data.getAirline(airline1);
         let airline2Info = await data.getAirline(airline2);
         assert.equal(airline1Info[1],true);
-        let date = "2019-07-14T12:30:00Z"
+       let date = "2019-07-14T12:30:00Z"
         let departureDate = new Date(date).getTime();
         console.log(departureDate);
         await data.registerFlight("IR01","DUB","BEL",departureDate, {from:airline1});
         let flightCount = await data.getNumberOfFlights();
         assert.equal(flightCount,1,"Incorrect number of flights");
         console.log(flightCount.toNumber());
+
 
         let hash = await data.getFlightKey.call(airline1, "IR01", departureDate);
         let airline1Hash = await data.getFlight(hash);

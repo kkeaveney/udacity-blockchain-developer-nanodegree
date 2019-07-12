@@ -17,6 +17,7 @@ contract FlightSuretyData {
       string destination;
       uint256 departureDate;
       uint8 statusCode;
+      address[] insuredPassengers;
     }
 
     mapping(bytes32 => Flight) private flights;
@@ -178,7 +179,8 @@ contract FlightSuretyData {
           source: departure,
           destination: destination,
           departureDate: departureDate,
-          statusCode:0
+          statusCode:0,
+          insuredPassengers:new address[](0)
         });
         numberOfFlights = flightsList.push(newFlight);
         flights[flightHash] = newFlight;
@@ -205,6 +207,8 @@ contract FlightSuretyData {
         insurances[tx.origin].push(flightHash);
 
         insuranceBalance[tx.origin][flightHash] = msg.value;
+        Flight storage newFlight = flights[flightHash];
+        newFlight.insuredPassengers.push(tx.origin);
 
         //address(flightSuretyData).transfer(msg.value);
         //flightSuretyData.buyInsurance(msg.sender, flight, msg.value);
@@ -334,9 +338,11 @@ contract FlightSuretyData {
       string source,
       string destination,
       uint256 departureDate,
-      uint8 statusCode){
+      uint8 statusCode,
+      address[] insuredPassengers){
         Flight memory flight = flights[flightHash];
-        return(flight.airline, flight.isRegistered, flight.isInsured, flight.flightID, flight.source,  flight.destination,flight.departureDate, flight.statusCode);
+        return(flight.airline, flight.isRegistered, flight.isInsured, flight.flightID, flight.source,  flight.destination,flight.departureDate,
+          flight.statusCode, flight.insuredPassengers);
       }
 
 
