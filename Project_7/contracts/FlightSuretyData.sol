@@ -31,7 +31,8 @@ contract FlightSuretyData {
 
 
     mapping(address => bytes32[]) private insurances;
-    
+    mapping(address => mapping(bytes32 => uint256)) private insuranceBalance;
+
 
     address private contractOwner;                                      // Account used to deploy contract
     bool private operational = true;                                    // Blocks all state changes throughout the contract if false
@@ -203,9 +204,15 @@ contract FlightSuretyData {
         bytes32 flightHash = getFlightKey(airlineAddress,flightID, departureDate);
         insurances[tx.origin].push(flightHash);
 
+        insuranceBalance[tx.origin][flightHash] = msg.value;
+
         //address(flightSuretyData).transfer(msg.value);
         //flightSuretyData.buyInsurance(msg.sender, flight, msg.value);
         //numberOfInsurances = numberOfInsurances + 1;
+      }
+
+      function insuranceTotal(address passengerAddress, bytes32 flightHash) public view returns(uint) {
+          return insuranceBalance[passengerAddress][flightHash];
       }
 
 
