@@ -186,19 +186,14 @@ contract('Flight Surety Tests', async (accounts) => {
         let insured = await data.hasInsurance(airline1, firstPassenger, "IR01",departureDate);
         assert.equal(insured,true);
 
-      //  let balance = await data.insuranceTotal.call(firstPassenger,hash);
-      //  await data.processFlightStatus(airline1,"IR01",departureDate, 20);
-      //  let flightInfo = await data.getFlight(hash);
-        //assert.equal(flightInfo[5],20);
-        //let newBalance =  await data.insuranceTotal.call(firstPassenger,hash);
-        //assert.equal(newBalance, balance * 1.5);
+        let balance = await data.insuranceTotal.call(firstPassenger,hash);
+        await data.processFlightStatus(airline1,"IR01",departureDate, 20);
+        let flightInfo = await data.getFlight(hash);
+        assert.equal(flightInfo[7],20);
+        let newBalance =  await data.insuranceTotal.call(firstPassenger,hash);
+        assert.equal(newBalance, balance * 1.5);
 
-
-    //    console.log(flightInfo);
-
-
-
-      })
+        })
 
 
 

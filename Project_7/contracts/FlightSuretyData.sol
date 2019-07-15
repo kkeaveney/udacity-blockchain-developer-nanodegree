@@ -156,6 +156,11 @@ contract FlightSuretyData {
      return  flightsList.length;
     }
 
+    function updateFlightDetails(bytes32 flightHash, uint8 status) external {
+        Flight storage updatedFlight = flights[flightHash];
+        updatedFlight.statusCode = status;
+    }
+
 
 
     function contractBalance() public view returns(uint) {
@@ -219,14 +224,16 @@ contract FlightSuretyData {
           return insuranceBalance[passengerAddress][flightHash];
       }
 
-      function creditInsurees(bytes32 flightHash, uint status) {
+      function creditInsurees(bytes32 flightHash) {
             Flight storage updatedFlight = flights[flightHash];
               for(uint i = 0; i < updatedFlight.insuredPassengers.length; i++) {
                   address insuredpassengerAddress = updatedFlight.insuredPassengers[i];
+                  insuranceBalance[insuredpassengerAddress][flightHash] = insuranceBalance[insuredpassengerAddress][flightHash].mul(15);
                   insuranceBalance[insuredpassengerAddress][flightHash] = insuranceBalance[insuredpassengerAddress][flightHash].div(10);
-                  insuranceBalance[insuredpassengerAddress][flightHash] = insuranceBalance[insuredpassengerAddress][flightHash].mul(10);
               }
       }
+
+
 
 
 

@@ -174,6 +174,10 @@ contract FlightSuretyApp {
         return flightSuretyData.insuranceTotal(passengerAddress, flightHash);
     }
 
+    function updateFlightDetails(bytes32 flightHash, uint8 status) internal {
+            flightSuretyData.updateFlightDetails(flightHash, status);
+    }
+
    /**
     * @dev Called after oracle has updated flight status
     *
@@ -182,7 +186,7 @@ contract FlightSuretyApp {
 
     {
       bytes32 flightHash = getFlightKey(airline, flightID, departureDate);
-
+      updateFlightDetails(flightHash, statusCode);
       if(statusCode == STATUS_CODE_LATE_AIRLINE) {
         flightSuretyData.creditInsurees(flightHash);
       }
@@ -373,5 +377,6 @@ contract FlightSuretyApp {
       uint256 departureDate,
       uint8 statusCode);
       function hasInsurance(address airlineAddress, address passengerAddress, string flightID, uint departureDate) public view returns(bool);
-      function insuranceTotal(address passengerAddress, bytes32 flightHash) public view returns(uint);
+      function insuranceTotal(address passengerAddress, bytes32 flightHash) external view returns(uint);
+      function updateFlightDetails(bytes32 flightHash, uint8 status) external;
   }
