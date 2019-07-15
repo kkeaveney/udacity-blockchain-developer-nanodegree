@@ -178,11 +178,13 @@ contract FlightSuretyApp {
     * @dev Called after oracle has updated flight status
     *
     */
-    function processFlightStatus(address airline,string memory flight, uint256 timestamp,uint8 statusCode)internal
+    function processFlightStatus(address airline,string memory flightID, uint256 departureDate, uint8 statusCode)public
 
     {
+      bytes32 flightHash = getFlightKey(airline, flightID, departureDate);
+
       if(statusCode == STATUS_CODE_LATE_AIRLINE) {
-        flightSuretyData.creditInsurees(flight);
+        flightSuretyData.creditInsurees(flightHash);
       }
     }
 
@@ -349,7 +351,7 @@ contract FlightSuretyApp {
   contract FlightSuretyData {
     function registerAirline(address airline) external;
     function buyInsurance(address airlineAddress, uint departureDate, string memory flightID) public payable;
-    function creditInsurees(string flightNumber) external payable;
+    function creditInsurees(bytes32 flightHash) external payable;
     function contractBalance() public view returns(uint);
     function isAirlineRegistered(address airlineAddress) public view returns(bool);
     function airlinesListCount(address airlineAddress) public view returns(uint);

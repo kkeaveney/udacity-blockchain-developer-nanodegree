@@ -219,6 +219,14 @@ contract FlightSuretyData {
           return insuranceBalance[passengerAddress][flightHash];
       }
 
+      function creditInsurees(bytes32 flightHash, uint status) {
+            Flight storage updatedFlight = flights[flightHash];
+              for(uint i = 0; i < updatedFlight.insuredPassengers.length; i++) {
+                  address insuredpassengerAddress = updatedFlight.insuredPassengers[i];
+                  insuranceBalance[insuredpassengerAddress][flightHash] = insuranceBalance[insuredpassengerAddress][flightHash].div(10);
+                  insuranceBalance[insuredpassengerAddress][flightHash] = insuranceBalance[insuredpassengerAddress][flightHash].mul(10);
+              }
+      }
 
 
 

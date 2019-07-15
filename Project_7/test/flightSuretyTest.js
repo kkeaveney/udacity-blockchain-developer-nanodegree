@@ -139,7 +139,7 @@ contract('Flight Surety Tests', async (accounts) => {
         let airline1Info = await data.getAirline(airline1);
         let airline2Info = await data.getAirline(airline2);
         assert.equal(airline1Info[1],true);
-       let date = "2019-07-14T12:30:00Z"
+        let date = "2019-07-14T12:30:00Z"
         let departureDate = new Date(date).getTime();
         console.log(departureDate);
         await data.registerFlight("IR01","DUB","BEL",departureDate, {from:airline1});
@@ -173,6 +173,35 @@ contract('Flight Surety Tests', async (accounts) => {
         console.log('Fee = ',fee);
         console.log('balance = ',balance.toNumber());
       })
+
+
+      it("mutiplies the users balance by 1.5 when the oracle defines 'LATE_AIRLINE'", async() => {
+        let data = await FlightSuretyApp.deployed();
+        let firstPassenger = accounts[3];
+        let airline1 = owner;
+        let date = "2019-07-14T12:30:00Z";
+        let departureDate = new Date(date).getTime();
+        let hash = await data.getFlightKey.call(airline1,"IR01",departureDate);
+
+        let insured = await data.hasInsurance(airline1, firstPassenger, "IR01",departureDate);
+        assert.equal(insured,true);
+
+      //  let balance = await data.insuranceTotal.call(firstPassenger,hash);
+      //  await data.processFlightStatus(airline1,"IR01",departureDate, 20);
+      //  let flightInfo = await data.getFlight(hash);
+        //assert.equal(flightInfo[5],20);
+        //let newBalance =  await data.insuranceTotal.call(firstPassenger,hash);
+        //assert.equal(newBalance, balance * 1.5);
+
+
+    //    console.log(flightInfo);
+
+
+
+      })
+
+
+
 
   /****************************************************************************************/
   /* Operations and Settings                                                              */
