@@ -355,7 +355,7 @@ contract FlightSuretyApp {
   contract FlightSuretyData {
     function registerAirline(address airline) external;
     function buyInsurance(address airlineAddress, uint departureDate, string memory flightID) public payable;
-    function creditInsurees(bytes32 flightHash) external payable;
+    function creditInsurees(bytes32 flightHash) external;
     function contractBalance() public view returns(uint);
     function isAirlineRegistered(address airlineAddress) public view returns(bool);
     function airlinesListCount(address airlineAddress) public view returns(uint);
