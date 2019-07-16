@@ -327,8 +327,10 @@ contract FlightSuretyData {
      *  @dev Transfers eligible payout funds to insuree
      *
     */
-    function pay() pure {
-
+    function pay(bytes32 hash, uint value) external requireIsOperational{
+      require(insuranceBalance[tx.origin][hash] >= value, "Insufficient funds");
+      insuranceBalance[tx.origin][hash] = insuranceBalance[tx.origin][hash].sub(value);
+      tx.origin.transfer(value);
     }
 
    /**

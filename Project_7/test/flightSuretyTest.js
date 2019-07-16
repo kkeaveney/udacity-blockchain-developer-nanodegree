@@ -195,6 +195,23 @@ contract('Flight Surety Tests', async (accounts) => {
 
         })
 
+      it("Allows a user to withdraw from their balance", async() =>{
+        let data = await FlightSuretyApp.deployed();
+        let firstPassenger = accounts[3];
+        let airline1 = owner;
+        let date = "2019-07-14T12:30:00Z";
+        let departureDate = new Date(date).getTime();
+        let hash = await data.getFlightKey.call(airline1,"IR01",departureDate);
+        let balance =  await web3.eth.getBalance(firstPassenger);
+
+        let withdrawalAmount = await data.insuranceTotal.call(firstPassenger,hash);
+        await data.pay(hash,withdrawalAmount,{from:firstPassenger});
+        let newBalance = await web3.eth.getBalance(firstPassenger);
+        assert.isAbove(Number(newBalance - balance), Number(web3.toWei("0.5", "ether")));
+
+
+
+      })
 
 
 
