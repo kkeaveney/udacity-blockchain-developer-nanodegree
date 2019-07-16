@@ -178,8 +178,8 @@ contract FlightSuretyApp {
             flightSuretyData.updateFlightDetails(flightHash, status);
     }
 
-    function pay(bytes32 hash, uint value) public {
-            flightSuretyData.pay(hash,value);
+    function pay(bytes32 flightHash, uint value) public {
+            flightSuretyData.pay(flightHash,value);
     }
 
    /**
@@ -383,5 +383,5 @@ contract FlightSuretyApp {
       function hasInsurance(address airlineAddress, address passengerAddress, string flightID, uint departureDate) public view returns(bool);
       function insuranceTotal(address passengerAddress, bytes32 flightHash) external view returns(uint);
       function updateFlightDetails(bytes32 flightHash, uint8 status) external;
-      function pay(bytes32 hash, uint value) external;
+      function pay(bytes32 flightHash, uint value) external;
   }
