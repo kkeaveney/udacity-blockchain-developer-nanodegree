@@ -156,7 +156,7 @@ contract('Flight Surety Tests', async (accounts) => {
         assert.equal(airline1Hash[4],"DUB");  // Arrival
       });
 
-      it("allows a passenger to purchase insurance", async() =>{
+     it("allows a passenger to purchase insurance", async() =>{
         let data = await FlightSuretyApp.deployed();
         let firstPassenger = accounts[3];
         let airline1 = owner;
@@ -170,8 +170,6 @@ contract('Flight Surety Tests', async (accounts) => {
         assert.equal(hasInsurance, true, "Passenger isn't insured");
         let balance = await data.insuranceTotal.call(firstPassenger,hash);
         assert.equal(fee,balance);
-        console.log('Fee = ',fee);
-        console.log('balance = ',balance.toNumber());
       })
 
 
@@ -186,41 +184,24 @@ contract('Flight Surety Tests', async (accounts) => {
         let insured = await data.hasInsurance(airline1, firstPassenger, "IR01",departureDate);
         assert.equal(insured,true);
 
-        let balance = await data.insuranceTotal.call(firstPassenger,hash);
-
+        let insuranceBalance = await data.insuranceTotal.call(firstPassenger,hash);
         await data.processFlightStatus(airline1,"IR01",departureDate, 20);
         let flightInfo = await data.getFlight(hash);
         assert.equal(flightInfo[7],20);
+
         let newBalance =  await data.insuranceTotal.call(firstPassenger,hash);
-        assert.equal(newBalance, balance * 1.5);
-
-        })
-
-      it("Allows a user to withdraw from their balance", async() =>{
-        let data = await FlightSuretyApp.deployed();
-        let firstPassenger = accounts[5];
-        let airline1 = owner;
-        let date = "2019-07-14T12:30:00Z";
-        let departureDate = new Date(date).getTime();
-        let hash = await data.getFlightKey.call(airline1,"IR01",departureDate);
-        let oldBalance =  await web3.eth.getBalance(firstPassenger);
+        assert.equal(newBalance, insuranceBalance * 1.5);
+        let passengerBalance =  await web3.eth.getBalance(firstPassenger);
 
         let withdrawalAmount = await data.insuranceTotal.call(firstPassenger,hash);
-        console.log("withdrawalAmount ", Number(web3.toWei(withdrawalAmount, "ether")));
-
 
         await data.pay(hash,withdrawalAmount,{from:firstPassenger});
-        let newBalance = await web3.eth.getBalance(firstPassenger);
-
-        //assert.isBelow(Number(newBalance - oldBalance), Number(web3.toWei("0.3", "ether")));
-        console.log("oldbalance ", oldBalance.toNumber());
-        console.log("newBalance ", newBalance.toNumber());
-        let diff = Number(newBalance - oldBalance);
-        console.log("difference ", diff);
-
-
+        let updatedBalance = await web3.eth.getBalance(firstPassenger);
+        assert.isAbove(Number(updatedBalance - passengerBalance), Number(web3.toWei("0.3", "ether")));
 
       })
+
+
 
 
 
