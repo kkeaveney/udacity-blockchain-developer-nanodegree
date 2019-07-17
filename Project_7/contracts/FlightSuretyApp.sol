@@ -273,6 +273,10 @@ contract FlightSuretyApp {
         require(oracles[msg.sender].isRegistered, "Not registered as an oracle");
         return oracles[msg.sender].indexes;
     }
+
+    function getOracleDetails(address oracleAddress) public view requireContractOwner returns(bool, uint8[3]) {
+      return (oracles[oracleAddress].isRegistered, oracles[oracleAddress].indexes);
+    }
     // Called by oracle when a response is available to an outstanding request
     // For the response to be accepted, there must be a pending request that is open
     // and matches one of the three Indexes randomly assigned to the oracle at the

@@ -1,36 +1,41 @@
 
 var Test = require('../config/testConfig.js');
 //var BigNumber = require('bignumber.js');
+const FlightSuretyData = artifacts.require("FlightSuretyData");
+const FlightSuretyApp =  artifacts.require("FlightSuretyApp");
 
 contract('Oracles', async (accounts) => {
 
-  const TEST_ORACLES_COUNT = 20;
-  var config;
   before('setup contract', async () => {
-    config = await Test.Config(accounts);
-
-    // Watch contract events
-    const STATUS_CODE_UNKNOWN = 0;
-    const STATUS_CODE_ON_TIME = 10;
-    const STATUS_CODE_LATE_AIRLINE = 20;
-    const STATUS_CODE_LATE_WEATHER = 30;
-    const STATUS_CODE_LATE_TECHNICAL = 40;
-    const STATUS_CODE_LATE_OTHER = 50;
 
   });
+
+  const TEST_ORACLES_COUNT = 20;
+  const STATUS_CODE_UNKNOWN = 0;
+  const STATUS_CODE_ON_TIME = 10;
+  const STATUS_CODE_LATE_AIRLINE = 20;
+  const STATUS_CODE_LATE_WEATHER = 30;
+  const STATUS_CODE_LATE_TECHNICAL = 40;
+  const STATUS_CODE_LATE_OTHER = 50;
+  owner = accounts[0];
+
 
 
   it('can register oracles', async () => {
 
-    // ARRANGE
-    let fee = await config.flightSuretyApp.REGISTRATION_FEE.call();
+    let data = await FlightSuretyApp.deployed();
+    let fee = await data.REGISTRATION_FEE.call();
 
     // ACT
     for(let a=1; a<TEST_ORACLES_COUNT; a++) {
-      await config.flightSuretyApp.registerOracle({ from: accounts[a], value: fee });
-      let result = await config.flightSuretyApp.getMyIndexes.call({from: accounts[a]});
-      console.log(`Oracle Registered: ${result[0]}, ${result[1]}, ${result[2]}`);
+      await data.registerOracle({ from: accounts[a], value: fee });
+      let result = await data.getMyIndexes.call({from: accounts[a]});
+      //console.log(`Oracle Registered: ${result[0]}, ${result[1]}, ${result[2]}`);
     }
+    let firstRegisteredOracle = await data.getOracleDetails(accounts[1], {from:owner});
+    assert.equal(firstRegisteredOracle[0],true);
+    let thirdRegisteredOracele = await data.getOracleDetails(accounts[3], {from:owner});
+    assert.equal(thirdRegisteredOracele[0],true);
   });
 
   it('can request flight status', async () => {
