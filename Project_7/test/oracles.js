@@ -36,16 +36,22 @@ contract('Oracles', async (accounts) => {
     assert.equal(firstRegisteredOracle[0],true);
     let thirdRegisteredOracele = await data.getOracleDetails(accounts[3], {from:owner});
     assert.equal(thirdRegisteredOracele[0],true);
+    let fourthRegisteredOracele = await data.getOracleDetails(accounts[4], {from:owner});
+    assert.equal(fourthRegisteredOracele[0],true);
   });
 
   it('can request flight status', async () => {
 
     // ARRANGE
-    let flight = 'ND1309'; // Course number
-    let timestamp = Math.floor(Date.now() / 1000);
+    let data = await FlightSuretyApp.deployed();
+    let flight = 'IR01'; // Course number
+    let date = "2019-07-14T12:30:00Z";
+    let departureDate = new Date(date).getTime();
+    await data.fetchFlightStatus(owner, flight, departureDate);
+
 
     // Submit a request for oracles to get status information for a flight
-    await config.flightSuretyApp.fetchFlightStatus(config.firstAirline, flight, timestamp);
+
     // ACT
 
     // Since the Index assigned to each test account is opaque by design
@@ -55,12 +61,12 @@ contract('Oracles', async (accounts) => {
     for(let a=1; a<TEST_ORACLES_COUNT; a++) {
 
       // Get oracle information
-      let oracleIndexes = await config.flightSuretyApp.getMyIndexes.call({ from: accounts[a]});
+      let oracleIndexes = await data.getMyIndexes.call({ from: accounts[a]});
       for(let idx=0;idx<3;idx++) {
 
         try {
           // Submit a response...it will only be accepted if there is an Index match
-          await config.flightSuretyApp.submitOracleResponse(oracleIndexes[idx], config.firstAirline, flight, timestamp, STATUS_CODE_ON_TIME, { from: accounts[a] });
+          await data.submitOracleResponse(oracleIndexes[idx], owner, flight, timestamp, STATUS_CODE_ON_TIME, { from: accounts[a] });
 
         }
         catch(e) {
