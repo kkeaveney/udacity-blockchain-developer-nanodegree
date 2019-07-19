@@ -27,15 +27,17 @@ contract('Oracles', async (accounts) => {
     let fee = await data.REGISTRATION_FEE.call();
 
     // ACT
-    for(let a=1; a<TEST_ORACLES_COUNT; a++) {
-      await data.registerOracle({ from: accounts[a], value: fee });
-      let result = await data.getMyIndexes.call({from: accounts[a]});
+    for(let i=1; i<TEST_ORACLES_COUNT; i++) {
+      await data.registerOracle({ from: accounts[i], value: fee });
+      let result = await data.getMyIndexes.call({from: accounts[i]});
       //console.log(`Oracle Registered: ${result[0]}, ${result[1]}, ${result[2]}`);
     }
     let firstRegisteredOracle = await data.getOracleDetails(accounts[1], {from:owner});
     assert.equal(firstRegisteredOracle[0],true);
     let thirdRegisteredOracele = await data.getOracleDetails(accounts[3], {from:owner});
     assert.equal(thirdRegisteredOracele[0],true);
+    let fourthRegisteredOracele = await data.getOracleDetails(accounts[4], {from:owner});
+    assert.equal(fourthRegisteredOracele [0],true);
   });
 
   it('can request flight status', async () => {
@@ -45,7 +47,7 @@ contract('Oracles', async (accounts) => {
     let timestamp = Math.floor(Date.now() / 1000);
 
     // Submit a request for oracles to get status information for a flight
-    await config.flightSuretyApp.fetchFlightStatus(config.firstAirline, flight, timestamp);
+    await data.fetchFlightStatus(config.firstAirline, flight, timestamp);
     // ACT
 
     // Since the Index assigned to each test account is opaque by design
