@@ -30,7 +30,7 @@ contract('Oracles', async (accounts) => {
     for(let a=1; a<TEST_ORACLES_COUNT; a++) {
       await data.registerOracle({ from: accounts[a], value: fee });
       let result = await data.getMyIndexes.call({from: accounts[a]});
-      console.log(`Oracle Registered: ${result[0]}, ${result[1]}, ${result[2]}`);
+      //console.log(`Oracle Registered: ${result[0]}, ${result[1]}, ${result[2]}`);
     }
     let firstRegisteredOracle = await data.getOracleDetails(accounts[1], {from:owner});
     assert.equal(firstRegisteredOracle[0],true);
@@ -87,13 +87,13 @@ contract('Oracles', async (accounts) => {
       await instanceApp.fetchFlightStatus(owner, flight, departureDate);
 
       let isOracle1Reg = await instanceApp.getOracleDetails(accounts[1]);
-         console.log("Is Account 1 Oracle ",isOracle1Reg[0]);
-         console.log("Account indexes" , Number(isOracle1Reg[1][0]), Number(isOracle1Reg[1][1]), Number(isOracle1Reg[1][2]));
+      //   console.log("Is Account 1 Oracle ",isOracle1Reg[0]);
+      //   console.log("Account indexes" , Number(isOracle1Reg[1][0]), Number(isOracle1Reg[1][1]), Number(isOracle1Reg[1][2]));
       var numResponses = 0;
-      for(let a=1; a<=TEST_ORACLES_COUNT; a++) {
+      for(let a=1; a<=TEST_ORACLES_COUNT -1; a++) {
       //
-    //   // Get oracle information
-      //
+      var isOracleReg = await instanceApp.getOracleDetails(accounts[a]);
+      console.log("isOracleRegistered" ,  isOracleReg);
       let oracleIndexes = await instanceApp.getMyIndexes.call({ from: accounts[a]});
 
       try {
@@ -110,13 +110,11 @@ contract('Oracles', async (accounts) => {
     }
     console.log("Num valid responses: ", numResponses)
     if (numResponses >= 3) {
-        //console.log("Num valid responses: ", numResponses)
-    //    let flightHash = await instanceApp.getFlightKey(owner, flight, departureDate);
-    //    let flightInfo = await instanceApp.getFlight(flightHash);
-    //    console.log("Flight code: ", flightInfo);
-      //  console.log("Status code: ", Number(flightInfo[3]));
-      //  assert.equal(flightInfo[0], "FR109");
-      //  assert.equal(flightInfo[3], STATUS_CODE_ON_TIME);
+        console.log("Num valid responses: ", numResponses)
+        let flightHash = await instanceApp.getFlightKey(owner, flight, departureDate);
+        let flightInfo = await instanceApp.getFlight(flightHash);
+        assert.equal(flightInfo[0], "FR109");
+        assert.equal(flightInfo[3], STATUS_CODE_ON_TIME);
     }
 
   });
