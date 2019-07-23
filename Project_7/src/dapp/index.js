@@ -19,6 +19,24 @@ let contract;
            let isRegistered = airlineDetails[2];
            let registeredAirlines = airlineDetails[3];
 
+           let contractElement = document.getElementByID("contractOwner");
+           let ownerList = document.createElement("ul");
+
+            for (let i = 0; i<=3; i++) {
+              let listElement = document.createElement("li");
+                switch(c) {
+                  case 0:
+                    listElement.innerHTML = `Address: ${address}`;
+                    break;
+                  case 1:
+                    listElement.innerHTML = `Address: ${hasPaid}`;
+                    break;
+                  case 2:
+                    listElement.innerHTML = `Address: ${isRegistered}`;
+                }
+                ownerList.appendChild(listElement);
+            }
+
 
          } catch(err) {
            console.log(err);
