@@ -9,24 +9,46 @@ let contract;
 (async() => {
 
     contract = new Contract('localhost', () => {
-        for (var i = 0; i < randomInt(10) + 10; i++) {
-            flights.push({ id: 'flight ' + i, departure: randomDate() });
-        }
+
+      (async() => {
+        let owner = contract.owner;
+         try {
+           let airlineDetails = await contract.getAirline(owner);
+           let address = airlineDetails[0];
+           let hasPaid = airlineDetails[1];
+           let isRegistered = airlineDetails[2];
+           let registeredAirlines = airlineDetails[3];
+
+           let contractElement = document.getElementByID("contractOwner");
+           let ownerList = document.createElement("ul");
+
+            for (let i = 0; i<=3; i++) {
+              let listElement = document.createElement("li");
+                switch(c) {
+                  case 0:
+                    listElement.innerHTML = `Address: ${address}`;
+                    break;
+                  case 1:
+                    listElement.innerHTML = `Address: ${hasPaid}`;
+                    break;
+                  case 2:
+                    listElement.innerHTML = `Address: ${isRegistered}`;
+                }
+                ownerList.appendChild(listElement);
+            }
+
+
+         } catch(err) {
+           console.log(err);
+         }
 
         displayFlightList();
 
-        contract.flightSuretyApp.events.FlightStatusInfo({
-            fromBlock: 0,
-            toBlock: "latest"
-        }, function (err, result) {
-            if (err) {
-                console.log(err)
-            } else {
-                console.log(result.returnValues);
-            }
+
         });
-    });
-})();
+    })
+  });
+
 
 function buyInsurance() {
     let id = this.getAttribute('data-id');
