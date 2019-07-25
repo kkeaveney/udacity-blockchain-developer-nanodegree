@@ -27,8 +27,116 @@
             <h2>Operational status</h2>
             <em><p id="opStatusPlaceholder"></p></em>
       </div>
-
+      <div>
+        <h2> Set Operating Status </h2>
+          <label for="setOpstat">Requires contract owner:</label>
+          <select id = "setOpstat" class="form-control">
+            <option value = "true">True</option>
+            <option value = "true">False</option>
+          </select>
+          <btn class"btn btn-primary" id="setStatus">Set status</btn>
+      </div>
     </main>
+
+    <main class="container">
+      <div class="userInfoBox">
+        <div class ="form-group">
+          <label for="selectAddress">Choose sender address for airlines:</label>
+          <select id="selectAddress" class="form-control">
+          </select>
+        </div>
+        <h2> Airline address:</h2>
+        <p id="currentAddress"></p>
+      </div>
+    </main>
+
+    <main class="container">
+      <div>
+        <h2> Airline Functionss:</h2>
+        <div id="airlineFunctions">
+          <label for ="airlineAddress">Airline (address)</label>
+          <select id="airlineAddress">
+          </select>
+          <input type="text" id="airlineName">
+          <btn class="btn btn-primary" id="register-airline">Register Airline</btn>
+        </div>
+
+        <div id="fundAirline">
+          <label for="airlineFundAddress">Airline (address)</label>
+          <select id="airlineFundAddress">
+          </select>
+          <btn class="btn btn-primary" id="fund-airline">Fund Airline</btn>
+        </div>
+
+        <div>
+          <btn class="btn btn-primary" id="show-airlines">Show Airlines</btn>
+          <div id = "showRegisterdAirlines">
+          </div>
+      </div>
+      <div id = "registerFlightForm">
+        <h5><em>Register Flight:</em></h5>
+        <label for ="flightDepartureDay">Flight Date:</label>
+        <label type="date" id="flightDepartureDay" name="departureDay">
+        <label for="flightHour">Hour:</label>
+        <select id="flightHour">
+        </select>
+        <div id ="flightDetails">
+          <label for="flightCode">Flight code:</label>
+          <input type="text" id="flightCode">
+          <label for="flightOrigin">Origin:</label>
+          <select id="flightOrigin">
+          </select>
+          <span id="originCode"></span>
+          <label for="flightOrigin">Destination:</label>
+          <select id ="flightDestination">
+          <select>
+          <span id="destinationCode"></span>
+        </div>
+
+        <btn class="btn btn-primary" id="registerFlight">Register Flight</btn>
+      </div>
+    </div>
+  </main>
+
+  <main class="container">
+    <div class ="passengerInfoBox">
+      <div class="form-group">
+        <label for="selectPassengerAddress"> Select Passenger Address:</label>
+        <select id="selectPassengerAddress" class ="form-control">
+        </select>
+      </div>
+      <h2> Passenger Address:</h2>
+      <p id="passengerAddress"></p>
+      <div>
+        <label for="premiumValue"> Insurance premium (0 ether < vale <= 1 ether)</label>
+        <input type="text" id="premiumValue">
+      </div>
+    </div>
+
+    <div>
+      <btn class="btn btn-primary" id="show-flights">Show Flights</btn>
+      <div id="showRegisterdFlights">
+      </div>
+    </div>
+
+    <div>
+      <h2> Passenger insured flights><h2>
+      <btn class="btn btn-primary" id="insuredFlights">Show insured flights</btn>
+      <div id="insuredFlights">
+      </div>
+    </div>
+  </main>
+
+  <main class="container">
+    <div class="row top-20">
+      <h2>Get flight status:</h2>
+      <div>
+        <label class="form">Flight</label> <input type="text" id="flight-number"> <btn class="btn btn-primary" id="submit-oracle">Submit to Oracles</btn>
+      </div>
+
+    </div>
+
+  </main>
 
 </body>
 
