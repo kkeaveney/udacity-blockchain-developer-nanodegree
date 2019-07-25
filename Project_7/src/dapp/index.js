@@ -36,6 +36,16 @@ let contract;
                 }
                 ownerList.appendChild(listElement);
             }
+            contractElement.appendChild(ownerList);
+            let displayBalance = document.createElement("button");
+            displayBalance.innerHTML = "Contact balance";
+            displayBalance.setAttribute("class", "btn btn-primary");
+            displayBalance.addEventListener("click", async function (){
+              let balance = await contract.getContractBalance();
+              alert(`Current balance is ${balance / 10**18} ether`);
+            })
+            contractElement.appendChild(balance);
+
 
 
          } catch(err) {
