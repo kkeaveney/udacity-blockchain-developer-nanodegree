@@ -6,7 +6,6 @@ import Web3 from 'web3';
 export default class Contract {
     constructor(network, callback) {
 
-        let firstAirline = '0xf17f52151EbEF6C7334FAD080c5704D77216b732';
         let config = Config[network];
         this.web3 = new Web3(new Web3.providers.WebsocketProvider(config.url));
         this.initialize(callback);
@@ -15,7 +14,7 @@ export default class Contract {
         this.airlines = [];
 
         this.flightSuretyApp = new this.web3.eth.Contract(FlightSuretyApp.abi, config.appAddress, config.dataAddress);
-        this.flightSuretyData = new this.web3.eth.Contract(FlightSuretyData.abi, config.dataAddress, firstAirline);
+        //this.flightSuretyData = new this.web3.eth.Contract(FlightSuretyData.abi, config.dataAddress, firstAirline);
     }
 
     initialize(callback) {
