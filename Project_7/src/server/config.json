@@ -1,18 +1,8 @@
 {
 	"localhost": {
 		"url": "ws://localhost:7545",
-<<<<<<< HEAD
-<<<<<<< HEAD
-		"dataAddress": "0xa4516018d6b0313a03a69130356f23a168c0ab10",
-		"appAddress": "0x27032850077abef46fc9c2b39b96885b40abc3ec",
-=======
-		"dataAddress": "0x5D168ADB7c410b94C524373C86B7c2aD5957bde0",
-		"appAddress": "0xE470B4AF2C0dbFa6E834586B364a91e79ad6BcBf",
->>>>>>> e61c99f9ab8bf5231c60c35ea8b2863cb81f6815
-=======
-		"dataAddress": "0x27EEf3831704664aA82fCF7C1C4413DAdB1e4c49",
-		"appAddress": "0x1FfB262F61DB3E918fCA4bD3e60c75e4b9a0D3D4",
->>>>>>> a4c5747a93be8f6a802bdd25a563dc6a25b471c3
+		"dataAddress": "0x4e72770760c011647d4873f60a3cf6cdea896cd8",
+		"appAddress": "0xbaaa2a3237035a2c7fa2a33c76b44a8c6fe18e87",
 		"firstAirline": "0xf17f52151EbEF6C7334FAD080c5704D77216b732"
 	}
 }

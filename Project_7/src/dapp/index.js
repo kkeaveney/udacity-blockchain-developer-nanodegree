@@ -8,128 +8,58 @@ let contract;
 
 (async() => {
 
-    contract = new Contract('localhost', () => {
+    let result = null;
+    //console.log("test");
 
-      (async() => {
-        let owner = contract.owner;
-         try {
-           let airlineDetails = await contract.getAirline(owner);
-           let address = airlineDetails[0];
-           let hasPaid = airlineDetails[1];
-           let isRegistered = airlineDetails[2];
-           let registeredAirlines = airlineDetails[3];
 
-           let contractElement = document.getElementByID("contractOwner");
-           let ownerList = document.createElement("ul");
+    let contract = new Contract('localhost', () => {
 
-            for (let i = 0; i<=3; i++) {
-              let listElement = document.createElement("li");
-                switch(c) {
-                  case 0:
-                    listElement.innerHTML = `Address: ${address}`;
-                    break;
-                  case 1:
-                    listElement.innerHTML = `Address: ${hasPaid}`;
-                    break;
-                  case 2:
-                    listElement.innerHTML = `Address: ${isRegistered}`;
+        // add onfo about the owner of the contract
+        (async() => {
+            let owner = contract.owner;
+            try {
+                let airlineInfo = await contract.getAirline(owner);
+                let address = airlineInfo[0];
+                let hasPaid = airlineInfo[1];
+                let isRegistered = airlineInfo[2];
+
+                let contractOwnerElement = document.getElementById("contractOwner");
+                let ownerInfoList = document.createElement("ul");
+                for (let c = 0; c <= 2; c++) {
+                    let listElement = document.createElement("li");
+                    switch (c) {
+                        case 0:
+                            listElement.innerHTML = `Address: ${address}`;
+                            break;
+                        case 1:
+                            listElement.innerHTML = `has paid: ${hasPaid}`;
+                            break;
+                        case 2:
+                            listElement.innerHTML = `Is registered: ${isRegistered}`;
+                            break;
+
+                        }
+                    ownerInfoList.appendChild(listElement);
                 }
-                ownerList.appendChild(listElement);
+                contractOwnerElement.appendChild(ownerInfoList);
+                let showBalanceBtn = document.createElement("button");
+                showBalanceBtn.innerHTML = "Show contract balance";
+                showBalanceBtn.setAttribute("class", "btn btn-primary");
+                showBalanceBtn.addEventListener("click", async function() {
+                    let currentBalance = await contract.getContractBalance();
+                    alert(`Current contract balance is: ${currentBalance / 10**18} ether`);
+                });
+                contractOwnerElement.appendChild(showBalanceBtn);
+
+            } catch(e) {
+                console.log(e);
             }
-            contractElement.appendChild(ownerList);
-            let displayBalance = document.createElement("button");
-            displayBalance.innerHTML = "Contact balance";
-            displayBalance.setAttribute("class", "btn btn-primary");
-            displayBalance.addEventListener("click", async function (){
-              let balance = await contract.getContractBalance();
-              alert(`Current balance is ${balance / 10**18} ether`);
-            })
-            contractElement.appendChild(balance);
+        })();
 
 
 
-         } catch(err) {
-           console.log(err);
-         }
-
-        displayFlightList();
-
-
-        });
-    })
-  });
-
-
-function buyInsurance() {
-    let id = this.getAttribute('data-id');
-    let flightText = DOM.elid('flightnumber_' + id);
-    let flight = flightText.innerHTML;
-    let insuranceFeeText = DOM.elid('textinput_' + id);
-    let fee= parseFloat(insuranceFeeText.value);
-    let button = DOM.elid('button_' + id);
-
-    if (!fee|| fee< 0 || fee> 1) {
-        alert('insurance fee must be between 0.0 and 1.0 ETH');
-    } else {
-        contract.buyInsurance(flight, web3.toWei(fee, 'ether'), (err, result) => {
-            if (err) {
-                console.log(err);
-            } else {
-                console.log(result);
-                alert('you bought an insurance for flight ' + flight + 'worth ' + fee+ ' ether');
-                insuranceFeeText.readOnly = true;
-                button.disabled = true;
-            }
-        });
-    }
-}
-
-function updateStatus() {
-    let flightnumber = DOM.elid('flightnumber_' + this.getAttribute('data-id')).innerHTML;
-    contract.fetchFlightStatus(flightnumber, (err, result) => {
-        if (err) {
-        console.log(err);
-        }
-        console.log(result);
 
     });
-}
-
-function displayFlightList() {
-    let displayDiv = DOM.elid('flightlist');
-
-    displayDiv.appendChild(DOM.h4('Flights'));
-
-    let length = flights.length;
-
-    for (let i = 0; i < length; i++) {
-        let rowClass = i % 2 == 0 ? 'even' : 'odd';
-        let row = displayDiv.appendChild(DOM.div({className:'row ' + rowClass}));
-        let textinput = DOM.input({ id: 'textinput_' + i, type: 'number', placeholder: 'insurance fee (max. 1.0)'});
-
-        let infobutton = DOM.button({ id: 'infobutton_' + i, className: 'btn btn-primary'}, 'update status');
-        infobutton.setAttribute('data-id', i);
-        infobutton.addEventListener('click', updateStatus);
-
-        let button = DOM.button({ id: 'button_' + i, className: 'btn btn-primary buyInsurance'}, 'buy insurance');
-        button.setAttribute('data-id', i);
-        button.addEventListener('click', buyInsurance);
 
 
-
-        row.appendChild(DOM.div({className: 'col-sm-2 field', id: 'flightnumber_' + i}, flights[i].id));
-        row.appendChild(DOM.div({className: 'col-sm-3 field'}, flights[i].departure.toISOString()));
-        row.appendChild(DOM.div({className: 'col-sm-2 field'}, textinput));
-        row.appendChild(DOM.div({className: 'col-sm-3 field'}, button));
-        row.appendChild(DOM.div({className: 'col-sm-2 field'}, infobutton));
-        displayDiv.appendChild(row);
-    }
-}
-
-function randomDate(start, end) {
-    return new Date(+(new Date()) + Math.floor(Math.random()*1000000000));
-}
-
-function randomInt(max) {
-    return Math.floor(Math.random() * Math.floor(max));
-}
+})();

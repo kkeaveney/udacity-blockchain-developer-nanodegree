@@ -172,6 +172,11 @@ contract FlightSuretyData {
         return (airline.airlineAddress, airline.hasPaid, airline.isRegistered, airline.registeredAirlines);
     }
 
+    function getAirlineByNum(uint airlineNum) external view returns(address, bool, bool, address[]) {
+        Airline memory airline = airlinesList[airlineNum];
+        return (airline.airlineAddress, airline.hasPaid, airline.isRegistered, airline.registeredAirlines);
+    }
+
     function registerFlight(string memory flightID, string memory departure, string memory destination, uint256 departureDate) public {
       require(airlines[tx.origin].hasPaid);
       bytes32 flightHash = getFlightKey(tx.origin, flightID, departureDate);

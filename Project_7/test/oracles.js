@@ -1,4 +1,3 @@
-
 var Test = require('../config/testConfig.js');
 //var BigNumber = require('bignumber.js');
 const FlightSuretyData = artifacts.require("FlightSuretyData");
@@ -27,124 +26,19 @@ contract('Oracles', async (accounts) => {
     let fee = await data.REGISTRATION_FEE.call();
 
     // ACT
-    for(let i=1; i<TEST_ORACLES_COUNT; i++) {
-      await data.registerOracle({ from: accounts[i], value: fee });
-      let result = await data.getMyIndexes.call({from: accounts[i]});
-      console.log(`Oracle Registered: ${result[0]}, ${result[1]}, ${result[2]}`);
+    for(let a=1; a<TEST_ORACLES_COUNT; a++) {
+      await data.registerOracle({ from: accounts[a], value: fee });
+      let result = await data.getMyIndexes.call({from: accounts[a]});
+      //console.log(`Oracle Registered: ${result[0]}, ${result[1]}, ${result[2]}`);
     }
     let firstRegisteredOracle = await data.getOracleDetails(accounts[1], {from:owner});
     assert.equal(firstRegisteredOracle[0],true);
     let thirdRegisteredOracele = await data.getOracleDetails(accounts[5], {from:owner});
     assert.equal(thirdRegisteredOracele[0],true);
-<<<<<<< HEAD
-<<<<<<< HEAD
-    let fourthRegisteredOracele = await data.getOracleDetails(accounts[4], {from:owner});
-    assert.equal(fourthRegisteredOracele [0],true);
-
-    let oracleIndexes = await data.getMyIndexes.call({ from: accounts[1]});
-    console.log(oracleIndexes[0].toNumber());
-    console.log(oracleIndexes[1].toNumber());
-    console.log(oracleIndexes[2].toNumber());
-
-    
-    let flightID = 'IR01'; // Course number
-    let date = "2019-07-14T12:30:00Z";
-    let departureDate = new Date(date).getTime();
-
-    for(let i=1; i<TEST_ORACLES_COUNT; i++) {
-
-      // Get oracle information
-      let oracleIndexes = await data.getMyIndexes.call({ from: accounts[i]});
-
-
-        try {
-          // Submit a response...it will only be accepted if there is an Index match
-          await data.submitOracleResponse(oracleIndexes[i], owner, flightID, departureDate, STATUS_CODE_ON_TIME, { from: accounts[i] });
-
-        }
-        catch(e) {
-          // Enable this when debugging
-          console.log(`\nError with oracle ${i}`, 0, oracleIndexes[0].toNumber(), flightID, departureDate);
-        }
-
-      }
-
-  });
-
-/*  it('can request flight status', async () => {
-
-    // ARRANGE
-    let data = await FlightSuretyApp.deployed();
-    let flightID = 'IR01'; // Course number
-    let date = "2019-07-14T12:30:00Z";
-    let departureDate = new Date(date).getTime();
-
-    // Submit a request for oracles to get status information for a flight
-    await data.fetchFlightStatus(owner, flightID, departureDate);
-    // ACT
-
-    // Since the Index assigned to each test account is opaque by design
-    // loop through all the accounts and for each account, all its Indexes (indices?)
-    // and submit a response. The contract will reject a submission if it was
-    // not requested so while sub-optimal, it's a good test of that feature
-    for(let i=1; i<TEST_ORACLES_COUNT; i++) {
-
-      // Get oracle information
-      let oracleIndexes = await data.getMyIndexes.call({ from: accounts[i]});
-
-
-        try {
-          // Submit a response...it will only be accepted if there is an Index match
-          await data.submitOracleResponse(oracleIndexes[i], owner, flightID, departureDate, STATUS_CODE_ON_TIME, { from: accounts[i] });
-=======
-  //  let fourthRegisteredOracele = await data.getOracleDetails(accounts[4], {from:owner});
-  //  assert.equal(fourthRegisteredOracele[0],true);
-  });
-
-  it("checks if the first airline can send funds to the contract and change its 'isFunded' state", async() => {
-      let instanceApp = await FlightSuretyApp.deployed();
-      let airlineFee = await web3.utils.toWei("10", "ether");
-      let airlineBalanceBefore = await web3.eth.getBalance(owner);
-      await instanceApp.fundAirline({from: owner, value: airlineFee});
-      let contractBalance = await instanceApp.contractBalance.call();
-      let airlineBalanceAfter = await web3.eth.getBalance(owner);
-      assert.isAbove(Number(airlineBalanceBefore) - Number(airlineBalanceAfter), Number(airlineFee));
-      let airline = await instanceApp.getAirline.call(owner);
-      let isFunded = airline[1];
-      assert.equal(isFunded, true);
-  });
-
-  it("enables a funded airline to register a flight", async() => {
-      let instanceApp = await FlightSuretyApp.deployed();
-      let airline1 = owner;
-      let airline1Details = await instanceApp.getAirline.call(airline1);
-      // the first airline should be funded
-      assert.equal(airline1Details[1], true);
-      let dateString = "2019-04-28T14:45:00Z"
-      let departureDate = new Date(dateString).getTime();
-      //departureDate = departureDate 1000;
-      //console.log(departureDate);
-      await instanceApp.registerFlight("FR109", "WAW", "LON", departureDate, {from:airline1});
-      let numFlights = await instanceApp.getNumberOfFlights.call();
-      //console.log(Number(numFlights));
-      assert.equal(numFlights, 1);
-      let flightHash = await instanceApp.getFlightKey.call(airline1, "FR109", departureDate);
-      let flightInfo = await instanceApp.getFlight(flightHash);
-      // the flight code is correct
-      assert.equal(flightInfo[3], "FR109");
-      // the flight is registered but not insured yet
-      assert.equal(flightInfo[1], true);
-      assert.equal(flightInfo[2], false);
-      assert.equal(flightInfo[6], departureDate);
-      assert.equal(flightInfo[0], airline1);
-  });
->>>>>>> e61c99f9ab8bf5231c60c35ea8b2863cb81f6815
-=======
     let fourthRegisteredOracele = await data.getOracleDetails(accounts[4], {from:owner});
     assert.equal(fourthRegisteredOracele[0],true);
   });
 
->>>>>>> a4c5747a93be8f6a802bdd25a563dc6a25b471c3
 
   it('can request flight status', async () => {
       let data = await FlightSuretyApp.deployed();
@@ -171,27 +65,13 @@ contract('Oracles', async (accounts) => {
 
           console.log(`\nOracle no. ${a} not chosen`, 0, oracleIndexes[0].toNumber(), flight, departureDate);
         }
-<<<<<<< HEAD
-        catch(e) {
-          // Enable this when debugging
-          //console.log(`\nError with oracle ${i}`, 0, oracleIndexes[0].toNumber(), flightID, departureDate);
-        }
-
-
-      let hash = await data.getFlightKey(owner, flightID, departureDate);
-      let flightInfo = await data.getFlight(hash);
-      //assert.equal("flightID = ", flightInfo[0],"IR01");
-      console.log(flightInfo);
-
-=======
->>>>>>> e61c99f9ab8bf5231c60c35ea8b2863cb81f6815
     }
         let flightHash = await data.getFlightKey(owner, flight, departureDate);
         let flightInfo = await data.getFlight(flightHash);
-        console.log("Flight code: ", flightInfo);
+        //console.log("Flight code: ", flightInfo);
 
 });
 
-*/
+
 
 });

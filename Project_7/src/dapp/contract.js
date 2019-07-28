@@ -4,38 +4,83 @@ import Config from './config.json';
 import Web3 from 'web3';
 
 export default class Contract {
-    constructor(network, callback) {
+  constructor(network, callback) {
 
-        let config = Config[network];
-        this.web3 = new Web3(new Web3.providers.WebsocketProvider(config.url));
-        this.initialize(callback);
-        this.owner = null;
-        this.passengers = [];
-        this.airlines = [];
+      let config = Config[network];
+      this.web3 = new Web3(new Web3.providers.HttpProvider(config.url));
+      this.flightSuretyApp = new this.web3.eth.Contract(FlightSuretyApp.abi, config.appAddress);
+      this.initialize(callback);
+      this.owner = null;
+      this.airlines = [];
+      this.passengers = [];
+      this.users = [];
+      this.allAccounts = [];
+  }
 
-        this.flightSuretyApp = new this.web3.eth.Contract(FlightSuretyApp.abi, config.appAddress, config.dataAddress);
-        //this.flightSuretyData = new this.web3.eth.Contract(FlightSuretyData.abi, config.dataAddress, firstAirline);
+  async initialize(callback) {
+
+      // let account = await web3.eth.getCoinbase();
+      // this.currentAccount = account;
+      // console.log(account);
+      try {
+          let accts = await this.web3.eth.getAccounts();
+          this.allAccounts = accts;
+          this.owner = accts[0];
+          let counter = 1;
+          let numAirlines = await this.getNumberOfAirlines();
+          console.log(numAirlines);
+          if (numAirlines == 1) {
+              this.airlines.push(this.owner);
+              while(this.airlines.length < 4) {
+                  this.airlines.push(accts[counter++]);
+              }
+          } else {
+              for (let c = 0; c < numAirlines; c++) {
+                  let airlineInfo = await this.getAirlineByNum(c);
+                  this.airlines.push(airlineInfo[0]);
+                  counter++
+              }
+          }
+
+          while(this.passengers.length < 5) {
+              this.passengers.push(accts[counter++]);
+          }
+
+          while(accts.length - counter > 0) {
+              this.users.push(accts[counter++]);
+          }
+
+
+          callback();
+      } catch(error) {
+          console.log(error);
+      }
+
+  }
+      async getAirline(airlineAddress) {
+        let self = this;
+        let airline = await self.flightSuretyApp.methods.getAirline(airlineAddress).call();
+        return airline;
     }
 
-    initialize(callback) {
-        this.web3.eth.getAccounts(async (err, accts) => {
+     async getNumberOfAirlines() {
+         let self = this;
+         let airlineCount = await self.flightSuretyApp.methods.getNumberOfAirlines().call();
+         return airlineCount;
+     }
 
-            this.owner = accts[0];
 
-            await this.flightSuretyData.methods.authoriseCaller(this.flightSuretyApp._address).send({ from: this.owner });
-
-            let counter = 1;
-
-            while(this.airlines.length < 5) {
-                this.airlines.push(accts[counter++]);
-            }
-
-            while(this.passengers.length < 5) {
-                this.passengers.push(accts[counter++]);
-            }
-
-            callback();
-        });
+     async getAirlineByNum(airlineNum) {
+        let self = this;
+        let airline = await self.flightSuretyApp.methods.getAirlineByNum(airlineNum).call();
+        return airline;
+    }
+/*
+    async setStatus(address, mode) {
+      let self = this;
+      return await self.flightSuretyApp.methods
+        .setOperatingStatus(mode)
+        .send({from:address});
     }
 
     isOperational(callback) {
@@ -45,7 +90,7 @@ export default class Contract {
             .call({ from: self.owner}, callback);
     }
 
-    fetchFlightStatus(flight, callback) {
+/*    fetchFlightStatus(flight, callback) {
       let self = this;
       let payload = {
         airline: self.airlines[0],
@@ -68,6 +113,6 @@ export default class Contract {
             });
     }
 
-
+*/
 
 }

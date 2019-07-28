@@ -130,6 +130,10 @@ contract FlightSuretyApp {
       return flightSuretyData.airlinesListCount(airline);
     }
 
+    function getAirlineByNum(uint airlineNum) external view returns(address, bool, bool, address[]) {
+        return flightSuretyData.getAirlineByNum(airlineNum);
+    }
+
     function contractBalance() public view returns(uint) {
       return flightSuretyData.contractBalance();
     }
@@ -369,6 +373,7 @@ contract FlightSuretyApp {
     function airlinesListCount(address airlineAddress) public view returns(uint);
     function fundAirline(address airlineAddress) external payable;
     function getAirline(address airlineAddress) public view returns(address, bool, bool, address[]);
+    function getAirlineByNum(uint airlineNum) external view returns(address, bool, bool, address[]);
     function getNumberOfAirlines() external view returns(uint);
     function vote(address airlineAddress) public;
     function voteCount(address airlineAddress) public view returns(uint);
