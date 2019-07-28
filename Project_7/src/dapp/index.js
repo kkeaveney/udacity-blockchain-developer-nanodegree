@@ -43,11 +43,11 @@ let contract;
                 }
                 contractOwnerElement.appendChild(ownerInfoList);
                 let showBalanceBtn = document.createElement("button");
-                showBalanceBtn.innerHTML = "Show contract balance";
+                showBalanceBtn.innerHTML = "Display contract balance";
                 showBalanceBtn.setAttribute("class", "btn btn-primary");
                 showBalanceBtn.addEventListener("click", async function() {
-                    let currentBalance = await contract.getContractBalance();
-                    alert(`Current contract balance is: ${currentBalance / 10**18} ether`);
+                    let currentBalance = await contract.contractBalance();
+                    alert(`Contract balance is: ${currentBalance / 10**18} ether`);
                 });
                 contractOwnerElement.appendChild(showBalanceBtn);
 
@@ -56,10 +56,24 @@ let contract;
             }
         })();
 
+        (async() => {
+        let setOperatingStatusBtn = document.getElementById("setOpertingStatus");
+        setOperatingStatusBtn.addEventListener("click", async function() {
+          let mode = document.getElementById("setOperatingStat").value;
+          mode = (mode == "true");
+          try {
+            alert(`Operating mode changed to ${mode}`);
+            await contract.setStatus(contract.owner, mode);
+            let opStatusPlaceholder = document.getElementById("opStatusPlaceholder");
+            let status = await contract.getOperatingStatus();
+            opStatusPlaceholder.innerHTML = status;
+
+          } catch(error) {
+            alert("Error");
+          }
+        })
+    })();
 
 
-
-    });
-
-
+      });
 })();

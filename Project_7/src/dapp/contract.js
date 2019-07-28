@@ -19,9 +19,6 @@ export default class Contract {
 
   async initialize(callback) {
 
-      // let account = await web3.eth.getCoinbase();
-      // this.currentAccount = account;
-      // console.log(account);
       try {
           let accts = await this.web3.eth.getAccounts();
           this.allAccounts = accts;
@@ -57,6 +54,13 @@ export default class Contract {
       }
 
   }
+
+      async contractBalance() {
+        let self = this;
+        return await self.flightSuretyApp.methods
+            .contractBalance()
+            .call();
+    }
       async getAirline(airlineAddress) {
         let self = this;
         let airline = await self.flightSuretyApp.methods.getAirline(airlineAddress).call();
@@ -75,7 +79,7 @@ export default class Contract {
         let airline = await self.flightSuretyApp.methods.getAirlineByNum(airlineNum).call();
         return airline;
     }
-/*
+
     async setStatus(address, mode) {
       let self = this;
       return await self.flightSuretyApp.methods
@@ -83,6 +87,13 @@ export default class Contract {
         .send({from:address});
     }
 
+    async getOperatingStatus() {
+        let self = this;
+        return await self.flightSuretyApp.methods
+            .isOperational()
+            .call();
+    }
+/*
     isOperational(callback) {
        let self = this;
        self.flightSuretyApp.methods
