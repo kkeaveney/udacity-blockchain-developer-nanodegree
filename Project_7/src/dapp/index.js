@@ -24,6 +24,7 @@ let contract;
                 let isRegistered = airlineInfo[2];
 
                 let contractOwnerElement = document.getElementById("contractOwner");
+
                 let ownerInfoList = document.createElement("ul");
                 for (let c = 0; c <= 2; c++) {
                     let listElement = document.createElement("li");
@@ -73,6 +74,28 @@ let contract;
           }
         })
     })();
+
+        (async() => {
+          var owner = contract.owner;
+          let initialAirlines = ["BritishAirlines","WelshAirlines","ScottishAirlines"];
+          let numberOfAirlines = await contract.getNumberOfAirlines();
+          //console.log("Number of Airlines", Number(initialAirlines));
+
+          if(numberOfAirlines < 4) {
+            for(let i = 0; i < initialAirlines.length; i++){
+              try  {
+              await contract.registerAirline(owner, contract.airlines[i+1],initialAirlines[i]);
+              console.log(`Airline ${initialAirlines[i]} is now registered`);
+            } catch(error) {
+              console.log("error");
+              console.log(error);
+            }
+          }
+          numberOfAirlines = await contract.getNumberOfAirlines();
+          console.log("Number of Airlines", Number(numberOfAirlines));
+        }
+
+        })();
 
 
       });

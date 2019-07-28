@@ -54,6 +54,12 @@ export default class Contract {
       }
 
   }
+      async registerAirline(senderAddress, airlineAddress, airlineName) {
+        let self = this;
+        return await self.flightSuretyApp.methods
+        .registerAirline(airlineAddress)
+        .send({from: senderAddress, gas:500000});
+      }
 
       async contractBalance() {
         let self = this;
@@ -92,6 +98,13 @@ export default class Contract {
         return await self.flightSuretyApp.methods
             .isOperational()
             .call();
+    }
+
+    async getNumberOfAirlines() {
+      let self = this;
+      return await self.flightSuretyApp.methods
+      .getNumberOfAirlines()
+      .call();
     }
 /*
     isOperational(callback) {
