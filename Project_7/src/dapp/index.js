@@ -97,6 +97,32 @@ let contract;
 
         })();
 
-        
+      (async() => {
+        let airlineAddress = document.getElementById("selectAddress");
+        let airlines = contract.airlines;
+        for (let i = 0; i < airlines.length; i++) {
+          let option = document.createElement("option");
+          option.setAttribute("value", airlines[i]);
+          option.innerHTML = `${i}: ${airlines[i]}`;
+          airlineAddress.appendChild(option);
+        }
+        airlineAddress.addEventListener("change", () => {
+          let addressline = document.getElementById("currentAddress");
+          addressline.innerHTML = airlineAddress.value;
+        })
+
+      })();
+
+      (async() => {
+        let users = contract.allAccounts;
+        let registeredAirlineElement = document.getElementById("airlineAddress");
+        for (let  i = 0; i < users.length; i++) {
+              let option = document.createElement("option");
+              option.setAttribute('value', users[i]);
+              option.innerHTML = `${i}: ${users[i]}`;
+              registeredAirlineElement.appendChild(option);
+        }
+      })();
+
       });
 })();
