@@ -257,14 +257,12 @@ let contract;
         })();
 
         (() => {
-            let registerAirlineBtn = document.getElementById("register-airline");
-            registerAirlineBtn.addEventListener("click", async function() {
+            let registeredAirlineBtn = document.getElementById("registerAirline");
+            registeredAirlineBtn.addEventListener("click", async function() {
                 let senderAirlineAddr = document.getElementById("selectAddress").value;
                 let newAirlineAddress = document.getElementById("airlineReg-address").value;
                 let newAirlineName = document.getElementById("airlineName").value;
-                console.log(senderAirlineAddr);
-                console.log(newAirlineAddress);
-                console.log(newAirlineName);
+
                 try {
                     await contract.registerAirline(senderAirlineAddr, newAirlineAddress, newAirlineName);
                     contract.airlines.push(newAirlineAddress);
