@@ -259,28 +259,28 @@ let contract;
         (() => {
             let registeredAirlineBtn = document.getElementById("registerAirline");
             registeredAirlineBtn.addEventListener("click", async function() {
-                let senderAirlineAddr = document.getElementById("selectAddress").value;
+                let senderAirlineAddress = document.getElementById("selectAddress").value;
                 let newAirlineAddress = document.getElementById("airlineReg-address").value;
-                let newAirlineName = document.getElementById("airlineName").value;
+                let newAirline = document.getElementById("airlineName").value;
 
                 try {
-                    await contract.registerAirline(senderAirlineAddr, newAirlineAddress, newAirlineName);
+                    await contract.registerAirline(senderAirlineAddress, newAirlineAddress, newAirline);
                     contract.airlines.push(newAirlineAddress);
-                    console.log(contract.airlines);
-                } catch(error) {
+                    } catch(error) {
                     console.log(error);
                 }
             });
         })();
 
+        async function displayFlights() {
+              console.log(contract.airlines);
+        }
+
+
+        async function displayAirlines() {
+
+            };
+
 
       });
 })();
-
-    async function displayFlights() {
-
-    }
-
-    async function displayAirlines() {
-
-    }
