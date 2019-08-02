@@ -213,6 +213,76 @@ let contract;
             }
         })();
 
+        (async() => {
+          let registerFlightBtn = document.getElementById("registerFlight");
+          registerFlightBtn.addEventListener("click", async function (){
+
+            let address = document.getElementById("selectAddress").value;
+            let flightID = document.getElementById("flightCode").value;
+            let departure = document.getElementById("flightOrigin").value;
+            let destination = document.getElementById("flightDestination").value;
+
+            let departureDay = document.getElementById("flightDepartureDay");
+            let departurehour = document.getElementById("hour");
+            let departureMinute = document.getElementById("minute");
+
+            let departureDate = new Date(departureDay + "T" + departurehour + ":" + departureMinute + ":00Z");
+            departureDate = departureDate.getTime();
+
+
+            console.log(flightID, "Flight ID");
+            console.log(departure, "origin");
+            console.log(destination, "destination");
+            console.log(departureDate, "departureDate");
+
+            try {
+                    await contract.registerFlight(flightID, departure, destination, departureDate);
+                } catch(err) {
+                    console.log(err);
+                }
+
+
+          })
+        })();
+
+        (async() => {
+            let flightsBtn = document.getElementById("show-flights");
+
+            flightsBtn.addEventListener("click", displayFlights);
+        })();
+
+        (async() => {
+            let airlinesBtn = document.getElementById("show-airlines");
+            airlinesBtn.addEventListener("click", displayAirlines);
+        })();
+
+        (() => {
+            let registerAirlineBtn = document.getElementById("register-airline");
+            registerAirlineBtn.addEventListener("click", async function() {
+                let senderAirlineAddr = document.getElementById("selectAddress").value;
+                let newAirlineAddress = document.getElementById("airlineReg-address").value;
+                let newAirlineName = document.getElementById("airlineName").value;
+                console.log(senderAirlineAddr);
+                console.log(newAirlineAddress);
+                console.log(newAirlineName);
+                try {
+                    await contract.registerAirline(senderAirlineAddr, newAirlineAddress, newAirlineName);
+                    contract.airlines.push(newAirlineAddress);
+                    console.log(contract.airlines);
+                } catch(error) {
+                    console.log(error);
+                }
+            });
+        })();
+
 
       });
 })();
+
+    async function displayFlights() {
+
+    }
+
+    async function displayAirlines() {
+
+    }

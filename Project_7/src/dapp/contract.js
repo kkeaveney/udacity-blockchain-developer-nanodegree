@@ -106,6 +106,15 @@ export default class Contract {
       .getNumberOfAirlines()
       .call();
     }
+
+    async registerFlight(flightID, departure, destination, departureDate) {
+      let self = this;
+       return await self.flightSuretyApp.methods
+     .registerFlight(flightID, departure ,destination, departureDate)
+      send({from:airline, gas:1000000});
+    }
+
+
 /*
     isOperational(callback) {
        let self = this;
