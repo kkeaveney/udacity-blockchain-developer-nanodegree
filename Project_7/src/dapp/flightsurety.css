@@ -1,19 +1,33 @@
 body {
-    background-image: url('flight.jpg');
+    background-image: url('flight.jpg'); /* Source: iStockPhoto */
     background-repeat: no-repeat;
     background-size: cover;
 }
 
-.container {
+.container div {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.container:first-of-type {
     margin-top: 400px;
+}
+
+.container {
+    margin-top: 20px;
     background-color: #000;
     opacity: 0.9;
     color: #fff;
     padding: 40px;
 }
 
-.top-20 {
-    margin-top: 20px;
+#regAirlineFunc, #fundAirlineFunc, #flightDetails {
+    display: flex;
+    flex-direction: column;
+}
+
+#flightHour, #flightMinute {
+    width: 10%;
 }
 
 h5 {
@@ -32,9 +46,6 @@ section {
 .field-value {
     color: #0e7fa8;
 }
-
-
-
 
 label.form {
     font-size: 14px;

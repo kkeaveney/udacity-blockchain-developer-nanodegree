@@ -52,18 +52,18 @@
 
     <main class="container">
       <div>
-        <h2> Airline Functionss:</h2>
-        <div id="airlineFunctions">
-          <label for ="airlineAddress">Airline (address)</label>
-          <select id="airlineAddress">
+        <h2> Airline Functions:</h2>
+        <div id="regAirlineFunc">
+          <label for ="airlineReg-address">Airline (address)</label>
+          <select id="airlineReg-address">
           </select>
-          <input type="text" id="airlineName">
-          <btn class="btn btn-primary" id="airlineAddress">Register Airline</btn>
+        <!-- <input type="text" id="airlineName"> -->
+          <btn class="btn btn-primary" id="register-airline">Register Airline</btn>
         </div>
 
-        <div id="fundAirline">
-          <label for="airlineFundAddress">Airline (address)</label>
-          <select id="airlineFundAddress">
+        <div id="fundAirlineFunc">
+          <label for="airlineFund-address">Airline (address)</label>
+          <select id="airlineFund-address">
           </select>
           <btn class="btn btn-primary" id="fund-airline">Fund Airline</btn>
         </div>
@@ -73,26 +73,28 @@
           <div id = "showRegisterdAirlines">
           </div>
       </div>
-      <div id = "registerFlightForm">
-        <h5><em>Register Flight:</em></h5>
-        <label for ="flightDepartureDay">Flight Date:</label>
-        <label type="date" id="flightDepartureDay" name="departureDay">
-        <label for="flightHour">Hour:</label>
-        <select id="flightHour">
-        </select>
-        <div id ="flightDetails">
-          <label for="flightCode">Flight code:</label>
-          <input type="text" id="flightCode">
-          <label for="flightOrigin">Origin:</label>
-          <select id="flightOrigin">
-          </select>
-          <span id="originCode"></span>
-          <label for="flightOrigin">Destination:</label>
-          <select id ="flightDestination">
-          <select>
-          <span id="destinationCode"></span>
-        </div>
-
+      <div id="regFlightForm">
+                <h5><em>Register flight:</em></h5>
+                <label for="departureDay">Flight Date:</label>
+                <input type="date" id="departureDay" name="departDate">
+                <label for="hour">Hour:</label>
+                <select id="hour">
+                </select>
+                <label for="minute">Minute:</label>
+                <select id="minute">
+                </select>
+                <div id="flightDetails">
+                    <label for="flightCode">Flight code:</label>
+                    <input type="text" id="flightCode">
+                    <label for="flightOrigin">Origin:</label>
+                    <select id="flightOrigin">
+                    </select>
+                    <span id="originCode"></span>
+                    <label for="flightOrigin">Destination:</label>
+                    <select id="flightDestination">
+                    </select>
+                    <span id="destinationCode"></span>
+                </div>
         <btn class="btn btn-primary" id="registerFlight">Register Flight</btn>
       </div>
     </div>

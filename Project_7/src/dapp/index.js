@@ -1,6 +1,7 @@
 import DOM from './dom';
 import Contract from './contract';
 import './flightsurety.css';
+import {flightCodes} from "./flightData.js";
 
 
 let flights = [];
@@ -115,7 +116,7 @@ let contract;
 
       (async() => {
         let users = contract.allAccounts;
-        let registeredAirlineElement = document.getElementById("airlineAddress");
+        let registeredAirlineElement = document.getElementById("airlineReg-address");
         for (let  i = 0; i < users.length; i++) {
               let option = document.createElement("option");
               option.setAttribute('value', users[i]);
@@ -123,6 +124,95 @@ let contract;
               registeredAirlineElement.appendChild(option);
         }
       })();
+
+      (async() => {
+        let users = contract.allAccounts;
+        let airlineElement = document.getElementById("airlineFund-address");
+         for(let i = 0; i < users.length; i++) {
+           let option = document.createElement("option");
+           option.setAttribute("value", users[i]);
+           option.innerHTML = `${i}: ${users[i]}`;
+           airlineElement.appendChild(option);
+         }
+      })();
+
+      (async() => {
+        let users = contract.allAccounts;
+        let passengerAddresss =  document.getElementById("selectPassengerAddress");
+          for(let i = 0; i < users.length; i++) {
+              let option = document.createElement("option");
+              option.setAttribute("value", users[i]);
+              option.innerHTML = `${i}: ${users[i]}`;
+              passengerAddresss.appendChild(option);
+          }
+
+          passengerAddresss.addEventListener("change", async function () {
+            let passengerLineElement = document.getElementById("currentPassengerAddress");
+            passengerLineElement.innerHTML = passengerAddresss.value;
+          });
+
+      })();
+
+      (async() => {
+              let flightDataKeys = Object.keys(flightCodes);
+              let flightElement  = document.getElementById("flightOrigin");
+              let destinationElement = document.getElementById("flightDestination");
+              for (let i = 0; i < flightDataKeys.length; i++) {
+                  let option = document.createElement("option");
+                  option.setAttribute("value", flightDataKeys[i]);
+                  option.innerHTML = flightDataKeys[i];
+                  flightElement .appendChild(option);
+                  option = document.createElement("option");
+                  option.innerHTML = flightDataKeys[i];
+                  destinationElement.appendChild(option);
+              }
+
+              flightElement.addEventListener("change", () => {
+                  let codeElement = document.getElementById("originCode");
+                  codeElement.innerHTML = flightCodes[flightElement .value];
+              });
+
+              destinationElement.addEventListener("change", () => {
+                  let destinationCodeElement = document.getElementById("destinationCode");
+                  destinationCodeElement.innerHTML = flightCodes[destinationElement.value];
+              });
+
+          })();
+
+          (async() => {
+            let flightDeptDateElement = document.getElementById("departureDay");
+            flightDeptDateElement.addEventListener("change", () => {
+                alert(flightDeptDateElement.value);
+            })
+        })();
+
+        (async() => {
+            let hourEl = document.getElementById("hour");
+            let minuteEl = document.getElementById("minute");
+            for (let i = 0; i < 24; i++) {
+                let option = document.createElement("option");
+                if (i < 10) {
+                    option.setAttribute("value", `0${i}`);
+                    option.innerHTML = `0${i}`;
+                } else {
+                    option.setAttribute("value", i);
+                    option.innerHTML = i;
+                }
+                hourEl.appendChild(option);
+            }
+            for (let i = 0; i < 60; i++) {
+                let option = document.createElement("option");
+                if (i < 10) {
+                    option.setAttribute("value", `0${i}`);
+                    option.innerHTML = `0${i}`;
+                } else {
+                    option.setAttribute("value", i);
+                    option.innerHTML = i;
+                }
+                minuteEl.appendChild(option);
+            }
+        })();
+
 
       });
 })();
