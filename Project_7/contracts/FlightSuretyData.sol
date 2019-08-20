@@ -178,9 +178,9 @@ contract FlightSuretyData {
     }
 
     function registerFlight(string memory flightID, string memory departure, string memory destination, uint256 departureDate) public {
-      require(airlines[tx.origin].hasPaid);
+      //require(airlines[tx.origin].hasPaid);
       bytes32 flightHash = getFlightKey(tx.origin, flightID, departureDate);
-
+      require(!flights[flightHash].isRegistered, "This flight is already registered");
       Flight memory newFlight = Flight({
           airline: tx.origin,
           isRegistered:true,

@@ -114,6 +114,42 @@ export default class Contract {
       send({from:airline, gas:1000000});
     }
 
+    async getNumberOfFlights(){
+      let self = this;
+      return await self.flightSuretyApp.methods
+      .getNumberOfFlights()
+      .call();
+    }
+
+   async getAirlineByNumber(airlineNumber){
+     let self = this;
+     return await self.flightSuretyApp.methods
+     .getAirlineByNum(airlineNumber)
+     .call();
+   }
+
+   async getFlightByNumber(flightNumber) {
+     let self = this;
+     return await self.flightSuretyApp.methods
+     .getAirlineByNum(flightNumber)
+     .call();
+   }
+
+   async getFlightKey(address, flightID, departDate) {
+     let self = this;
+     let key = await self.flightSuretyApp.methods
+     .getFlightKey(address, flightID, departDate)
+     .call();
+    return key;
+   }
+
+   async getFlight(key){
+     let self = this;
+     return await self.flightSuretyApp.methods
+     .getFlight(key)
+     .call();
+   }
+
 
 /*
     isOperational(callback) {

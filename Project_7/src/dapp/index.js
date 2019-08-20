@@ -273,7 +273,58 @@ let contract;
         })();
 
         async function displayFlights() {
-              console.log(contract.airlines);
+              let passenger = document.getElementById("selectPassengerAddress").value;
+              let numberOfFlights = await contract.getNumberOfFlights();
+              alert(`There are ${numberOfFlights} of registered flights`);
+              let flightElement = document.getElementById("showRegisteredFlights");
+              flightElement.innerHTML = "";
+
+              let table = document.createElement("table");
+              let headers = `
+              <tr><th>Airline</th>
+              <th>Flight ID</th>
+              <th>From</th>
+              <th>to</th>
+              <th>departureDate</th>
+              <th>InsureFlight (airlines)</th>
+              <th>Status Code </th>
+              <th>Buy Insurance </th>
+              <th>Fetch Status</th>
+              </tr>`;
+              table.innerHTML = headers;
+
+              for(let i = 0; i <= numberOfFlights; i++) {
+                let flightInfoTemp = await contract.getFlightByNumber(i);
+                let address = flightInfoTemp[0];
+                let flightID = flightInfoTemp[3];
+                let departDate = flightInfoTemp[6];
+                console.log(address, flightID, departDate);
+            //  let key = await contract.getFlightKey(address, flightID, departDate);
+/*              let airlineDetails = await contract.getAirline(address);
+                let flightInfo = await contract.getFlight(key);
+
+                let row = document.createElement("tr");
+                let tableData = document.createElement("td")
+                tableData.innerHTML = flightInfo[0];
+                let tableData2 = document.createElement("td");
+                tableData2.innerHTML = flightInfo[1];
+                let tableData3 = document.createElement("td");
+                tableData3.innerHTML = flightInfo[2];
+                let tableData4 = document.createElement("td");
+                tableData4.innerHTML = flightID[3];
+
+                tableData5 = document.createElement("td");
+                tableData5.innerHTML = new Date(Number(flightInfo[6])).toGMTString();
+
+                row.appendChild(tableData);
+                row.appendChild(tableData2);
+                row.appendChild(tableData3);
+                row.appendChild(tableData4);
+                row.appendChild(tableData5);
+*/
+
+              }
+
         }
 
 
