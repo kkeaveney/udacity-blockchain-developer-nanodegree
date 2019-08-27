@@ -26,6 +26,16 @@ body {
     flex-direction: column;
 }
 
+#showRegisteredAirlines{
+
+}
+td,th {
+text-align: center;
+width:15%;
+
+}
+
+
 #flightHour, #flightMinute {
     width: 10%;
 }

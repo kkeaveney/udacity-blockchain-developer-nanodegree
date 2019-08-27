@@ -299,8 +299,8 @@ let contract;
                 let flightID = flightInfoTemp[3];
                 let departDate = flightInfoTemp[6];
                 console.log(address, flightID, departDate);
-            //  let key = await contract.getFlightKey(address, flightID, departDate);
-/*              let airlineDetails = await contract.getAirline(address);
+                let key = await contract.getFlightKey(address, flightID, departDate);
+                let airlineDetails = await contract.getAirline(address);
                 let flightInfo = await contract.getFlight(key);
 
                 let row = document.createElement("tr");
@@ -321,7 +321,7 @@ let contract;
                 row.appendChild(tableData3);
                 row.appendChild(tableData4);
                 row.appendChild(tableData5);
-*/
+
 
               }
 
@@ -329,7 +329,56 @@ let contract;
 
 
         async function displayAirlines() {
+            let airline = contract.airlines;
+            let airlinesElement = document.getElementById("showRegisteredAirlines");
+            airlinesElement.innerHTML = "";
+            let table = document.createElement("table");
+            let tableHeaders = `
+            <tr><th>Address</th>
+            <th>Paid</th>
+            <th>Registered</th>
+            <th>Vote To Add</th>
+            </tr>`;
+            table.innerHTML = tableHeaders;
+            let numberOfAirlines = await contract.getNumberOfAirlines();
+            console.log(Number(numberOfAirlines));
+            console.log(contract.airlines);
+            for(let i = 0; i < numberOfAirlines; i++) {
+              let address = contract.airlines[i];
+              let airlineInfo = await contract.getAirline(address);
+              let tableRow = document.createElement("tr");
+              let tableData = document.createElement("td");
+              tableData.innerHTML = address;
+              let tableData2 = document.createElement("td");
+              tableData2.innerHTML = airlineInfo[1];
+              let tableData3 = document.createElement("td");
+              tableData3.innerHTML = airlineInfo[2];
+              let tableData4 = document.createElement("td");
+              tableData4.innerHTML = airlineInfo[3];
+              table.appendChild(tableData);
+              table.appendChild(tableData2);
+              table.appendChild(tableData3);
+              //table.appendChild(tableData4);
 
+              if(!airlineInfo[2]) {
+                let tableData5 = document.createElement("td");
+                let btn = document.createElement("button");
+                btn.innerHTML = "Vote"
+
+                btn.addEventListener("click", async function() {
+                  let voter = document.getElementById("selectAddress").value;
+                  await contract.castVote(address,voter);
+                  alert("Vote has been cast");
+                });
+
+                tableData5.appendChild(btn);
+                table.appendChild(tableData5);
+
+              }
+
+              table.appendChild(tableRow);
+            }
+              airlinesElement.appendChild(table);
             };
 
 
