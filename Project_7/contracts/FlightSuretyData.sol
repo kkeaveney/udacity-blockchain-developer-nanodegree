@@ -27,6 +27,7 @@ contract FlightSuretyData {
       bool hasPaid;
       bool isRegistered;
       address[] registeredAirlines;
+
     }
 
 
@@ -41,6 +42,7 @@ contract FlightSuretyData {
     uint numberOfFlights = 0;
     mapping(address => uint) private authorisedContracts;
     mapping(address => Airline) private airlines;
+
 
     mapping(address => uint) passengerAccountToRefund;
 
@@ -92,6 +94,7 @@ contract FlightSuretyData {
       require(isCallerAuthorised(msg.sender), "Caller must be authorised");
       _;
     }
+
 
 
 
@@ -163,6 +166,8 @@ contract FlightSuretyData {
 
 
 
+
+
     function contractBalance() public view returns(uint) {
       return address(this).balance;
     }
@@ -181,6 +186,7 @@ contract FlightSuretyData {
       //require(airlines[tx.origin].hasPaid);
       bytes32 flightHash = getFlightKey(tx.origin, flightID, departureDate);
       require(!flights[flightHash].isRegistered, "This flight is already registered");
+
       Flight memory newFlight = Flight({
           airline: tx.origin,
           isRegistered:true,
@@ -256,6 +262,8 @@ contract FlightSuretyData {
     {
 
       require(!airlines[airlineAddress].isRegistered, "Airline is already registered");
+      //require(!airlineExistance(airlineAddress),"Airline already exsists");
+
 
         if(numberOfAirlines < CONSENSEUS_THRESHOLD) {
             Airline memory airline1 = Airline({
@@ -263,18 +271,22 @@ contract FlightSuretyData {
               hasPaid: false,
               isRegistered: true,
               registeredAirlines: new address[](0)
+
             });
             numberOfAirlines = airlinesList.push(airline1);
             airlines[airlineAddress] =  airline1;
+
             }  else {
               Airline memory airline2 = Airline({
                 airlineAddress: airlineAddress,
                 hasPaid: false,
                 isRegistered: false,
                 registeredAirlines: new address[](0)
+
               });
               numberOfAirlines = airlinesList.push(airline2);
               airlines[airlineAddress] =  airline2;
+
           }
         }
 
@@ -285,7 +297,8 @@ contract FlightSuretyData {
     }
 
     function vote(address airlineAddress) public requireIsOperational {
-
+        require(!votedAlready(tx.origin, airlineAddress),"Airline has already been voted by sender Address");
+        require(!airlines[airlineAddress].isRegistered, "Airline is already registered");
         Airline storage currentAirline = airlines[airlineAddress];
         currentAirline.registeredAirlines.push(tx.origin);
         if(currentAirline.registeredAirlines.length > (numberOfAirlines.div(2))){
@@ -295,6 +308,26 @@ contract FlightSuretyData {
 
     function voteCount(address airlineAddress) external view returns(uint) {
         return airlines[airlineAddress].registeredAirlines.length;
+    }
+
+    function votedAlready(address voter, address airlineAddress) public view returns(bool) {
+      bool voted = false;
+      for(uint i = 0; i < airlines[airlineAddress].registeredAirlines.length; i++) {
+        if(airlines[airlineAddress].registeredAirlines[i] == voter)
+          voted = true;
+          break;
+      }
+      return voted;
+    }
+
+    function airlineExistance(address _address) public view returns(bool) {
+      bool exsists = false;
+      for(uint i = 0; i < airlinesList.length; i++) {
+        if(airlines[_address].airlineAddress == _address)
+          exsists = true;
+          break;
+      }
+      return exsists;
     }
 
 

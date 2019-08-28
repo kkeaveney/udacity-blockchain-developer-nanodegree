@@ -11,6 +11,7 @@ contract('Flight Surety Tests', async (accounts) => {
     let airline3 = accounts[2];
     let airline4 = accounts[3];
     let airline5 = accounts[4];
+    let airline6 = accounts[5];
 
     it(`(multiparty) has correct initial isOperational() value`, async () => {
 
@@ -95,7 +96,7 @@ contract('Flight Surety Tests', async (accounts) => {
         console.log(airline4Info[0]);
         assert.equal(airline3Info[0],airline3,"Wrong Airline address");
         assert.equal(airline3Info[1],false,"Airline should not be funded");
-        assert.equal(airline3Info[2],true,"Airline isn;t registered");
+        assert.equal(airline3Info[2],true,"Airline isn't registered");
       });
 
       it("Allows a fifth, non registerd airline to be added", async() => {
@@ -123,15 +124,33 @@ contract('Flight Surety Tests', async (accounts) => {
 
         await data.vote(airline5, {from:owner});
         assert.equal(airline5Info[2],false, "Airline 5 should not be registered");
-        let voteCount = await data.voteCount(airline5);
+
+
         await data.vote(airline5, {from:airline2});
+
         assert.equal(airline5Info[2],false, "Airline 5 should still not be registered");
         await data.vote(airline5, {from:airline3});
-        await data.vote(airline5, {from:airline4});
+
+        let voteCount = await data.voteCount(airline5);
+        console.log("VoteCount = ", voteCount.toNumber());
+
         airline5Info = await data.getAirline(airline5);
         assert.equal(airline5Info[2],true, "Airline 5 has recieved consenus, is now Registered");
 
       });
+
+      it("Allows an new Airline to be created only once", async() => {
+        let data = await FlightSuretyApp.deployed();
+        await data.registerAirline(airline6, {from:owner});
+        let airlineInfo6 = await data.getAirline(airline6);
+        console.log(airlineInfo6[0]);
+        console.log(airlineInfo6[1]);
+        console.log(airlineInfo6[2]);
+        console.log(airlineInfo6[3]);
+        await data.registerAirline(airline6, {from:owner});
+
+
+      })
 
       it("Allows a funded airline to register another flight", async() => {
         let data = await FlightSuretyApp.deployed();

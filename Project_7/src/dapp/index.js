@@ -266,6 +266,7 @@ let contract;
                 try {
                     await contract.registerAirline(senderAirlineAddress, newAirlineAddress, newAirline);
                     contract.airlines.push(newAirlineAddress);
+
                     } catch(error) {
                     console.log(error);
                 }
@@ -367,7 +368,7 @@ let contract;
 
                 btn.addEventListener("click", async function() {
                   let voter = document.getElementById("selectAddress").value;
-                  await contract.castVote(address,voter);
+                  await contract.vote(address,voter);
                   alert("Vote has been cast");
                 });
 

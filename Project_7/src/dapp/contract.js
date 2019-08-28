@@ -151,6 +151,14 @@ export default class Contract {
    }
 
 
+   async vote(address, voter) {
+     let self = this;
+     return await self.flightSuretyApp.methods
+     .vote(address)
+     .send({from:voter});
+   }
+
+
 /*
     isOperational(callback) {
        let self = this;
