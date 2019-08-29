@@ -186,6 +186,10 @@ contract FlightSuretyApp {
             flightSuretyData.pay(flightHash,value);
     }
 
+    function getFlightByNum(uint flightNum) public view returns(address, bool, bool, string memory, string memory, string memory, uint256, uint8, address[]) {
+        return flightSuretyData.getFlightByNum(flightNum);
+    }
+
    /**
     * @dev Called after oracle has updated flight status
     *
@@ -389,9 +393,10 @@ contract FlightSuretyApp {
       string destination,
       uint256 departureDate,
       uint8 statusCode);
-      function getFlightByNum(uint flightNum) external view returns(address, bool, bool, string memory, string memory, string memory, uint256, uint8, address[]);
-      function hasInsurance(address airlineAddress, address passengerAddress, string flightID, uint departureDate) public view returns(bool);
-      function insuranceTotal(address passengerAddress, bytes32 flightHash) external view returns(uint);
-      function updateFlightDetails(bytes32 flightHash, uint8 status) external;
-      function pay(bytes32 flightHash, uint value) external;
+    function getFlightByNum(uint flightNum) public view returns(address, bool, bool, string memory, string memory, string memory, uint256, uint8, address[]);
+    function hasInsurance(address airlineAddress, address passengerAddress, string flightID, uint departureDate) public view returns(bool);
+    function insuranceTotal(address passengerAddress, bytes32 flightHash) external view returns(uint);
+    function updateFlightDetails(bytes32 flightHash, uint8 status) external;
+    function pay(bytes32 flightHash, uint value) external;
+    //function getFlightByNum(uint flightNum) public view returns(address, bool, bool, string memory, string memory, string memory, uint256, uint8, address[]);
   }

@@ -295,11 +295,15 @@ let contract;
               table.innerHTML = headers;
 
               for(let i = 0; i <= numberOfFlights; i++) {
-                let flightInfoTemp = await contract.getFlightByNumber(i);
-                let address = flightInfoTemp[0];
-                let flightID = flightInfoTemp[3];
-                let departDate = flightInfoTemp[6];
-                console.log(address, flightID, departDate);
+                 try {
+                   let flightInfoTemp = await contract.getFlightByNum(0);
+                 } catch(err) {
+                   console.log(err)
+                 }
+              //   let address = flightInfoTemp[0];
+              //   let flightID = flightInfoTemp[3];
+              //   let departDate = flightInfoTemp[6];
+              //   console.log(address, flightID, departDate);
 //                let key = await contract.getFlightKey(address, flightID, departDate);
 /*                let airlineDetails = await contract.getAirline(address);
                 let flightInfo = await contract.getFlight(key);

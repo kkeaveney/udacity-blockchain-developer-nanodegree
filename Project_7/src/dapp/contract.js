@@ -128,10 +128,10 @@ export default class Contract {
      .call();
    }
 
-   async getFlightByNumber(flightNumber) {
+   async getFlightByNum(flightID) {
      let self = this;
      return await self.flightSuretyApp.methods
-     .getFlightByNum(flightNumber)
+     .getFlightByNum(flightID)
      .call();
    }
 
