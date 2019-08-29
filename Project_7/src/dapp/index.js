@@ -300,8 +300,8 @@ let contract;
                 let flightID = flightInfoTemp[3];
                 let departDate = flightInfoTemp[6];
                 console.log(address, flightID, departDate);
-                let key = await contract.getFlightKey(address, flightID, departDate);
-                let airlineDetails = await contract.getAirline(address);
+//                let key = await contract.getFlightKey(address, flightID, departDate);
+/*                let airlineDetails = await contract.getAirline(address);
                 let flightInfo = await contract.getFlight(key);
 
                 let row = document.createElement("tr");
@@ -323,6 +323,32 @@ let contract;
                 row.appendChild(tableData4);
                 row.appendChild(tableData5);
 
+                let tableData6 = document.createElement("td");
+                let tableData8 = document.createElement("td");
+                let tableData9 = document.createElement("td");
+
+               console.log(flightInfo[2])
+                  if (flightInfo[2]) {
+                  tableData6.innerHTML = "Insured";
+                  let fetchStatusBtn = document.createElement("button");
+                  fetchStatusBtn.innerHTML = "Get Flight Status";
+                  fetchStatusBtn.addEventListener("click", async function (){
+                    try {
+                        let flightID = flightInfo[3];
+                        let departureDate = flightInfo[6];
+                        await contract.getFlightStatus(passenger,address, flightID, departDate);
+                        alert(`Fetching status of flight ${flightID}`);
+                      } catch(error) {
+                        console.log(flightID);
+                        alert('There has been an error');
+                      }
+
+                  });
+
+                  tableData9.appendChild(fetchStatusBtn);
+
+                }
+*/
 
               }
 

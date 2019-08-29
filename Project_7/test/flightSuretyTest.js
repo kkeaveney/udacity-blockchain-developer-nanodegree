@@ -147,10 +147,12 @@ contract('Flight Surety Tests', async (accounts) => {
         console.log(airlineInfo6[1]);
         console.log(airlineInfo6[2]);
         console.log(airlineInfo6[3]);
-        await data.registerAirline(airline6, {from:owner});
+        //await data.registerAirline(airline6, {from:owner});
 
 
       })
+
+
 
       it("Allows a funded airline to register another flight", async() => {
         let data = await FlightSuretyApp.deployed();
@@ -173,6 +175,8 @@ contract('Flight Surety Tests', async (accounts) => {
         assert.equal(airline1Hash[2],false); // Not Funded
         assert.equal(airline1Hash[3],"IR01"); // flightID
         assert.equal(airline1Hash[4],"DUB");  // Arrival
+
+
       });
 
      it("allows a passenger to purchase insurance", async() =>{
@@ -219,6 +223,7 @@ contract('Flight Surety Tests', async (accounts) => {
         assert.isAbove(Number(updatedBalance - passengerBalance), Number(web3.toWei("0.3", "ether")));
 
       })
+
 
 
 

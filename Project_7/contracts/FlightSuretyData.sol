@@ -262,7 +262,7 @@ contract FlightSuretyData {
     {
 
       require(!airlines[airlineAddress].isRegistered, "Airline is already registered");
-      //require(!airlineExistance(airlineAddress),"Airline already exsists");
+      require(!airlineExistance(airlineAddress),"Airline already exsists");
 
 
         if(numberOfAirlines < CONSENSEUS_THRESHOLD) {
@@ -399,6 +399,11 @@ contract FlightSuretyData {
         return(flight.airline, flight.isRegistered, flight.isInsured, flight.flightID, flight.source,  flight.destination,flight.departureDate,
           flight.statusCode, flight.insuredPassengers);
       }
+
+      function getFlightByNum(uint flightNum) external view returns(address, bool, bool, string memory, string memory, string memory, uint256, uint8, address[]) {
+        Flight memory flight = flightsList[flightNum];
+        return (flight.airline, flight.isRegistered, flight.isInsured, flight.flightID, flight.source, flight.destination, flight.departureDate, flight.statusCode, flight.insuredPassengers);
+    }
 
 
 

@@ -107,7 +107,7 @@ export default class Contract {
       .call();
     }
 
-    async registerFlight(flightID, departure, destination, departureDate) {
+    async registerFlight(airline, flightID, departure, destination, departureDate) {
       let self = this;
        return await self.flightSuretyApp.methods
      .registerFlight(flightID, departure ,destination, departureDate)
@@ -131,7 +131,7 @@ export default class Contract {
    async getFlightByNumber(flightNumber) {
      let self = this;
      return await self.flightSuretyApp.methods
-     .getAirlineByNum(flightNumber)
+     .getFlightByNum(flightNumber)
      .call();
    }
 
