@@ -214,6 +214,22 @@ let contract;
         })();
 
         (async() => {
+          let fundAirlineBtn = document.getElementById('fund-airline');
+              fundAirlineBtn.addEventListener("click", async function() {
+                //let airlineAddress = document.getElementById("selAddress").value;
+                 let fundedAirline = document.getElementById("airlineFund-address").value;
+                  try {
+                    alert(`The airline ${fundedAirline} is about to be funded`);
+                    await contract.fundAirline(fundedAirline);
+                  } catch(error) {
+                    console.log(error);
+                  }
+              })
+
+
+        })();
+
+        (async() => {
           let registerFlightBtn = document.getElementById("registerFlight");
           registerFlightBtn.addEventListener("click", async function (){
 
@@ -295,11 +311,11 @@ let contract;
               table.innerHTML = headers;
 
               for(let i = 0; i <= numberOfFlights; i++) {
-                 try {
-                   let flightInfoTemp = await contract.getFlightByNum(0);
-                 } catch(err) {
-                   console.log(err)
-                 }
+
+              if(numberOfFlights >0){
+                let flightInfoTemp = await contract.getFlightByNum(0);
+              }
+
               //   let address = flightInfoTemp[0];
               //   let flightID = flightInfoTemp[3];
               //   let departDate = flightInfoTemp[6];

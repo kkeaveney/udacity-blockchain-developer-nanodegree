@@ -158,6 +158,14 @@ export default class Contract {
      .send({from:voter});
    }
 
+   async fundAirline(airlineAddress) {
+     let self = this;
+     let fee = await self.web3.utils.toWei("10","ether");
+     return await self.flightSuretyApp.methods
+     .fundAirline()
+     .send({from:airlineAddress, value:fee});
+   }
+
 
 /*
     isOperational(callback) {

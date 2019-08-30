@@ -360,6 +360,7 @@ contract FlightSuretyData {
 
       airlines[airlineAddress].hasPaid = true;
       uint refund = msg.value - JOINING_FEE;
+
     }
     /**
      *  @dev Transfers eligible payout funds to insuree
@@ -400,9 +401,9 @@ contract FlightSuretyData {
           flight.statusCode, flight.insuredPassengers);
       }
 
-      function getFlightByNum(uint flightNum) public view returns(address, bool, bool, string memory, string memory, string memory, uint256, uint8, address[]) {
+      function getFlightByNum(uint flightNum) external view returns(address){
         Flight memory flight = flightsList[flightNum];
-        return (flight.airline, flight.isRegistered, flight.isInsured, flight.flightID, flight.source, flight.destination, flight.departureDate, flight.statusCode, flight.insuredPassengers);
+        return (flight.airline);
     }
 
 
