@@ -254,7 +254,7 @@ let contract;
             try {
                     await contract.registerFlight(flightID, departure, destination, departureDate);
                 } catch(err) {
-                    console.log(err);
+                    console.log('err');
                 }
 
 
@@ -312,9 +312,9 @@ let contract;
 
               for(let i = 0; i <= numberOfFlights; i++) {
 
-              if(numberOfFlights >0){
-                let flightInfoTemp = await contract.getFlightByNum(0);
-              }
+
+              //let flightInfoTemp = await contract.getFlightByNum(i);
+
 
               //   let address = flightInfoTemp[0];
               //   let flightID = flightInfoTemp[3];
