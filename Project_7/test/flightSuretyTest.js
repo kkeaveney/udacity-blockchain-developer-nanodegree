@@ -160,11 +160,15 @@ contract('Flight Surety Tests', async (accounts) => {
         assert.equal(airline1Info[1],true);
         let date = "2019-07-14T12:30:00Z"
         let departureDate = new Date(date).getTime();
-        console.log(departureDate);
+        console.log("departure date = ",departureDate);
         await data.registerFlight("IR01","DUB","BEL",departureDate, {from:airline1});
         let flightCount = await data.getNumberOfFlights();
         assert.equal(flightCount,1,"Incorrect number of flights");
-        console.log(flightCount.toNumber());
+        console.log("Number of Flights = ",flightCount.toNumber());
+        await data.registerFlight("IR02","DUB","BEL",departureDate, {from:airline1});
+        flightCount = await data.getNumberOfFlights();
+        assert.equal(flightCount,2,"Incorrect number of flights");
+        console.log("Number of Flights = ",flightCount.toNumber());
 
 
         let hash = await data.getFlightKey.call(airline1, "IR01", departureDate);
@@ -173,6 +177,7 @@ contract('Flight Surety Tests', async (accounts) => {
         assert.equal(airline1Hash[2],false); // Not Funded
         assert.equal(airline1Hash[3],"IR01"); // flightID
         assert.equal(airline1Hash[4],"DUB");  // Arrival
+        console.log(airline1Hash);
       });
 
      it("allows a passenger to purchase insurance", async() =>{
