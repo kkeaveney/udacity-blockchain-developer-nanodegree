@@ -107,11 +107,20 @@ export default class Contract {
       .call();
     }
 
+    async fundAirline(airlineAddress) {
+      let self = this;
+      let fee = await self.web3.utils.toWei("10", "ether");
+      return await self.flightSuretyApp.methods
+      .fundAirline()
+      .send({from:airlineAddress, value:fee});
+    }
+
     async registerFlight(airline, flightID, departure, destination, departureDate) {
+      console.log("Registering Flight");
       let self = this;
        return await self.flightSuretyApp.methods
      .registerFlight(flightID, departure ,destination, departureDate)
-      send({from:airline, gas:1000000});
+     .send({from:airline, gas:1000000});
     }
 
     async getNumberOfFlights(){

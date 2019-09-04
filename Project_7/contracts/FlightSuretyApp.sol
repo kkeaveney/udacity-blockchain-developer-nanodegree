@@ -117,7 +117,7 @@ contract FlightSuretyApp {
     * @dev Register a future flight for insuring.
     *
     */
-    function registerFlight(string memory flightNumber, string memory departure, string memory destination, uint256 departureDate) public {
+    function registerFlight(string flightNumber, string departure, string destination, uint256 departureDate) external {
       flightSuretyData.registerFlight(flightNumber,departure,destination,departureDate);
     }
 
@@ -381,7 +381,7 @@ contract FlightSuretyApp {
     function getNumberOfAirlines() external view returns(uint);
     function vote(address airlineAddress) public;
     function voteCount(address airlineAddress) public view returns(uint);
-    function registerFlight(string memory flightNumber, string memory departure, string memory destination, uint256 departureDate) public;
+    function registerFlight(string flightNumber, string departure, string destination, uint256 departureDate) external;
     function getNumberOfFlights() external view returns (uint);
     function getFlightKey(address airline, string flight, uint256 timestamp) pure internal returns(bytes32);
     function getFlight(bytes32 flightHash) public view returns(
