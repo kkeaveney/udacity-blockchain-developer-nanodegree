@@ -252,7 +252,8 @@ let contract;
             console.log(departureDate, "departureDate");
 
             try {
-                    await contract.registerFlight(flightID, departure, destination, departureDate);
+
+                    await contract.registerFlight(address, flightID, departure, destination, departureDate);
                 } catch(err) {
                     console.log('err');
                 }
@@ -270,6 +271,20 @@ let contract;
         (async() => {
             let airlinesBtn = document.getElementById("show-airlines");
             airlinesBtn.addEventListener("click", displayAirlines);
+        })();
+
+        (async() => {
+          let fundBtn = document.getElementById("fund-airline");
+          fundBtn.addEventListener("click", async function() {
+            let airlineAddress = document.getElementById("selectAddress").value;
+            let fundedAirline = document.getElementById("airlineFund-address").value;
+            try {
+              alert(`The airline ${fundedAirline} is now funded`);
+              await contract.fundAirline(fundedAirline);
+            } catch(err) {
+              console.log(err);
+            }
+          })
         })();
 
         (() => {
@@ -310,6 +325,7 @@ let contract;
               </tr>`;
               table.innerHTML = headers;
 
+<<<<<<< HEAD
               for(let i = 0; i <= numberOfFlights; i++) {
 
 
@@ -322,6 +338,17 @@ let contract;
               //   console.log(address, flightID, departDate);
 //                let key = await contract.getFlightKey(address, flightID, departDate);
 /*                let airlineDetails = await contract.getAirline(address);
+=======
+              for(let i = 0; i < numberOfFlights; i++) {
+
+                let flightInfoTemp = await contract.getFlightByNum(i);
+                let address = flightInfoTemp[0];
+                let flightID = flightInfoTemp[3];
+                let departDate = flightInfoTemp[6];
+                console.log(address, flightID, departDate);
+                let key = await contract.getFlightKey(address, flightID, departDate);
+                let airlineDetails = await contract.getAirline(address);
+>>>>>>> f58576885d64029850c78f0f105c48bed3dc9d84
                 let flightInfo = await contract.getFlight(key);
 
                 let row = document.createElement("tr");
@@ -334,7 +361,7 @@ let contract;
                 let tableData4 = document.createElement("td");
                 tableData4.innerHTML = flightID[3];
 
-                tableData5 = document.createElement("td");
+                let tableData5 = document.createElement("td");
                 tableData5.innerHTML = new Date(Number(flightInfo[6])).toGMTString();
 
                 row.appendChild(tableData);
@@ -368,7 +395,7 @@ let contract;
                   tableData9.appendChild(fetchStatusBtn);
 
                 }
-*/
+
 
               }
 

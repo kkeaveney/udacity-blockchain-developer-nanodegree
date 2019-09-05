@@ -182,8 +182,13 @@ contract FlightSuretyData {
         return (airline.airlineAddress, airline.hasPaid, airline.isRegistered, airline.registeredAirlines);
     }
 
+<<<<<<< HEAD
     function registerFlight(string memory flightID, string memory departure, string memory destination, uint256 departureDate) public {
       require(airlines[tx.origin].hasPaid,"Airline has not been funded");
+=======
+    function registerFlight(string flightID, string departure, string destination, uint256 departureDate) external {
+      require(airlines[tx.origin].hasPaid,"Airline is not funded");
+>>>>>>> f58576885d64029850c78f0f105c48bed3dc9d84
       bytes32 flightHash = getFlightKey(tx.origin, flightID, departureDate);
       require(!flights[flightHash].isRegistered, "This flight is already registered");
 
