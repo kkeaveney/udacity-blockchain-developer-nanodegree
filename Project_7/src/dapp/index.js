@@ -300,7 +300,7 @@ let contract;
               <tr><th>Airline</th>
               <th>Flight ID</th>
               <th>From</th>
-              <th>to</th>
+              <th>to  </th>
               <th>departureDate</th>
               <th>InsureFlight (airlines)</th>
               <th>Status Code </th>
@@ -314,24 +314,32 @@ let contract;
                 let flightInfoTemp = await contract.getFlightByNum(i);
                 let address = flightInfoTemp[0];
                 let flightID = flightInfoTemp[3];
+                let source = flightInfoTemp[4];
+                let destination = flightInfoTemp[4];
                 let departDate = flightInfoTemp[6];
-                console.log(address, flightID, departDate);
+                //console.log(address, flightID, departDate, source, destination);
                 let key = await contract.getFlightKey(address, flightID, departDate);
+            //    console.log('key',key);
                 let airlineDetails = await contract.getAirline(address);
+            //    console.log('airlineDetails',airlineDetails);
                 let flightInfo = await contract.getFlight(key);
+                console.log('flightInfo',flightInfo);
+
+
+                //console.log(flightInfo[i]);
 
                 let row = document.createElement("tr");
                 let tableData = document.createElement("td")
                 tableData.innerHTML = flightInfo[0];
                 let tableData2 = document.createElement("td");
-                tableData2.innerHTML = flightInfo[1];
+                tableData2.innerHTML = flightInfo[3];
                 let tableData3 = document.createElement("td");
-                tableData3.innerHTML = flightInfo[2];
+                tableData3.innerHTML = flightInfo[4];
                 let tableData4 = document.createElement("td");
-                tableData4.innerHTML = flightID[3];
+                tableData4.innerHTML = flightInfo[5];
 
                 let tableData5 = document.createElement("td");
-                tableData5.innerHTML = new Date(Number(flightInfo[6])).toGMTString();
+                tableData5.innerHTML = new Date(Number(flightInfo[1])).toGMTString();
 
                 row.appendChild(tableData);
                 row.appendChild(tableData2);
@@ -343,7 +351,7 @@ let contract;
                 let tableData8 = document.createElement("td");
                 let tableData9 = document.createElement("td");
 
-               console.log(flightInfo[2])
+                  console.log(flightInfo[2])
                   if (flightInfo[2]) {
                   tableData6.innerHTML = "Insured";
                   let fetchStatusBtn = document.createElement("button");
@@ -355,7 +363,7 @@ let contract;
                         await contract.getFlightStatus(passenger,address, flightID, departDate);
                         alert(`Fetching status of flight ${flightID}`);
                       } catch(error) {
-                        console.log(flightID);
+                        console.log(error);
                         alert('There has been an error');
                       }
 
@@ -363,12 +371,73 @@ let contract;
 
                   tableData9.appendChild(fetchStatusBtn);
 
+                  let buyInsuranceBtn = document.createElement("button");
+                  buyInsuranceBtn.innerHTML = "Purchase insurance";
+                  buyInsuranceBtn.addEventListener("click", async function () {
+                    let address = document.getElementById("selectAddress").value;
+                    let insurancePremium = document.getElementById("premiumVal").value;
+                    insurancePremium = await contract.web3.utils.toWei(insurancePremium,"ether");
+                    let flightID = flightInfo[0];
+                    let departureDate = flightInfo[6];
+                    console.log(address);
+                    console.log(insurancePremium);
+                    console.log(flightID);
+                    console.log(departureDate);
+
+                    try {
+                        await contract.buyInsurance(
+                          address,
+                          airlineAddress,
+                          departureDate,
+                          flightID,
+                          insurancePremium);
+                          alert(`Insurance for flight ${flightID} is being processed`);
+                    } catch(error) {
+                      console.log(error);
+                      alert("There has been an error");
+                    }
+
+                  });
+                    tableData8.appendChild(buyInsuranceBtn);
+                } else {
+                  let insureFlightBtn = document.createElement("button");
+                  insureFlightBtn.innerHTML = "Insure Flight";
+                  insureFlightBtn.addEventListener("click", async function (){
+                    let airline = document.getElementById("selectAddress").value;
+                    console.log(airline);
+                    let flightCodeID = flightInfo[0];
+                    console.log(flightID);
+                    let departureDate = Number(flightInfo[8]);
+                    console.log(departureDate, typeof departureDate);
+
+                    try {
+                      await contract.insureFlight(airline, flightID, departureDate);
+                      alert(`Flight ${flightID} is being processed`);
+                    } catch(error) {
+                      console.log(error);
+                      alert("There has been an error");
+                    }
+
+                  });
+                  tableData6.appendChild(insureFlightBtn);
+
                 }
 
+                row.appendChild(tableData6);
+
+                let tabledate7 = document.createElement("td");
+                let statusCode = flightInfo[7];
+                tabledate7.innerHTML = statusCode;
+                row.appendChild(tabledate7);
+
+                row.appendChild(tableData8);
+                row.appendChild(tableData9);
+                table.appendChild(row);
 
               }
 
-        }
+              flightElement.appendChild(table);
+          }
 
 
         async function displayAirlines() {
@@ -423,7 +492,6 @@ let contract;
             }
               airlinesElement.appendChild(table);
             };
+        });
 
-
-      });
 })();

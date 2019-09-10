@@ -360,6 +360,7 @@ contract FlightSuretyData {
 
       airlines[airlineAddress].hasPaid = true;
       uint refund = msg.value - JOINING_FEE;
+
     }
     /**
      *  @dev Transfers eligible payout funds to insuree
@@ -380,7 +381,7 @@ contract FlightSuretyData {
     {
     }
 
-    function getFlightKey(address airline, string memory flight, uint256 timestamp) pure internal returns(bytes32)
+    function getFlightKey(address airline, string flight, uint256 timestamp) pure internal returns(bytes32)
     {
         return keccak256(abi.encodePacked(airline, flight, timestamp));
     }
@@ -396,14 +397,31 @@ contract FlightSuretyData {
       uint8 statusCode,
       address[] insuredPassengers){
         Flight memory flight = flights[flightHash];
-        return(flight.airline, flight.isRegistered, flight.isInsured, flight.flightID, flight.source,  flight.destination,flight.departureDate,
-          flight.statusCode, flight.insuredPassengers);
+        return(flight.airline,
+          flight.isRegistered,
+          flight.isInsured,
+          flight.flightID,
+          flight.source,
+          flight.destination,
+          flight.departureDate,
+          flight.statusCode,
+          flight.insuredPassengers);
       }
 
-      function getFlightByNum(uint flightNum) public view returns(address, bool, bool, string memory, string memory, string memory, uint256, uint8, address[]) {
+      function getFlightByNum(uint flightNum) external view returns(address, bool, bool, string memory, string memory, string memory, uint256, uint8, address[]) {
         Flight memory flight = flightsList[flightNum];
-        return (flight.airline, flight.isRegistered, flight.isInsured, flight.flightID, flight.source, flight.destination, flight.departureDate, flight.statusCode, flight.insuredPassengers);
+        return (
+          flight.airline,
+          flight.isRegistered,
+          flight.isInsured,
+          flight.flightID,
+          flight.source,
+          flight.destination,
+          flight.departureDate,
+          flight.statusCode,
+          flight.insuredPassengers);
     }
+
 
 
     /**
