@@ -330,6 +330,13 @@ contract FlightSuretyData {
       return exsists;
     }
 
+    function insureFlight(string flightID, uint256 departureDate) external requireIsOperational {
+      bytes32 flightHash = getFlightKey(tx.origin, flightID, departureDate);
+      require(flights[flightHash].airline == tx.origin);
+      Flight storage updatedFlight = flights[flightHash];
+      updatedFlight.isInsured = true;
+    }
+
 
 
 

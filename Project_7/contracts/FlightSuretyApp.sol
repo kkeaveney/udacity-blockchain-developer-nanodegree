@@ -191,6 +191,10 @@ contract FlightSuretyApp {
         return flightSuretyData.getFlightByNum(flightNum);
     }
 
+    function insureFlight(string flightID, uint256 departureDate) external {
+      flightSuretyData.insureFlight(flightID, departureDate);
+    }
+
    /**
     * @dev Called after oracle has updated flight status
     *
@@ -399,4 +403,5 @@ contract FlightSuretyApp {
     function updateFlightDetails(bytes32 flightHash, uint8 status) external;
     function pay(bytes32 flightHash, uint value) external;
     function getFlightByNum(uint flightNum) external view returns(address, bool, bool, string memory, string memory, string memory, uint256, uint8, address[]);
+    function insureFlight(string flightID, uint256 departureDate) external;
   }

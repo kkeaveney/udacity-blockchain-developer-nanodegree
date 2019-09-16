@@ -167,6 +167,12 @@ export default class Contract {
      .send({from:voter});
    }
 
+   async insureFlight(airline, flightID, departureDate) {
+     let self = this;
+     return await self.flightSuretyApp.methods
+     .insureFlight(flightID, departureDate)
+     .send({from:airline});
+   }
 
 /*
     isOperational(callback) {

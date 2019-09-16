@@ -407,8 +407,8 @@ let contract;
                     console.log(airline);
                     let flightCodeID = flightInfo[0];
                     console.log(flightID);
-                    let departureDate = Number(flightInfo[8]);
-                    console.log(departureDate, typeof departureDate);
+                    let departureDate = Number(flightInfo[6]);
+                    console.log("departureDate",departureDate, typeof departureDate);
 
                     try {
                       await contract.insureFlight(airline, flightID, departureDate);
