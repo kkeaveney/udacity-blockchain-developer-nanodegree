@@ -374,20 +374,20 @@ let contract;
                   let buyInsuranceBtn = document.createElement("button");
                   buyInsuranceBtn.innerHTML = "Purchase insurance";
                   buyInsuranceBtn.addEventListener("click", async function () {
-                    let address = document.getElementById("selectAddress").value;
-                    let insurancePremium = document.getElementById("premiumVal").value;
+                    let passengerAddress = document.getElementById("selectAddress").value;
+                    let insurancePremium = document.getElementById("premiumValue").value;
                     insurancePremium = await contract.web3.utils.toWei(insurancePremium,"ether");
                     let flightID = flightInfo[0];
                     let departureDate = flightInfo[6];
-                    console.log(address);
+                    console.log(passengerAddress);
                     console.log(insurancePremium);
                     console.log(flightID);
                     console.log(departureDate);
 
                     try {
                         await contract.buyInsurance(
+                          passengerAddress,
                           address,
-                          airlineAddress,
                           departureDate,
                           flightID,
                           insurancePremium);
