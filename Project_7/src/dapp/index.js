@@ -180,15 +180,15 @@ let contract;
           })();
 
           (async() => {
-            let flightDeptDateElement = document.getElementById("departureDay");
+            let flightDeptDateElement = document.getElementById("flightDepartureDay");
             flightDeptDateElement.addEventListener("change", () => {
                 alert(flightDeptDateElement.value);
             })
         })();
 
         (async() => {
-            let hourEl = document.getElementById("hour");
-            let minuteEl = document.getElementById("minute");
+            let hourEl = document.getElementById("flightHour");
+            let minuteEl = document.getElementById("flightMinute");
             for (let i = 0; i < 24; i++) {
                 let option = document.createElement("option");
                 if (i < 10) {
@@ -214,26 +214,27 @@ let contract;
         })();
 
         (async() => {
-          let registerFlightBtn = document.getElementById("registerFlight");
-          registerFlightBtn.addEventListener("click", async function (){
+          let regFlightBtn = document.getElementById("reg-flight");
+              regFlightBtn.addEventListener("click", async function() {
+                  let address = document.getElementById("selectAddress").value;
 
-            let address = document.getElementById("selectAddress").value;
-            let flightID = document.getElementById("flightCode").value;
-            let departure = document.getElementById("flightOrigin").value;
-            let destination = document.getElementById("flightDestination").value;
+                  let flightID= document.getElementById("flightCode").value;
+                  let departure = document.getElementById("flightOrigin").value;
+                  let destination = document.getElementById("flightDestination").value;
 
-            let departureDay = document.getElementById("flightDepartureDay");
-            let departurehour = document.getElementById("hour");
-            let departureMinute = document.getElementById("minute");
+                  let flightDeptDay = document.getElementById("flightDepartureDay").value;
+                  let flightDeptHour = document.getElementById("flightHour").value;
+                  let flightDeptMinute = document.getElementById("flightMinute").value;
 
-            let departureDate = new Date(departureDay + "T" + departurehour + ":" + departureMinute + ":00Z");
-            departureDate = departureDate.getTime();
-
-
-            console.log(flightID, "Flight ID");
-            console.log(departure, "origin");
-            console.log(destination, "destination");
-            console.log(departureDate, "departureDate");
+                  let departureDate = new Date(flightDeptDay + "T" + flightDeptHour + ":" + flightDeptMinute + ":00Z");
+                  console.log(flightDeptDay + "T" + flightDeptHour + ":" + flightDeptMinute + ":00Z");
+                  departureDate = departureDate.getTime();
+                  console.log(departureDate);
+                  console.log(address, " Airline address");
+                  console.log(flightID, " flight code");
+                  console.log(departure, " origin");
+                  console.log(destination, " destination");
+                  console.log(departureDate, " dept date");
 
             try {
 
@@ -317,7 +318,7 @@ let contract;
                 let source = flightInfoTemp[4];
                 let destination = flightInfoTemp[4];
                 let departDate = flightInfoTemp[6];
-                //console.log(address, flightID, departDate, source, destination);
+                console.log(address, flightID, departDate, source, destination);
                 let key = await contract.getFlightKey(address, flightID, departDate);
             //    console.log('key',key);
                 let airlineDetails = await contract.getAirline(address);
@@ -339,7 +340,7 @@ let contract;
                 tableData4.innerHTML = flightInfo[5];
 
                 let tableData5 = document.createElement("td");
-                tableData5.innerHTML = new Date(Number(flightInfo[1])).toGMTString();
+                tableData5.innerHTML = new Date(Number(flightInfo[6])).toGMTString();
 
                 row.appendChild(tableData);
                 row.appendChild(tableData2);
