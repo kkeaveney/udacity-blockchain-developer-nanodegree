@@ -378,7 +378,7 @@ let contract;
                     let passengerAddress = document.getElementById("selectAddress").value;
                     let insurancePremium = document.getElementById("premiumValue").value;
                     insurancePremium = await contract.web3.utils.toWei(insurancePremium,"ether");
-                    let flightID = flightInfo[0];
+                    let flightID = flightInfo[3];
                     let departureDate = flightInfo[6];
                     console.log(passengerAddress);
                     console.log(insurancePremium);
@@ -440,6 +440,91 @@ let contract;
               flightElement.appendChild(table);
           }
 
+        async function showInsuredFlights() {
+          let passengerAddress = document.getElementById("selectPassengerAddress").value;
+          let numFlightsInsured = await contract.getInsuredKeysLength(passengerAddress);
+    /*      if (numFlightsInsured == 0) {
+            alert(`There are no flights insured by passenger ${passengerAddress}`);
+          }
+          console.log("Flights insured", numFlightsInsured);
+
+          let insuredFlightsBox = document.getElementById("insuredFlightsBox");
+          insuredFlightsBox.inner = "";
+          let table = document.createElement("table");
+          let tableHeaders = `
+          <tr><th>Airline</th>
+          <th>Flight Code</th>
+          <th>From</th>
+          <th>To</th>
+          <th>departureDate</th>
+          <th>Status Code</th>
+          <th>Insurer balance (Ether)</th>
+          <th>Withdraw funds </th>
+          </tr>`;
+          table.innerHTML = tableHeaders;
+
+          for(let i = 0; i <numFlightsInsured; i++) {
+              let flightKey = await contract.getInsuredFlights(passengerAddress, i);
+              let flightInfo = await contract.getFlight(flightKey);
+
+              let airlineInfo = await contract.getAirline(flightInfo[7]);
+              let flightID = flightInfo[3];
+              let departureDate = flightInfo[6];
+              let from = flightInfo[4];
+              let to = flightInfo[5];
+              let statCode = flightInfo[7];
+
+              let insurerBalance = await contract.getInsuranceBalance(passengerAddress, flightKey);
+              let insurerBalanceMod = await contract.web3.utils.fromWei(insurerBalance, "ether");
+
+              let tableRow = document.createElement("tr");
+              let tableData2 = document.createElement("td");
+              tableData2.innerHTML = flightID;
+              let tableData3 = document.createElement("td");
+              tableData3.innerHTML = from;
+              let tableData4 = document.createElement("td");
+              tableData4.innerHTML = to;
+              let tableData5 = document.createElement("td");
+              tableData5.innerHTML = new Date(Number(departureDate)).toGMTString();
+              let tableData6 = document.createElement("td");
+              tableData6.innerHTML = statCode;
+              let tableData7 = document.createElement("td");
+              tableData7.innerHTML = insurerBalanceMod;
+              let tableData8 = document.createElement("td");
+              let withdrawBtn = document.createElement("button");
+              withdrawBtn.innerHTML = "Withdraw funds";
+              withdrawBtn.addEventListener("click", async function() {
+                if(insurerBalance != 0) {
+                  try { await contract.payout(passengerAddress, flightKey, insurerBalance);
+                  alert(`Withdrawing Funds for flight ${flightCode} insurance`);
+
+                } catch(error){
+                  console.log(error);
+                }
+
+              } else {
+                alert("The user has no funds");
+              }
+            });
+
+              tableData8.appendChild(withdrawBtn);
+              tableRow.appendChild(tableData2);
+              tableRow.appendChild(tableData3);
+              tableRow.appendChild(tableData4);
+              tableRow.appendChild(tableData5);
+              tableRow.appendChild(tableData6);
+              tableRow.appendChild(tableData7);
+              tableRow.appendChild(tableData8);
+              table.appendChild(tableRow);
+              }
+              insuredFlightsBox.appendChild(table);
+              */
+        }
+
+        (async() =>{
+          let showInsuredBtn = document.getElementById("insuredFlights");
+          showInsuredBtn.addEventListener("click", showInsuredFlights);
+        })();
 
         async function displayAirlines() {
             let airline = contract.airlines;

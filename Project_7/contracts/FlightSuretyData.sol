@@ -48,6 +48,8 @@ contract FlightSuretyData {
 
     Airline[] private airlinesList;
     Flight[] private flightsList;
+
+
     /********************************************************************************************/
     /*                                       EVENT DEFINITIONS                                  */
     /********************************************************************************************/
@@ -242,6 +244,10 @@ contract FlightSuretyData {
                   insuranceBalance[insuredpassengerAddress][flightHash] = insuranceBalance[insuredpassengerAddress][flightHash].mul(15);
                   insuranceBalance[insuredpassengerAddress][flightHash] = insuranceBalance[insuredpassengerAddress][flightHash].div(10);
               }
+      }
+
+      function getInsuredKeysLength(address passengerAddress) external view returns(uint256) {
+        return insurances[passengerAddress].length;
       }
 
 

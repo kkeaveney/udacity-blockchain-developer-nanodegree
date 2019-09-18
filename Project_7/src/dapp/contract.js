@@ -182,6 +182,12 @@ export default class Contract {
 
     }
 
+    async getInsuredKeysLength(passengerAddress) {
+      let self = this;
+      return await self.flightSuretyApp.methods
+      .getInsuredKeysLength(passengerAddress)
+      .call();
+    }
 /*
     isOperational(callback) {
        let self = this;

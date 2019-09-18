@@ -48,7 +48,7 @@ contract('Flight Surety Tests', async (accounts) => {
 
       it("checks if first airline can send funds to the contract", async() => {
         let data = await FlightSuretyApp.deployed();
-        let fee = await web3.toWei("10", "ether");
+        let fee = await web3.utils.toWei("10", "ether");
         let balanceBefore = await web3.eth.getBalance(owner);
         await data.fundAirline({from: owner, value: fee});
         let balance = await data.contractBalance.call();
@@ -221,7 +221,7 @@ contract('Flight Surety Tests', async (accounts) => {
 
         await data.pay(hash,withdrawalAmount,{from:firstPassenger});
         let updatedBalance = await web3.eth.getBalance(firstPassenger);
-        assert.isAbove(Number(updatedBalance - passengerBalance), Number(web3.toWei("0.3", "ether")));
+        assert.isAbove(Number(updatedBalance - passengerBalance), Number(web3.utils.toWei("0.3", "ether")));
 
       })
 
