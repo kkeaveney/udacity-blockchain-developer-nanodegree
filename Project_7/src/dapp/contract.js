@@ -174,9 +174,9 @@ export default class Contract {
      .send({from:airline});
    }
 
-   buyInsurance(passengerAddress, address, departureDate, flightID, insurancePremium) {
+   async buyInsurance(passengerAddress, address, departureDate, flightID, insurancePremium) {
        let self = this;
-       self.flightSuretyApp.methods
+       return await self.flightSuretyApp.methods
            .buyInsurance(address,departureDate,flightID)
            .send({ from: passengerAddress, value: insurancePremium, gas: 5000000});
 
@@ -186,6 +186,13 @@ export default class Contract {
       let self = this;
       return await self.flightSuretyApp.methods
       .getInsuredKeysLength(passengerAddress)
+      .call();
+    }
+
+    async getInsuredFlights(passengerAddress, index) {
+      let self = this;
+      return await self.flightSuretyApp.methods
+      .getInsuredFlights(passengerAddress,index)
       .call();
     }
 /*

@@ -443,13 +443,13 @@ let contract;
         async function showInsuredFlights() {
           let passengerAddress = document.getElementById("selectPassengerAddress").value;
           let numFlightsInsured = await contract.getInsuredKeysLength(passengerAddress);
-    /*      if (numFlightsInsured == 0) {
+          if (numFlightsInsured == 0) {
             alert(`There are no flights insured by passenger ${passengerAddress}`);
           }
           console.log("Flights insured", numFlightsInsured);
 
           let insuredFlightsBox = document.getElementById("insuredFlightsBox");
-          insuredFlightsBox.inner = "";
+          insuredFlightsBox.innerHTML= "";
           let table = document.createElement("table");
           let tableHeaders = `
           <tr><th>Airline</th>
@@ -464,8 +464,10 @@ let contract;
           table.innerHTML = tableHeaders;
 
           for(let i = 0; i <numFlightsInsured; i++) {
-              let flightKey = await contract.getInsuredFlights(passengerAddress, i);
-              let flightInfo = await contract.getFlight(flightKey);
+                let flightKey = await contract.getInsuredFlights(passengerAddress, i);
+                let flightInfo = await contract.getFlight(flightKey);
+
+
 
               let airlineInfo = await contract.getAirline(flightInfo[7]);
               let flightID = flightInfo[3];
@@ -518,7 +520,7 @@ let contract;
               table.appendChild(tableRow);
               }
               insuredFlightsBox.appendChild(table);
-              */
+
         }
 
         (async() =>{

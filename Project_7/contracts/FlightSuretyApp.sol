@@ -338,6 +338,10 @@ contract FlightSuretyApp {
       return flightSuretyData.getInsuredKeysLength(passengerAddress);
     }
 
+    function getInsuredFlights(address passengerAddress, uint index) external view returns(bytes32) {
+        return flightSuretyData.getInsuredFlights(passengerAddress, index);
+    }
+
 
     // Returns array of three non-duplicating integers from 0-9
     function generateIndexes(address account) internal returns(uint8[3])
@@ -408,4 +412,5 @@ contract FlightSuretyApp {
     function getFlightByNum(uint flightNum) external view returns(address, bool, bool, string memory, string memory, string memory, uint256, uint8, address[]);
     function insureFlight(string flightID, uint256 departureDate) external;
     function getInsuredKeysLength(address passengerAddress) external view returns(uint256);
+    function getInsuredFlights(address passengerAddress, uint index) external view returns(bytes32);
   }

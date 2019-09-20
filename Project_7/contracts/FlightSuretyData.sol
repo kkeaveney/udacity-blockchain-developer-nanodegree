@@ -246,9 +246,16 @@ contract FlightSuretyData {
               }
       }
 
+
+      function getInsuredFlights(address passengerAddress, uint index) external view returns(bytes32) {
+        return insurances[passengerAddress][index];
+      }
+
       function getInsuredKeysLength(address passengerAddress) external view returns(uint256) {
         return insurances[passengerAddress].length;
       }
+
+
 
 
 

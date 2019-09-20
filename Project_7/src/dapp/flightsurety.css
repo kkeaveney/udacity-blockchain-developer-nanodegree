@@ -21,7 +21,7 @@ body {
     padding: 40px;
 }
 
-#regAirlineFunc, #fundAirlineFunc, #flightDetails {
+#regAirlineFunc, #fundAirlineFunc, #flightDetails{
     display: flex;
     flex-direction: column;
 }
