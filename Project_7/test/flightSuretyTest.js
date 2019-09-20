@@ -180,7 +180,7 @@ contract('Flight Surety Tests', async (accounts) => {
         console.log(airline1Hash);
       });
 
-     it("allows a passenger to purchase insurance", async() =>{
+     it("allows a passenger to purchase an insurance", async() =>{
         let data = await FlightSuretyApp.deployed();
         let firstPassenger = accounts[3];
         let airline1 = owner;
@@ -194,6 +194,11 @@ contract('Flight Surety Tests', async (accounts) => {
         assert.equal(hasInsurance, true, "Passenger isn't insured");
         let balance = await data.insuranceTotal.call(firstPassenger,hash);
         assert.equal(fee,balance);
+        let numInsuredFlights = await data.getInsuredKeysLength(firstPassenger);
+        console.log("numInsuredFlights",numInsuredFlights);
+        let insuredFlight = await data.getInsuredFlights(firstPassenger,0);
+        console.log(insuredFlight);
+
       })
 
 

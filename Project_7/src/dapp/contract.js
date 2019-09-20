@@ -192,7 +192,7 @@ export default class Contract {
     async getInsuredFlights(passengerAddress, index) {
       let self = this;
       return await self.flightSuretyApp.methods
-      .getInsuredFlights(passengerAddress,index)
+      .getInsuredFlights(passengerAddress, index)
       .call();
     }
 /*

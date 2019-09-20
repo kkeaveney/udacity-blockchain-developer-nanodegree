@@ -1,8 +1,8 @@
 {
 	"localhost": {
 		"url": "http://localhost:7545",
-		"dataAddress": "0xFB27C25AE9541289CB088647748F2d8cb6318094",
-		"appAddress": "0x627f090b3D1195d771e358e60AFE14EC5eD91651",
+		"dataAddress": "0x89962fa216d39fCcaaC11e1e462340d80ab6Cf4D",
+		"appAddress": "0x7d50aD3Dde49FD30976Fb899182AcAA1aD2dCA22",
 		"firstAirline": "0xf17f52151EbEF6C7334FAD080c5704D77216b732"
 	}
 }

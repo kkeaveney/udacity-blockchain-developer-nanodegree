@@ -443,6 +443,7 @@ let contract;
         async function showInsuredFlights() {
           let passengerAddress = document.getElementById("selectPassengerAddress").value;
           let numFlightsInsured = await contract.getInsuredKeysLength(passengerAddress);
+          console.log("getInsuredKeysLength",numFlightsInsured);
           if (numFlightsInsured == 0) {
             alert(`There are no flights insured by passenger ${passengerAddress}`);
           }
