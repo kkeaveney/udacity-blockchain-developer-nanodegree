@@ -183,6 +183,7 @@ contract('Flight Surety Tests', async (accounts) => {
      it("allows a passenger to purchase an insurance", async() =>{
         let data = await FlightSuretyApp.deployed();
         let firstPassenger = accounts[3];
+        let secondPassenger = accounts[4];
         let airline1 = owner;
         let date = "2019-07-14T12:30:00Z";
         let departureDate = new Date(date).getTime();
@@ -198,6 +199,9 @@ contract('Flight Surety Tests', async (accounts) => {
         console.log("numInsuredFlights",numInsuredFlights);
         let insuredFlight = await data.getInsuredFlights(firstPassenger,0);
         console.log(insuredFlight);
+        await data.buyInsurance(airline1, departureDate, "IR01",{from: secondPassenger, value: fee});
+        let hasInsurance2 = await data.hasInsurance(airline1, secondPassenger,"IR01", departureDate);
+        assert.equal(hasInsurance2, true, "Passenger isn't insured");
 
       })
 

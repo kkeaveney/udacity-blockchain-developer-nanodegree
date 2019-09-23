@@ -255,6 +255,9 @@ contract FlightSuretyData {
         return insurances[passengerAddress].length;
       }
 
+      function getInsuranceBalance(address passengerAddress, bytes32 flightKey) external view returns(uint) {
+        return insuranceBalance[passengerAddress][flightKey];
+      }
 
 
 
@@ -386,7 +389,7 @@ contract FlightSuretyData {
      *  @dev Transfers eligible payout funds to insuree
      *
     */
-    function pay(bytes32 flightHash, uint value) external requireIsOperational{
+    function payOut(bytes32 flightHash, uint value) external requireIsOperational{
       require(insuranceBalance[tx.origin][flightHash] >= value, "Insufficient funds");
       insuranceBalance[tx.origin][flightHash] = insuranceBalance[tx.origin][flightHash].sub(value);
       tx.origin.transfer(value);

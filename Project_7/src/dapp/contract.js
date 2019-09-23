@@ -195,7 +195,22 @@ export default class Contract {
       .getInsuredFlights(passengerAddress, index)
       .call();
     }
-/*
+
+    async getInsuranceBalance(passengerAddress, flightKey) {
+      let self = this;
+      return await self.flightSuretyApp.methods
+      .getInsuranceBalance(passengerAddress, flightKey)
+      .call();
+    }
+
+    async payout(passengerAddress, flightKey, insurerBalance) {
+      let self = this;
+      return await self.flightSuretyApp.methods
+      .payout(passengerAddress, flightKey, insurerBalance)
+      .call();
+    }
+
+    /*
     isOperational(callback) {
        let self = this;
        self.flightSuretyApp.methods

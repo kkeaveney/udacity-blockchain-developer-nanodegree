@@ -375,7 +375,7 @@ let contract;
                   let buyInsuranceBtn = document.createElement("button");
                   buyInsuranceBtn.innerHTML = "Purchase insurance";
                   buyInsuranceBtn.addEventListener("click", async function () {
-                    let passengerAddress = document.getElementById("selectAddress").value;
+                    let passengerAddress = document.getElementById("selectPassengerAddress").value;
                     let insurancePremium = document.getElementById("premiumValue").value;
                     insurancePremium = await contract.web3.utils.toWei(insurancePremium,"ether");
                     let flightID = flightInfo[3];
@@ -395,7 +395,7 @@ let contract;
                           alert(`Insurance for flight ${flightID} is being processed`);
                     } catch(error) {
                       console.log(error);
-                      alert("There has been an error");
+                      alert(error);
                     }
 
                   });
@@ -448,6 +448,7 @@ let contract;
             alert(`There are no flights insured by passenger ${passengerAddress}`);
           }
           console.log("Flights insured", numFlightsInsured);
+          console.log("passengerAddress",passengerAddress);
 
           let insuredFlightsBox = document.getElementById("insuredFlightsBox");
           insuredFlightsBox.innerHTML= "";
@@ -470,17 +471,23 @@ let contract;
 
 
 
-              let airlineInfo = await contract.getAirline(flightInfo[7]);
-              let flightID = flightInfo[3];
-              let departureDate = flightInfo[6];
-              let from = flightInfo[4];
-              let to = flightInfo[5];
-              let statCode = flightInfo[7];
+                let airlineInfo = await contract.getAirline(flightInfo[0]);
+                console.log("Airline = ",airlineInfo);
+                let airline = flightInfo[0];
+                let flightID = flightInfo[3];
+                let departureDate = flightInfo[6];
+                let from = flightInfo[4];
+                let to = flightInfo[5];
+                let statCode = flightInfo[7];
 
-              let insurerBalance = await contract.getInsuranceBalance(passengerAddress, flightKey);
-              let insurerBalanceMod = await contract.web3.utils.fromWei(insurerBalance, "ether");
+
+
+                let insurerBalance = await contract.getInsuranceBalance(passengerAddress, flightKey);
+                let insurerBalanceMod = await contract.web3.utils.fromWei(insurerBalance, "ether");
 
               let tableRow = document.createElement("tr");
+              let tableData1 = document.createElement("td");
+              tableData1.innerHTML = airline;
               let tableData2 = document.createElement("td");
               tableData2.innerHTML = flightID;
               let tableData3 = document.createElement("td");
@@ -496,6 +503,8 @@ let contract;
               let tableData8 = document.createElement("td");
               let withdrawBtn = document.createElement("button");
               withdrawBtn.innerHTML = "Withdraw funds";
+
+
               withdrawBtn.addEventListener("click", async function() {
                 if(insurerBalance != 0) {
                   try { await contract.payout(passengerAddress, flightKey, insurerBalance);
@@ -510,7 +519,9 @@ let contract;
               }
             });
 
+
               tableData8.appendChild(withdrawBtn);
+              tableRow.appendChild(tableData1);
               tableRow.appendChild(tableData2);
               tableRow.appendChild(tableData3);
               tableRow.appendChild(tableData4);
