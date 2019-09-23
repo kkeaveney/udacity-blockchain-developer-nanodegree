@@ -347,7 +347,7 @@ contract FlightSuretyApp {
     }
 
     function payOut(bytes32 flightHash, uint total) public {
-        return flightSuretyData.payOut(bytes32 flightHash, uint total);
+        return flightSuretyData.payOut(flightHash,total);
           }
 
 

@@ -182,6 +182,14 @@ export default class Contract {
 
     }
 
+    async getFlightStatus(passenger,address, flightID, departDate){
+      let self = this;
+      return await self.flightSuretyApp.methods
+      .fetchFlightStatus(address,flightID, departDate)
+      .send({from:passenger, gas: 500000});
+
+    }
+
     async getInsuredKeysLength(passengerAddress) {
       let self = this;
       return await self.flightSuretyApp.methods
@@ -203,11 +211,11 @@ export default class Contract {
       .call();
     }
 
-    async payout(passengerAddress, flightKey, insurerBalance) {
+    async payOut(passengerAddress, flightKey, insurerBalance) {
       let self = this;
       return await self.flightSuretyApp.methods
-      .payout(passengerAddress, flightKey, insurerBalance)
-      .call();
+      .payOut(flightKey,insurerBalance)
+      .send({from:passengerAddress});
     }
 
     /*

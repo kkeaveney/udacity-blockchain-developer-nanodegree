@@ -352,7 +352,7 @@ let contract;
                 let tableData8 = document.createElement("td");
                 let tableData9 = document.createElement("td");
 
-                  console.log(flightInfo[2])
+                  console.log("Insured = ", flightInfo[2])
                   if (flightInfo[2]) {
                   tableData6.innerHTML = "Insured";
                   let fetchStatusBtn = document.createElement("button");
@@ -507,7 +507,7 @@ let contract;
 
               withdrawBtn.addEventListener("click", async function() {
                 if(insurerBalance != 0) {
-                  try { await contract.payout(passengerAddress, flightKey, insurerBalance);
+                  try { await contract.payOut(passengerAddress, flightKey, insurerBalance);
                   alert(`Withdrawing Funds for flight ${flightCode} insurance`);
 
                 } catch(error){
